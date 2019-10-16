@@ -49,7 +49,6 @@ public class PessoaTest {
 		String cpf = p.getCpf();
 		Pessoa p2 = new Pessoa(nome, rg, cpf);
 		assertEquals(p, p2);
-		p2 = null;
 	}
 	//equals
 	@Test
@@ -59,14 +58,12 @@ public class PessoaTest {
 		String cpf = p.getCpf();
 		Pessoa p2 = new Pessoa(nome, rg, cpf);
 		assertTrue(p.equals(p2));
-		p2 = null;
 	}
 	
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_sao_o_mesmo_objeto() {
 		Pessoa p2 = p;
 		assertTrue(p.equals(p2));
-		p2 = null;
 	}
 	
 	@Test
@@ -76,7 +73,6 @@ public class PessoaTest {
 		String cpf = "30514611057";
 		Pessoa p2 = new Pessoa(nome, rg, cpf);
 		assertFalse(p.equals(p2));
-		p2 = null;
 	}
 	
 	@Test
@@ -107,7 +103,6 @@ public class PessoaTest {
 		String cpf = p.getCpf();
 		Pessoa p2 = new Pessoa(nome, rg, cpf);
 		assertTrue(p.hashCode() == p2.hashCode());
-		p2 = null;
 	}
 	
 	@Test
@@ -117,7 +112,6 @@ public class PessoaTest {
 		String cpf = "34946011005";
 		Pessoa p2 = new Pessoa(nome, rg, cpf);
 		assertNotEquals(p.hashCode(), p2.hashCode());
-		p2 = null;
 	}
 
 	/*

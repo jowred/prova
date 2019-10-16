@@ -16,6 +16,7 @@ import br.com.contmatic.prova01.empresa.Dependente;
 import br.com.contmatic.prova01.empresa.Funcionario;
 
 public class FuncionarioTest {
+	
 	Funcionario f;
 	
 	@BeforeClass

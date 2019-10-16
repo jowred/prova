@@ -21,7 +21,9 @@ import br.com.contmatic.prova01.empresa.Endereco;
 import br.com.contmatic.prova01.empresa.Telefone;
 
 public class EmpresaTest {
+	
 	Empresa emp1;
+	
 	int[] iCnpj = new int[14];
 	
 	@Test(timeout = 1000)
@@ -106,7 +108,6 @@ public class EmpresaTest {
 		emp2.setNomeFantasia(nomeFantasia);
 		emp2.setAreaAtuacao(areaAtuacao);
 		assertEquals(emp1, emp2);
-		emp2 = null;
 	}
 	
 	//equals
@@ -120,14 +121,12 @@ public class EmpresaTest {
 		emp2.setNomeFantasia(nomeFantasia);
 		emp2.setAreaAtuacao(areaAtuacao);
 		assertTrue(emp1.equals(emp2));
-		emp2 = null;
 	}
 	
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_sao_o_mesmo_objeto() {
 		Empresa emp2 = emp1;
 		assertTrue(emp1.equals(emp2));
-		emp2 = null;
 	}
 	
 	@Test
@@ -140,7 +139,6 @@ public class EmpresaTest {
 		emp2.setNomeFantasia(nomeFantasia);
 		emp2.setAreaAtuacao(areaAtuacao);
 		assertFalse(emp1.equals(emp2));
-		emp2 = null;
 	}
 	
 	@Test
@@ -165,7 +163,6 @@ public class EmpresaTest {
 		emp2.setNomeFantasia(nomeFantasia);
 		emp2.setAreaAtuacao(areaAtuacao);
 		assertEquals(emp1.hashCode(), emp2.hashCode());
-		emp2 = null;
 	}
 	
 	@Test
@@ -178,7 +175,6 @@ public class EmpresaTest {
 		emp2.setNomeFantasia(nomeFantasia);
 		emp2.setAreaAtuacao(areaAtuacao);
 		assertNotEquals(emp1.hashCode(), emp2.hashCode());
-		emp2 = null;
 	}
 	
 	/*

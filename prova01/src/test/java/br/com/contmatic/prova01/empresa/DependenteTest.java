@@ -12,7 +12,9 @@ import br.com.contmatic.prova01.empresa.Dependente;
 import br.com.contmatic.prova01.empresa.Funcionario;
 
 public class DependenteTest {
+	
 	Dependente dependente;
+	
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		System.out.println("Iniciando testes da classe Dependente...");

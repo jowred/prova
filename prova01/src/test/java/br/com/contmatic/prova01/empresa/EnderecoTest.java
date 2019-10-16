@@ -11,6 +11,7 @@ import org.junit.Test;
 import br.com.contmatic.prova01.empresa.Endereco;
 
 public class EnderecoTest {
+	
 	private Endereco end1, end2;
 	
 	@BeforeClass

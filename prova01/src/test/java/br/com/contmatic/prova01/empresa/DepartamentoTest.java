@@ -16,7 +16,9 @@ import br.com.contmatic.prova01.empresa.Empresa;
 import br.com.contmatic.prova01.empresa.Funcionario;
 
 public class DepartamentoTest {
+	
 	Empresa emp;
+	
 	Departamento depto;
 
 	@BeforeClass
@@ -56,7 +58,6 @@ public class DepartamentoTest {
 	public void deve_apontar_igualdade_entre_os_objetos_departamento() {
 		Departamento depto2 = new Departamento(depto.getNome(), depto.getDescricao());
 		assertEquals(depto, depto2);
-		depto2 = null;
 	}
 	
 	//equals
@@ -64,14 +65,12 @@ public class DepartamentoTest {
 	public void deve_apontar_igualdade_entre_os_objetos_departamento_usando_equals_sobrescrito_porque_os_valores_sao_iguais() {
 		Departamento depto2 = new Departamento(depto.getNome(), depto.getDescricao());
 		assertTrue(depto.equals(depto2));
-		depto2 = null;
 	}
 	
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_departamento_usando_equals_sobrescrito_porque_sao_o_mesmo_objeto() {
 		Departamento depto2 = depto;
 		assertTrue(depto.equals(depto2));
-		depto2 = null;
 	}
 		
 	@Test
@@ -84,7 +83,6 @@ public class DepartamentoTest {
 	public void nao_deve_apontar_igualdade_entre_os_objetos_departamento_usando_equals_sobrescrito_porque_os_valores_sao_diferentes() {
 		Departamento depto2 = new Departamento("Diretoria", "Departamento reservado para o setor estratégico");
 		assertFalse(depto.equals(depto2));
-		depto2 = null;
 	}
 	
 	@Test
@@ -125,14 +123,12 @@ public class DepartamentoTest {
 	public void deve_apontar_igualdade_entre_os_objetos_departamento_usando_hashcode_sobrescrito() {
 		Departamento depto2 = new Departamento(depto.getNome(), depto.getDescricao());
 		assertTrue(depto.hashCode() == depto2.hashCode());
-		depto2 = null;
 	}
 
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_departamento_usando_hashcode_sobrescrito() {
 		Departamento depto2 = new Departamento("Direção", "Departamento reservado para o setor estratégico");
 		assertFalse(depto.hashCode() == depto2.hashCode());
-		depto2 = null;
 	}
 	
 	

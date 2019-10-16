@@ -17,7 +17,9 @@ import org.junit.Test;
 import br.com.contmatic.prova01.empresa.Telefone;
 
 public class TelefoneTest {
+	
 	Telefone tel1;
+	
 	Telefone tel2;
 
 	@BeforeClass
@@ -290,8 +292,6 @@ public class TelefoneTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_realizar_cadastro_de_telefone_repetido() {
-//		Empresa emp = new Empresa();
-//		List<Telefone> telefones = emp.getTelefones();
 		List<Telefone> telefones = new ArrayList<Telefone>();
 		tel1.cadastrar(telefones);
 		tel1.cadastrar(telefones);
