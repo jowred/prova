@@ -5,6 +5,10 @@ import java.util.List;
 
 public class Empresa {
 	
+	private static final int CNPJ_POS_VERIF_2 = 13;
+
+	private static final int CNPJ_POS_VERIF_1 = 12;
+
 	private static final int CNPJ_SIZE = 14;
 
 	private static final int PRIMEIRO_INDICE = 1;
@@ -138,11 +142,16 @@ public class Empresa {
 	}
 
 	protected boolean cnpjValido(String cnpj) {
+		int[] iCnpj = converterCpfParaNumero(cnpj);
+		return primeiroDigitoValido(iCnpj) && segundoDigitoValido(iCnpj);
+	}
+
+	private int[] converterCpfParaNumero(String cnpj) {
 		int[] iCnpj = new int[CNPJ_SIZE];
 		for(int i=0; i<iCnpj.length; i++) {
 			iCnpj[i] = cnpj.charAt(i) - ASCII_INICIO_NUMEROS;
 		}
-		return primeiroDigitoValido(iCnpj) && segundoDigitoValido(iCnpj);
+		return iCnpj;
 	}
 	
 	protected boolean primeiroDigitoValido(int[] cnpj) {
@@ -150,7 +159,7 @@ public class Empresa {
 		verificador += 9*cnpj[4] + 8*cnpj[5] + 7*cnpj[6] + 6*cnpj[7];
 		verificador = 11 - verificador % 11;
 		verificador = ((verificador >= 10) ? 0 : verificador);
-		return verificador == cnpj[12];
+		return verificador == cnpj[CNPJ_POS_VERIF_1];
 	}
 
 	private int multiplicar4Primeiros4UltimosDigitoV1(int[] cnpj) {
@@ -167,7 +176,7 @@ public class Empresa {
 		verificador += 2*cnpj[12];
 		verificador = 11 - verificador % 11;
 		verificador = ((verificador >= 10) ? 0 : verificador);
-		return verificador == cnpj[13];
+		return verificador == cnpj[CNPJ_POS_VERIF_2];
 	}
 
 	private int multiplicar4Primeiros4UltimosDigitoV2(int[] cnpj) {
@@ -265,8 +274,8 @@ public class Empresa {
 	private int contarDigitosRepetidos(String cnpj) {
 		char primeiro = cnpj.charAt(0);
 		int repetidos = 0;
-		for(int i=0; i<cnpj.length()-PRIMEIRO_INDICE; i++) {
-			if(primeiro == cnpj.charAt(i+PRIMEIRO_INDICE)) {
+		for(int i=0; i<cnpj.length() - PRIMEIRO_INDICE; i++) {
+			if(primeiro == cnpj.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
@@ -303,7 +312,7 @@ public class Empresa {
 	
 	private void checkAreaAtuacaoCompostaUnicamentePeloMesmoCaractere(String areaAtuacao) {
 		int repetidos = contarDigitosRepetidos(areaAtuacao);
-		if(repetidos == areaAtuacao.length()-PRIMEIRO_INDICE) {
+		if(repetidos == areaAtuacao.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Área de atuação não pode ser composto unicamente pelo mesmo caractere.");
 		}
 	}
@@ -371,7 +380,7 @@ public class Empresa {
 
 	private void checkNomeFantasiaHifenInvalido(String nomeFantasia) {
 		if(nomeFantasia.charAt(0) == '-' ||
-			nomeFantasia.charAt(nomeFantasia.length()-PRIMEIRO_INDICE) == '-') {
+			nomeFantasia.charAt(nomeFantasia.length() - 1) == '-') {
 			throw new IllegalArgumentException("Nome fantasia não pode começar ou terminar com hífen.");
 		}
 	}
@@ -384,16 +393,7 @@ public class Empresa {
 	}
 
 	private void checkNomeFantasiaCompostoUnicamentePorUmCaractere(String nomeFantasia) {
-		String temp = nomeFantasia.toLowerCase(); 
-		char primeiro = temp.charAt(0);
-		int repetidos = 0;
-		for(int i=0; i<nomeFantasia.length() - PRIMEIRO_INDICE; i++) {
-			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
-				repetidos++;
-			} else {
-				break;
-			}
-		}
+		int repetidos = contarLetrasRepetidas(nomeFantasia);
 		if(repetidos == nomeFantasia.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Nome fantasia não pode ser composto unicamente pelo mesmo caractere.");
 		}

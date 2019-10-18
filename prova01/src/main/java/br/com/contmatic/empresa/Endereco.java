@@ -138,6 +138,13 @@ public class Endereco {
 	}
 	
 	private void checkLogradouroCompostoUnicamentePeloMesmoCaractere(String logradouro) {
+		int repetidos = contarLetrasRepetidas(logradouro);
+		if(repetidos == logradouro.length() - PRIMEIRO_INDICE) {
+			throw new IllegalArgumentException("Logradouro do endereço não pode ser composto unicamente pelo mesmo caractere.");
+		}
+	}
+
+	private int contarLetrasRepetidas(String logradouro) {
 		String temp = logradouro.toLowerCase();
 		char primeiro = temp.charAt(0);
 		int repetidos = 0;
@@ -148,9 +155,7 @@ public class Endereco {
 				break;
 			}
 		}
-		if(repetidos == logradouro.length() - PRIMEIRO_INDICE) {
-			throw new IllegalArgumentException("Logradouro do endereço não pode ser composto unicamente pelo mesmo caractere.");
-		}
+		return repetidos;
 	}
 
 	private void checkLogradouroCaracteresValidos(String logradouro) {
@@ -165,15 +170,20 @@ public class Endereco {
 	}
 
 	private void checkLogradouroTamanho(String logradouro) {
-		int qtdeLetras = 0;
-		for(int i=0; i<logradouro.length(); i++) {
-			if(Character.isAlphabetic(logradouro.charAt(i))) {
-				qtdeLetras++;
-			}
-		}
+		int qtdeLetras = contarQtdeLetras(logradouro);
 		if(qtdeLetras < MIN_TEXTO || logradouro.length() > MAX_LOGRADOURO) {
 			throw new IllegalArgumentException("Logradouro deve ter no mínimo 2 e no máximo 100 caracteres, e ter ao menos 2 letras.");
 		}
+	}
+
+	private int contarQtdeLetras(String str) {
+		int qtdeLetras = 0;
+		for(int i=0; i<str.length(); i++) {
+			if(Character.isAlphabetic(str.charAt(i))) {
+				qtdeLetras++;
+			}
+		}
+		return qtdeLetras;
 	}
 
 	private void checkLogradouroVazio(String logradouro) {
@@ -189,16 +199,7 @@ public class Endereco {
 	}
 	
 	private void checkBairroCompostoUnicamentePelaMesmaLetra(String bairro) {
-		String temp = bairro.toLowerCase();
-		char primeiro = temp.charAt(0);
-		int repetidos = 0;
-		for(int i=0; i<bairro.length() - PRIMEIRO_INDICE; i++) {
-			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
-				repetidos++;
-			} else {
-				break;
-			}
-		}
+		int repetidos = contarLetrasRepetidas(bairro);
 		if(repetidos == bairro.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Bairro do endereço não pode ser composto unicamente pelo mesmo caractere.");
 		}
@@ -217,12 +218,7 @@ public class Endereco {
 	}
 
 	private void checkBairroTamanho(String bairro) {
-		int qtdeLetras = 0;
-		for(int i=0; i<bairro.length(); i++) {
-			if(Character.isAlphabetic(bairro.charAt(i))) {
-				qtdeLetras++;
-			}
-		}	
+		int qtdeLetras = contarQtdeLetras(bairro);	
 		if(qtdeLetras < MIN_TEXTO || bairro.length() > MAX_BAIRRO)
 			throw new IllegalArgumentException("Bairro deve ter no mínimo 2 e no máximo 55 caracteres, e ter ao menos 2 letras.");
 	}
@@ -240,16 +236,7 @@ public class Endereco {
 	}
 	
 	private void checkCidadeCompostaUnicamentePeloMesmoCaractere(String cidade) {
-		String temp = cidade.toLowerCase(); 
-		char primeiro = temp.charAt(0);		
-		int repetidos = 0;
-		for(int i=0; i<cidade.length() - PRIMEIRO_INDICE; i++) {
-			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
-				repetidos++;
-			} else {
-				break;
-			}
-		}
+		int repetidos = contarLetrasRepetidas(cidade);
 		if(repetidos == cidade.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Nome da cidade não pode ser composto unicamente pelo mesmo caractere.");
 		}
@@ -271,12 +258,7 @@ public class Endereco {
 	}
 
 	private void checkCidadeTamanho(String cidade) {
-		int qtdeLetras = 0;
-		for(int i=0; i<cidade.length(); i++) {
-			if(Character.isAlphabetic(cidade.charAt(i))) {
-				qtdeLetras++;
-			}
-		}
+		int qtdeLetras = contarQtdeLetras(cidade);
 		if(qtdeLetras < MIN_TEXTO || cidade.length() > MAX_CIDADE) {
 			throw new IllegalArgumentException("Nome da cidade deve ter no mínimo 2 e no máximo 100 caracteres, e ter ao menos 2 letras.");
 		}
@@ -321,16 +303,7 @@ public class Endereco {
 	}
 	
 	private void checkPaisCompostoUnicamentePeloMesmoCaractere(String pais) {
-		String temp = pais.toLowerCase(); 
-		char primeiro = temp.charAt(0);		
-		int repetidos = 0;
-		for(int i=0; i<pais.length() - PRIMEIRO_INDICE; i++) {
-			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
-				repetidos++;
-			} else {
-				break;
-			}
-		}
+		int repetidos = contarLetrasRepetidas(pais);
 		if(repetidos == pais.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Nome do país não pode ser composto unicamente pelo mesmo caractere.");
 		}
@@ -353,12 +326,7 @@ public class Endereco {
 	}
 
 	private void checkPaisTamanho(String pais) {
-		int qtdeLetras = 0;
-		for(int i=0; i<pais.length(); i++) {
-			if(Character.isAlphabetic(pais.charAt(i))) {
-				qtdeLetras++;
-			}
-		}			
+		int qtdeLetras = contarQtdeLetras(pais);			
 		if(qtdeLetras < MIN_PAIS || pais.length() > MAX_PAIS) {
 			throw new IllegalArgumentException("Nome do país deve ter no mínimo 3 e no máximo 100 caracteres, e ter ao menos 3 letras.");
 		}

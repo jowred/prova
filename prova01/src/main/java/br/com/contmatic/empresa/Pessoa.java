@@ -119,15 +119,20 @@ public class Pessoa {
 	}
 
 	private void checkNomeTamanho(String nome) {
+		int qtdeLetras = contarQtdeLetras(nome);
+		if(qtdeLetras < MIN_NOME || nome.length() > MAX_NOME) {
+			throw new IllegalArgumentException("Nome deve ter no mínimo 2 e no máximo 100 caracteres, e ter ao menos 2 letras.");
+		}
+	}
+
+	private int contarQtdeLetras(String nome) {
 		int qtdeLetras = 0;
 		for(int i=0; i<nome.length(); i++) {
 			if(Character.isAlphabetic(nome.charAt(i))) {
 				qtdeLetras++;
 			}
 		}
-		if(qtdeLetras < MIN_NOME || nome.length() > MAX_NOME) {
-			throw new IllegalArgumentException("Nome deve ter no mínimo 2 e no máximo 100 caracteres, e ter ao menos 2 letras.");
-		}
+		return qtdeLetras;
 	}
 
 	private void checkNomeVazio(String nome) {
@@ -143,15 +148,7 @@ public class Pessoa {
 	}
 	
 	private void checkRgDigitosRepetidos(String rg) {
-		char primeiro = rg.charAt(0);
-		int repetidos = 0;
-		for(int i=0; i<rg.length() - PRIMEIRO_INDICE; i++) {
-			if(primeiro == rg.charAt(i + PRIMEIRO_INDICE)) {
-				repetidos++;
-			} else {
-				break;
-			}
-		}
+		int repetidos = contarDigitosRepetidos(rg);
 		if(repetidos == rg.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("RG não pode ser composto por dígitos iguais.");
 		}
@@ -190,11 +187,11 @@ public class Pessoa {
 		}
 	}
 
-	private int contarDigitosRepetidos(String cpf) {
-		char primeiro = cpf.charAt(0);
+	private int contarDigitosRepetidos(String num) {
+		char primeiro = num.charAt(0);
 		int repetidos = 0;
-		for(int i=0; i<CPF_SIZE - PRIMEIRO_INDICE; i++) {
-			if(primeiro == cpf.charAt(i + PRIMEIRO_INDICE)) {
+		for(int i=0; i<num.length() - PRIMEIRO_INDICE; i++) {
+			if(primeiro == num.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
