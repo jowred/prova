@@ -35,7 +35,7 @@ public class Funcionario extends Pessoa {
 
 	private void checkFuncionarioRepetido(Departamento depto) {
 		List<Funcionario> f = depto.getFuncionarios();
-		for(int i=0; i<depto.getFuncionarios().size(); i++) {
+		for(int i=0; i<f.size(); i++) {
 			if(f.get(i).equals(this)) {
 				throw new IllegalArgumentException("O departamento passado como parâmetro já possui este funcionário.");
 			}

@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Empresa {
 	
+	private static final int CNPJ_SIZE = 14;
+
 	private static final int PRIMEIRO_INDICE = 1;
 
 	private static final int ASCII_INICIO_NUMEROS = 48;
@@ -84,7 +86,7 @@ public class Empresa {
 	public void setCnpj(String cnpj) {
 		checkCnpjNulo(cnpj);		
 		checkCnpjVazio(cnpj);		
-		checkCnpjTamanho(cnpj);		
+		checkCnpjTamanho(cnpj);
 		checkCnpjContemApenasDigitos(cnpj);		
 		checkCnpjCompostoUnicamentePeloMesmoDigito(cnpj);		
 		checkCnpjValido(cnpj);
@@ -136,7 +138,7 @@ public class Empresa {
 	}
 
 	protected boolean cnpjValido(String cnpj) {
-		int[] iCnpj = new int[14];
+		int[] iCnpj = new int[CNPJ_SIZE];
 		for(int i=0; i<iCnpj.length; i++) {
 			iCnpj[i] = cnpj.charAt(i) - ASCII_INICIO_NUMEROS;
 		}
@@ -144,26 +146,36 @@ public class Empresa {
 	}
 	
 	protected boolean primeiroDigitoValido(int[] cnpj) {
-		int verificador = 0;
-		for(int i=0; i<9; i+=8) {
-			verificador += 5*cnpj[i] + 4*cnpj[i+1] + 3*cnpj[i+2] + 2*cnpj[i+3];
-		}
+		int verificador = multiplicar4Primeiros4UltimosDigitoV1(cnpj);
 		verificador += 9*cnpj[4] + 8*cnpj[5] + 7*cnpj[6] + 6*cnpj[7];
 		verificador = 11 - verificador % 11;
 		verificador = ((verificador >= 10) ? 0 : verificador);
 		return verificador == cnpj[12];
 	}
-	
-	protected boolean segundoDigitoValido(int[] cnpj) {
+
+	private int multiplicar4Primeiros4UltimosDigitoV1(int[] cnpj) {
 		int verificador = 0;
 		for(int i=0; i<9; i+=8) {
-			verificador += 6*cnpj[i] + 5*cnpj[i+1] + 4*cnpj[i+2] + 3*cnpj[i+3];
+			verificador += 5*cnpj[i] + 4*cnpj[i+1] + 3*cnpj[i+2] + 2*cnpj[i+3];
 		}
+		return verificador;
+	}
+	
+	protected boolean segundoDigitoValido(int[] cnpj) {
+		int verificador = multiplicar4Primeiros4UltimosDigitoV2(cnpj);
 		verificador += 2*cnpj[4] + 9*cnpj[5] + 8*cnpj[6] + 7*cnpj[7];
 		verificador += 2*cnpj[12];
 		verificador = 11 - verificador % 11;
 		verificador = ((verificador >= 10) ? 0 : verificador);
 		return verificador == cnpj[13];
+	}
+
+	private int multiplicar4Primeiros4UltimosDigitoV2(int[] cnpj) {
+		int verificador = 0;
+		for(int i=0; i<9; i+=8) {
+			verificador += 6*cnpj[i] + 5*cnpj[i+1] + 4*cnpj[i+2] + 3*cnpj[i+3];
+		}
+		return verificador;
 	}
 	
 	private void checkRazaoSocialCaracteresValidos(String razaoSocial) {
@@ -182,19 +194,19 @@ public class Empresa {
 
 	private void checkRazaoSocialHifenInvalido(String razaoSocial) {
 		if(razaoSocial.charAt(0) == '-' ||
-			razaoSocial.charAt(razaoSocial.length()-PRIMEIRO_INDICE) == '-') {
+			razaoSocial.charAt(razaoSocial.length() - PRIMEIRO_INDICE) == '-') {
 			throw new IllegalArgumentException("Razão social não pode começar ou terminar com hífen.");
 		}
 	}
 
 	private void checkRazaoSocialContemLetras(String razaoSocial) {
-		int qtdeLetras = contarQtdeLetras(razaoSocial);
+		int qtdeLetras = contarQtdeCaracteresNaoAlfabeticos(razaoSocial);
 		if(qtdeLetras == razaoSocial.length()) {
 			throw new IllegalArgumentException("Razão social não pode conter apenas números, espaços e caracteres especiais");
 		}
 	}
 
-	private int contarQtdeLetras(String razaoSocial) {
+	private int contarQtdeCaracteresNaoAlfabeticos(String razaoSocial) {
 		int qtdeLetras = 0;
 		for(int i=0; i<razaoSocial.length(); i++) {
 			if(Character.isAlphabetic(razaoSocial.charAt(i))) {
@@ -264,7 +276,7 @@ public class Empresa {
 	}
 
 	private void checkCnpjContemApenasDigitos(String cnpj) {
-		for(int i=0; i<cnpj.length(); i++) {
+		for(int i=0; i<CNPJ_SIZE; i++) {
 			if(!Character.isDigit(cnpj.charAt(i))) {
 				throw new IllegalArgumentException("CNPJ deve conter apenas dígitos.");
 			}
@@ -272,7 +284,7 @@ public class Empresa {
 	}
 
 	private void checkCnpjTamanho(String cnpj) {
-		if(cnpj.length() != 14) {
+		if(cnpj.length() != CNPJ_SIZE) {
 			throw new IllegalArgumentException("CNPJ deve conter 14 dígitos.");
 		}
 	}
@@ -365,7 +377,7 @@ public class Empresa {
 	}
 
 	private void checkNomeFantasiaTemLetras(String nomeFantasia) {
-		int cont = contarQtdeLetras(nomeFantasia);
+		int cont = contarQtdeCaracteresNaoAlfabeticos(nomeFantasia);
 		if(cont == nomeFantasia.length()) {
 			throw new IllegalArgumentException("Nome fantasia não pode conter apenas números, espaços e caracteres especiais");
 		}
@@ -375,21 +387,21 @@ public class Empresa {
 		String temp = nomeFantasia.toLowerCase(); 
 		char primeiro = temp.charAt(0);
 		int repetidos = 0;
-		for(int i=0; i<nomeFantasia.length()-PRIMEIRO_INDICE; i++) {
-			if(primeiro == temp.charAt(i+PRIMEIRO_INDICE)) {
+		for(int i=0; i<nomeFantasia.length() - PRIMEIRO_INDICE; i++) {
+			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
 			}
 		}
-		if(repetidos == nomeFantasia.length()-PRIMEIRO_INDICE) {
+		if(repetidos == nomeFantasia.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Nome fantasia não pode ser composto unicamente pelo mesmo caractere.");
 		}
 	}
 
 	private void checkNomeFantasiaTamanho(String nomeFantasia) {
-		if(nomeFantasia.length() <= MIN_NOME_FANTASIA || nomeFantasia.length() > MAX_NOME_FANTASIA) {
-			throw new IllegalArgumentException("Nome fantasia deve ter no mínimo 2 e no máximo 55 caracteres, contando com os espaços.");
+		if(nomeFantasia.length() < MIN_NOME_FANTASIA || nomeFantasia.length() > MAX_NOME_FANTASIA) {
+			throw new IllegalArgumentException("Nome fantasia deve ter no mínimo 1 e no máximo 55 caracteres, contando com os espaços.");
 		}
 	}
 

@@ -151,7 +151,7 @@ public class Departamento {
 	
 	private void checkDescricaoCompostaPorUmaUnicaLetra(String descricao) {
 		int repetidos = contarLetrasRepetidas(descricao);
-		if(repetidos == descricao.length()-PRIMEIRO_INDICE) {
+		if(repetidos == descricao.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Descrição do departamento não pode ser composta unicamente pelo mesmo caractere.");
 		}
 	}
@@ -164,29 +164,33 @@ public class Departamento {
 					(descricao.charAt(i) != ',') &&
 					(descricao.charAt(i) != ';') &&
 					(descricao.charAt(i) != '.')) {
-				throw new IllegalArgumentException("Descrição do departamento pode ser composto apenas por letras, espaços e caracteres de pontuação (\",\", \";\", \".\".");
+				throw new IllegalArgumentException("Descrição do departamento pode ser composta apenas por letras, espaços e caracteres de pontuação (\",\", \";\", \".\".");
 			}
 		}
 	}
 
 	private void checkDescricaoQuantidadeLetras(String descricao) {
-		if(descricao.length() < MIN_DESCRICAO || descricao.length() > MAX_DESCRICAO)
+		if(descricao.length() < MIN_DESCRICAO || descricao.length() > MAX_DESCRICAO) {
 			throw new IllegalArgumentException("Descrição do departamento deve ter no mínimo 2 e no máximo 100 caracteres.");
+		}
 	}
 
 	private void checkDescricaoComecaComLetra(String descricao) {
-		if(!Character.isAlphabetic(descricao.charAt(0)))
-			throw new IllegalArgumentException("Nome deve obrigatoriamente começar com uma letra.");
+		if(!Character.isAlphabetic(descricao.charAt(0))) {
+			throw new IllegalArgumentException("Descrição deve obrigatoriamente começar com uma letra.");
+		}
 	}
 
 	private void checkDescricaoVazia(String descricao) {
-		if(descricao.equals(""))
+		if(descricao.equals("")) {
 			throw new IllegalArgumentException("Descrição do departamento não pode estar em branco.");
+		}
 	}
 
 	private void checkDescricaoNula(String descricao) {
-		if(descricao == null)
+		if(descricao == null) {
 			throw new NullPointerException("Descrição do departamento não pode ser nula.");
+		}
 	}
 	
 	private void checkNovaListaFuncionariosIgualAntiga(List<Funcionario> funcionarios) {

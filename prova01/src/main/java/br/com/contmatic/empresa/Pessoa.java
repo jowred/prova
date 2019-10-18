@@ -1,7 +1,19 @@
 package br.com.contmatic.empresa;
 
 public class Pessoa {
+
+	private static final int CPF_SIZE_SEM_VERIF = 9;
+
+	private static final int ASCII_INICIO_NUMEROS = 48;
 	
+	private static final int QTDE_VERIFICADORES = 2;
+
+	private static final int CPF_POS_VERIF_1 = 9;
+	
+	private static final int CPF_POS_VERIF_2 = 10;
+
+	private static final int CPF_SIZE = 11;
+
 	private static final int PRIMEIRO_INDICE = 1;
 
 	private static final int MAX_RG = 9;
@@ -62,7 +74,7 @@ public class Pessoa {
 	public void setCpf(String cpf) {
 		checkCpfNulo(cpf);		
 		checkCpfVazio(cpf);		
-		checkCpfTamanho(cpf);		
+		checkCpfTamanho(cpf);
 		checkCpfContemApenasDigitos(cpf);		
 		checkCpfCompostoPorDigitosIguais(cpf);		
 		checkCpfValido(cpf);
@@ -172,22 +184,27 @@ public class Pessoa {
 	}
 	
 	private void checkCpfCompostoPorDigitosIguais(String cpf) {
+		int repetidos = contarDigitosRepetidos(cpf);
+		if(repetidos == CPF_SIZE - PRIMEIRO_INDICE) {
+			throw new IllegalArgumentException("CPF não pode ser composto por dígitos iguais.");
+		}
+	}
+
+	private int contarDigitosRepetidos(String cpf) {
 		char primeiro = cpf.charAt(0);
 		int repetidos = 0;
-		for(int i=0; i<cpf.length() - PRIMEIRO_INDICE; i++) {
+		for(int i=0; i<CPF_SIZE - PRIMEIRO_INDICE; i++) {
 			if(primeiro == cpf.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
 			}
 		}
-		if(repetidos == cpf.length() - PRIMEIRO_INDICE) {
-			throw new IllegalArgumentException("CPF não pode ser composto por dígitos iguais.");
-		}
+		return repetidos;
 	}
 
 	private void checkCpfContemApenasDigitos(String cpf) {
-		for(int i=0; i<cpf.length(); i++) {
+		for(int i=0; i<CPF_SIZE; i++) {
 			if(!Character.isDigit(cpf.charAt(i))) {
 				throw new IllegalArgumentException("CPF deve conter apenas dígitos.");
 			}
@@ -195,7 +212,7 @@ public class Pessoa {
 	}
 
 	private void checkCpfTamanho(String cpf) {
-		if(cpf.length() != 11) {
+		if(cpf.length() != CPF_SIZE) {
 			throw new IllegalArgumentException("CPF precisa ter 11 dígitos.");
 		}
 	}
@@ -219,37 +236,55 @@ public class Pessoa {
 	}
 	
 	protected boolean primeiroDigitoValido(int[] cpf, int digitoVerif) {
-		int verificador = 0;
-		int somatorio = 0;
-		for(int i=0; i<cpf.length; i++) {//Até o dígito n9
-			somatorio += cpf[i] * (10 - i);
-		}
-		verificador = 11 - (somatorio % 11);
+		int somatorio = somatorioDigitoV1(cpf);
+		int verificador = 11 - (somatorio % 11);
 		verificador = ((verificador >= 10) ? 0 : verificador);
 		return verificador == digitoVerif;
 	}
+
+	private int somatorioDigitoV1(int[] cpf) {
+		int somatorio = 0;
+		for(int i=0; i<cpf.length; i++) {
+			somatorio += cpf[i] * (10 - i);
+		}
+		return somatorio;
+	}
 	
 	protected boolean segundoDigitoValido(int[] cpf, int[] digitoVerif) {
-		int verificador = 0;
+		int somatorio = somatorioDigitoV2(cpf);
+		somatorio += digitoVerif[0] * 2;
+		int verificador = 11 - (somatorio % 11);
+		verificador = ((verificador >= 10) ? 0 : verificador);
+		return verificador == digitoVerif[1];
+	}
+
+	private int somatorioDigitoV2(int[] cpf) {
 		int somatorio = 0;
 		for(int i=0; i<cpf.length; i++) {
 			somatorio += cpf[i] * (11 - i);
 		}
-		somatorio += digitoVerif[0] * 2;
-		verificador = 11 - (somatorio % 11);
-		verificador = ((verificador >= 10) ? 0 : verificador);
-		return verificador == digitoVerif[1];
+		return somatorio;
 	}
 	
 	protected boolean cpfValido(String cpf) {		 
-		int[] verif = new int[2];
-		verif[0] = cpf.charAt(9) - 48;
-		verif[1] = cpf.charAt(10) - 48;
-		int[] iCpf = new int[9];
-		for(int i=0; i<9; i++) {
-			iCpf[i] = cpf.charAt(i) - 48;
-		}
+		int[] verif = converterVerificadoresDeCharParaNumero(cpf);
+		int[] iCpf = converterDigitosDeCharParaNumero(cpf);
 		return primeiroDigitoValido(iCpf, verif[0]) && segundoDigitoValido(iCpf, verif);
+	}
+
+	private int[] converterVerificadoresDeCharParaNumero(String cpf) {
+		int[] verif = new int[QTDE_VERIFICADORES];
+		verif[0] = cpf.charAt(CPF_POS_VERIF_1) - ASCII_INICIO_NUMEROS;
+		verif[1] = cpf.charAt(CPF_POS_VERIF_2) - ASCII_INICIO_NUMEROS;
+		return verif;
+	}
+
+	private int[] converterDigitosDeCharParaNumero(String cpf) {
+		int[] iCpf = new int[CPF_SIZE_SEM_VERIF];
+		for(int i=0; i < CPF_SIZE_SEM_VERIF; i++) {
+			iCpf[i] = cpf.charAt(i) - ASCII_INICIO_NUMEROS;
+		}
+		return iCpf;
 	}
 	
 	@Override

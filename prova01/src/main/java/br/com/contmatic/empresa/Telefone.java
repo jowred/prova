@@ -6,12 +6,12 @@ public class Telefone {
 	
 	private static final int PRIMEIRO_INDICE = 1;
 
-	private static final int MIN_TIPO = 3;
-
 	private static final int ULTIMO_NUM_TEL = 999999999;
 
 	private static final int PRIMEIRO_NUM_TEL = 10000000;
 
+	private static final int MIN_TIPO = 3;
+	
 	private static final int MAX_TIPO = 55;
 
 	private static final int MAX_DDD = 99;
@@ -81,14 +81,23 @@ public class Telefone {
 	}
 	
 	public boolean cadastrar(List<Telefone> telefones) {
-		if(telefones == null)
-			throw new NullPointerException("A lista de telefones passada como parâmetro não pode ser nula.");
-		
-		for(int i=0; i<telefones.size(); i++)
-			if(telefones.get(i).equals(this))
-				throw new IllegalArgumentException("A lista de telefone passada como parâmetro já possui este telefone.");
-		
+		checkListaTelefonesNula(telefones);
+		checkTelefoneRepetido(telefones);
 		return telefones.add(this);
+	}
+
+	private void checkTelefoneRepetido(List<Telefone> telefones) {
+		for(int i=0; i<telefones.size(); i++) {
+			if(telefones.get(i).equals(this)) {
+				throw new IllegalArgumentException("A lista de telefone passada como parâmetro já possui este telefone.");
+			}
+		}
+	}
+
+	private void checkListaTelefonesNula(List<Telefone> telefones) {
+		if(telefones == null) {
+			throw new NullPointerException("A lista de telefones passada como parâmetro não pode ser nula.");
+		}
 	}
 	
 	private void checkCodigoPaisValido(int codigoPais) {
@@ -110,6 +119,13 @@ public class Telefone {
 	}
 	
 	private void checkTipoCompostoPorApenasUmaLetra(String tipo) {
+		int repetidos = contarLetrasRepetidas(tipo);
+		if(repetidos == tipo.length() - PRIMEIRO_INDICE) {
+			throw new IllegalArgumentException("Tipo do telefone não pode ser composto unicamente pelo mesmo caractere.");
+		}
+	}
+
+	private int contarLetrasRepetidas(String tipo) {
 		String temp = tipo.toLowerCase();
 		char primeiro = temp.charAt(0);		
 		int repetidos = 0;
@@ -120,9 +136,7 @@ public class Telefone {
 				break;
 			}
 		}
-		if(repetidos == tipo.length() - PRIMEIRO_INDICE) {
-			throw new IllegalArgumentException("Tipo do telefone não pode ser composto unicamente pelo mesmo caractere.");
-		}
+		return repetidos;
 	}
 
 	private void checkTipoCaracteresValidos(String tipo) {
@@ -135,15 +149,20 @@ public class Telefone {
 	}
 
 	private void checkTipoQuantidadeLetras(String tipo) {
+		int qtdeLetras = contarLetras(tipo);
+		if(qtdeLetras < MIN_TIPO || tipo.length() > MAX_TIPO) {
+			throw new IllegalArgumentException("Tipo do telefone deve ter no mínimo 3 e no máximo 55 caracteres, e ter ao menos 3 letras.");
+		}
+	}
+
+	private int contarLetras(String tipo) {
 		int qtdeLetras = 0;
 		for(int i=0; i<tipo.length(); i++) {
 			if(Character.isAlphabetic(tipo.charAt(i))) {
 				qtdeLetras++;
 			}
 		}
-		if(qtdeLetras < MIN_TIPO || tipo.length() > MAX_TIPO) {
-			throw new IllegalArgumentException("Tipo do telefone deve ter no mínimo 3 e no máximo 55 caracteres, e ter ao menos 3 letras.");
-		}
+		return qtdeLetras;
 	}
 
 	private void checkTipoVazio(String tipo) {

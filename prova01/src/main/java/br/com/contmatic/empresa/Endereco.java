@@ -8,7 +8,7 @@ public class Endereco {
 
 	private static final int MAX_NUM_RUA = 99999;
 
-	private static final int CEP = 8;
+	private static final int CEP_SIZE = 8;
 
 	private static final int MAX_PAIS = 100;
 
@@ -385,7 +385,7 @@ public class Endereco {
 	}
 
 	private void checkCepTamanho(String cep) {
-		if(cep.length() != CEP) {
+		if(cep.length() != CEP_SIZE) {
 			throw new IllegalArgumentException("CEP precisa ter 8 dígitos.");
 		}
 	}

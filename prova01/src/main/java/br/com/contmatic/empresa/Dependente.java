@@ -4,6 +4,10 @@ import java.util.List;
 
 public class Dependente extends Pessoa {
 	
+	private static final int MAX_PARENTESCO = 55;
+
+	private static final int MIN_PARENTESCO = 3;
+
 	private static final int PRIMEIRO_INDICE = 1;
 
 	private static final int MAX_IDADE = 120;
@@ -73,9 +77,11 @@ public class Dependente extends Pessoa {
 
 	private void checkDependenteRepetido(Funcionario fun) {
 		List<Dependente> dep = fun.getDependentes();
-		for(int i=0; i<fun.getDependentes().size(); i++)
-			if(dep.get(i).equals(this))
+		for(int i=0; i<fun.getDependentes().size(); i++) {
+			if(dep.get(i).equals(this)) {
 				throw new IllegalArgumentException("O funcionário passado como parâmetro já possui este dependente cadastrado.");
+			}
+		}
 	}
 	
 	private void checkProvedorNulo(Funcionario provedor) {
@@ -116,26 +122,31 @@ public class Dependente extends Pessoa {
 
 	private void checkParentescoQuantidadeLetras(String parentesco) {
 		int qtdeLetras = contarQtdeLetras(parentesco);		
-		if(qtdeLetras < 3 || parentesco.length() > 55)
+		if(qtdeLetras < MIN_PARENTESCO || parentesco.length() > MAX_PARENTESCO) {
 			throw new IllegalArgumentException("Parentesco do dependente deve ter no mínimo 3 e no máximo 55 caracteres, e ter ao menos 3 letras.");
+		}
 	}
 
 	private int contarQtdeLetras(String parentesco) {
 		int qtdeLetras = 0;
-		for(int i=0; i<parentesco.length(); i++)
-			if(Character.isAlphabetic(parentesco.charAt(i)))
+		for(int i=0; i<parentesco.length(); i++) {
+			if(Character.isAlphabetic(parentesco.charAt(i))) {
 				qtdeLetras++;
+			}
+		}
 		return qtdeLetras;
 	}
 
 	private void checkParentescoVazio(String parentesco) {
-		if(parentesco.equals(""))
+		if(parentesco.equals("")) {
 			throw new IllegalArgumentException("Parentesco do dependente não pode estar em branco.");
+		}
 	}
 
 	private void checkParentescoNulo(String parentesco) {
-		if(parentesco == null)
+		if(parentesco == null) {
 			throw new NullPointerException("Parentesco do dependente não pode ser nulo.");
+		}
 	}
 	
 	private void checkIdadeValida(int idade) {
