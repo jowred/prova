@@ -5,6 +5,10 @@ import java.util.List;
 
 public class Empresa {
 	
+	private static final int PRIMEIRO_INDICE = 1;
+
+	private static final int ASCII_INICIO_NUMEROS = 48;
+
 	private static final int MAX_AREA_ATUACAO = 55;
 
 	private static final int MIN_AREA_ATUACAO = 4;
@@ -132,19 +136,15 @@ public class Empresa {
 	}
 
 	protected boolean cnpjValido(String cnpj) {
-		
 		int[] iCnpj = new int[14];
-		
 		for(int i=0; i<iCnpj.length; i++) {
-			iCnpj[i] = cnpj.charAt(i) - 48;
+			iCnpj[i] = cnpj.charAt(i) - ASCII_INICIO_NUMEROS;
 		}
 		return primeiroDigitoValido(iCnpj) && segundoDigitoValido(iCnpj);
 	}
 	
 	protected boolean primeiroDigitoValido(int[] cnpj) {
-		
 		int verificador = 0;
-		
 		for(int i=0; i<9; i+=8) {
 			verificador += 5*cnpj[i] + 4*cnpj[i+1] + 3*cnpj[i+2] + 2*cnpj[i+3];
 		}
@@ -182,37 +182,47 @@ public class Empresa {
 
 	private void checkRazaoSocialHifenInvalido(String razaoSocial) {
 		if(razaoSocial.charAt(0) == '-' ||
-			razaoSocial.charAt(razaoSocial.length()-1) == '-') {
+			razaoSocial.charAt(razaoSocial.length()-PRIMEIRO_INDICE) == '-') {
 			throw new IllegalArgumentException("Razão social não pode começar ou terminar com hífen.");
 		}
 	}
 
 	private void checkRazaoSocialContemLetras(String razaoSocial) {
-		int cont = 0;
-		for(int i=0; i<razaoSocial.length(); i++) {
-			if(Character.isAlphabetic(razaoSocial.charAt(i))) {
-				break;
-			} else {
-				cont++;
-			}
-		}
-		if(cont == razaoSocial.length()) {
+		int qtdeLetras = contarQtdeLetras(razaoSocial);
+		if(qtdeLetras == razaoSocial.length()) {
 			throw new IllegalArgumentException("Razão social não pode conter apenas números, espaços e caracteres especiais");
 		}
 	}
 
+	private int contarQtdeLetras(String razaoSocial) {
+		int qtdeLetras = 0;
+		for(int i=0; i<razaoSocial.length(); i++) {
+			if(Character.isAlphabetic(razaoSocial.charAt(i))) {
+				break;
+			} else {
+				qtdeLetras++;
+			}
+		}
+		return qtdeLetras;
+	}
+
 	private void checkRazaoSocialCompostaUnicamentePorUmaLetra(String razaoSocial) {
+		int repetidos = contarLetrasRepetidas(razaoSocial);
+		if(repetidos == razaoSocial.length() - PRIMEIRO_INDICE) {
+			throw new IllegalArgumentException("Razão social não pode ser composta unicamente pelo mesmo caractere.");
+		}
+	}
+
+	private int contarLetrasRepetidas(String razaoSocial) {
 		String temp = razaoSocial.toLowerCase();
 		char primeiro = temp.charAt(0);
 		int repetidos = 0;
-		for(int i=0; i<razaoSocial.length()-1; i++) {
-			if(primeiro == temp.charAt(i+1)) {
+		for(int i=0; i<razaoSocial.length() - PRIMEIRO_INDICE; i++) {
+			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			}
 		}
-		if(repetidos == razaoSocial.length()-1) {
-			throw new IllegalArgumentException("Razão social não pode ser composta unicamente pelo mesmo caractere.");
-		}
+		return repetidos;
 	}
 
 	private void checkRazaoSocialTamanho(String razaoSocial) {
@@ -234,18 +244,23 @@ public class Empresa {
 	}
 	
 	private void checkCnpjCompostoUnicamentePeloMesmoDigito(String cnpj) {
+		int repetidos = contarDigitosRepetidos(cnpj);
+		if(repetidos == cnpj.length()-PRIMEIRO_INDICE) {
+			throw new IllegalArgumentException("CNPJ não pode ser composto por dígitos iguais.");
+		}
+	}
+
+	private int contarDigitosRepetidos(String cnpj) {
 		char primeiro = cnpj.charAt(0);
 		int repetidos = 0;
-		for(int i=0; i<cnpj.length()-1; i++) {
-			if(primeiro == cnpj.charAt(i+1)) {
+		for(int i=0; i<cnpj.length()-PRIMEIRO_INDICE; i++) {
+			if(primeiro == cnpj.charAt(i+PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
 			}
 		}
-		if(repetidos == cnpj.length()-1) {//Porque não precisa comparar com ele mesmo
-			throw new IllegalArgumentException("CNPJ não pode ser composto por dígitos iguais.");
-		}
+		return repetidos;
 	}
 
 	private void checkCnpjContemApenasDigitos(String cnpj) {
@@ -275,16 +290,8 @@ public class Empresa {
 	}
 	
 	private void checkAreaAtuacaoCompostaUnicamentePeloMesmoCaractere(String areaAtuacao) {
-		char primeiro = areaAtuacao.charAt(0);
-		int repetidos = 0;
-		for(int i=0; i<areaAtuacao.length()-1; i++) {
-			if(primeiro == areaAtuacao.charAt(i+1)) {
-				repetidos++;
-			} else {
-				break;
-			}
-		}
-		if(repetidos == areaAtuacao.length()-1) {
+		int repetidos = contarDigitosRepetidos(areaAtuacao);
+		if(repetidos == areaAtuacao.length()-PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Área de atuação não pode ser composto unicamente pelo mesmo caractere.");
 		}
 	}
@@ -352,20 +359,13 @@ public class Empresa {
 
 	private void checkNomeFantasiaHifenInvalido(String nomeFantasia) {
 		if(nomeFantasia.charAt(0) == '-' ||
-			nomeFantasia.charAt(nomeFantasia.length()-1) == '-') {
+			nomeFantasia.charAt(nomeFantasia.length()-PRIMEIRO_INDICE) == '-') {
 			throw new IllegalArgumentException("Nome fantasia não pode começar ou terminar com hífen.");
 		}
 	}
 
 	private void checkNomeFantasiaTemLetras(String nomeFantasia) {
-		int cont = 0;
-		for(int i=0; i<nomeFantasia.length(); i++) {
-			if(Character.isAlphabetic(nomeFantasia.charAt(i))) {
-				break;
-			} else {
-				cont++;
-			}
-		}
+		int cont = contarQtdeLetras(nomeFantasia);
 		if(cont == nomeFantasia.length()) {
 			throw new IllegalArgumentException("Nome fantasia não pode conter apenas números, espaços e caracteres especiais");
 		}
@@ -375,14 +375,14 @@ public class Empresa {
 		String temp = nomeFantasia.toLowerCase(); 
 		char primeiro = temp.charAt(0);
 		int repetidos = 0;
-		for(int i=0; i<nomeFantasia.length()-1; i++) {
-			if(primeiro == temp.charAt(i+1)) {
+		for(int i=0; i<nomeFantasia.length()-PRIMEIRO_INDICE; i++) {
+			if(primeiro == temp.charAt(i+PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
 			}
 		}
-		if(repetidos == nomeFantasia.length()-1) {
+		if(repetidos == nomeFantasia.length()-PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Nome fantasia não pode ser composto unicamente pelo mesmo caractere.");
 		}
 	}

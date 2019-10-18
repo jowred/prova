@@ -4,6 +4,8 @@ import java.util.List;
 
 public class Telefone {
 	
+	private static final int PRIMEIRO_INDICE = 1;
+
 	private static final int MIN_TIPO = 3;
 
 	private static final int ULTIMO_NUM_TEL = 999999999;
@@ -111,14 +113,14 @@ public class Telefone {
 		String temp = tipo.toLowerCase();
 		char primeiro = temp.charAt(0);		
 		int repetidos = 0;
-		for(int i=0; i<tipo.length()-1; i++) {
-			if(primeiro == temp.charAt(i+1)) {
+		for(int i=0; i<tipo.length() - PRIMEIRO_INDICE; i++) {
+			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
 			}
 		}
-		if(repetidos == tipo.length()-1) {
+		if(repetidos == tipo.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Tipo do telefone não pode ser composto unicamente pelo mesmo caractere.");
 		}
 	}

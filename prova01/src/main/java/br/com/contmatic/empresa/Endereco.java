@@ -2,7 +2,9 @@ package br.com.contmatic.empresa;
 
 public class Endereco {
 	
-	private static final int MIN_NUM_RUA = 0;
+	private static final int PRIMEIRO_INDICE = 1;
+
+	private static final int MIN_NUM_RUA = 1;
 
 	private static final int MAX_NUM_RUA = 99999;
 
@@ -22,7 +24,7 @@ public class Endereco {
 
 	private String logradouro;
 	
-	private int numero;
+	private Integer numero;
 	
 	private String bairro;
 	
@@ -126,11 +128,11 @@ public class Endereco {
 		this.cep = cep;
 	}
 	
-	public int getNumero() {
+	public Integer getNumero() {
 		return numero;
 	}
 
-	public void setNumero(int numero) {
+	public void setNumero(Integer numero) {
 		checkNumeroValido(numero);		
 		this.numero = numero;
 	}
@@ -139,14 +141,14 @@ public class Endereco {
 		String temp = logradouro.toLowerCase();
 		char primeiro = temp.charAt(0);
 		int repetidos = 0;
-		for(int i=0; i<logradouro.length()-1; i++) {
-			if(primeiro == temp.charAt(i+1)) {
+		for(int i=0; i<logradouro.length() - PRIMEIRO_INDICE; i++) {
+			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
 			}
 		}
-		if(repetidos == logradouro.length()-1) {
+		if(repetidos == logradouro.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Logradouro do endereço não pode ser composto unicamente pelo mesmo caractere.");
 		}
 	}
@@ -190,14 +192,14 @@ public class Endereco {
 		String temp = bairro.toLowerCase();
 		char primeiro = temp.charAt(0);
 		int repetidos = 0;
-		for(int i=0; i<bairro.length()-1; i++) {
-			if(primeiro == temp.charAt(i+1)) {
+		for(int i=0; i<bairro.length() - PRIMEIRO_INDICE; i++) {
+			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
 			}
 		}
-		if(repetidos == bairro.length()-1) {
+		if(repetidos == bairro.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Bairro do endereço não pode ser composto unicamente pelo mesmo caractere.");
 		}
 	}
@@ -241,14 +243,14 @@ public class Endereco {
 		String temp = cidade.toLowerCase(); 
 		char primeiro = temp.charAt(0);		
 		int repetidos = 0;
-		for(int i=0; i<cidade.length()-1; i++) {
-			if(primeiro == temp.charAt(i+1)) {
+		for(int i=0; i<cidade.length() - PRIMEIRO_INDICE; i++) {
+			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
 			}
 		}
-		if(repetidos == cidade.length()-1) {
+		if(repetidos == cidade.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Nome da cidade não pode ser composto unicamente pelo mesmo caractere.");
 		}
 	}
@@ -322,14 +324,14 @@ public class Endereco {
 		String temp = pais.toLowerCase(); 
 		char primeiro = temp.charAt(0);		
 		int repetidos = 0;
-		for(int i=0; i<pais.length()-1; i++) {
-			if(primeiro == temp.charAt(i+1)) {
+		for(int i=0; i<pais.length() - PRIMEIRO_INDICE; i++) {
+			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
 			}
 		}
-		if(repetidos == pais.length()-1) {
+		if(repetidos == pais.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Nome do país não pode ser composto unicamente pelo mesmo caractere.");
 		}
 	}
@@ -400,9 +402,11 @@ public class Endereco {
 		}
 	}
 	
-	private void checkNumeroValido(int numero) {
-		if(numero < MIN_NUM_RUA || numero > MAX_NUM_RUA) {
-			throw new IllegalArgumentException("Número da residência deve ser positivo, de 1 a 99999. Para imóveis sem número, utilize 0.");
+	private void checkNumeroValido(Integer numero) {
+		if(numero != null) {
+			if(numero < MIN_NUM_RUA || numero > MAX_NUM_RUA) {
+				throw new IllegalArgumentException("Número da residência deve ser positivo, de 1 a 99999. Para imóveis sem número, atribua null.");
+			}
 		}
 	}
 	
@@ -410,7 +414,7 @@ public class Endereco {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + numero;
+		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
 		result = prime * result + cep.hashCode();
 		return result;
 	}
@@ -424,14 +428,14 @@ public class Endereco {
 		if(getClass() != obj.getClass())
 			return false;
 		Endereco other = (Endereco)obj;
-		if(!((cep.equals(other.cep)) && (numero == other.numero)))
+		if(!((cep.equals(other.cep)) && (numero.equals(other.numero))))
 			return false;
 		return true;
 	}
 	
 	@Override
 	public String toString() {
-		return logradouro + ", " + bairro + ", " + cidade + " - " + uf + ", " + pais + "\n"
+		return logradouro + " " + ((numero == null)? "sem nº" : numero) + ", " + bairro + ", " + cidade + " - " + uf + ", " + pais + "\n"
 				+ "CEP: " + cep;
 	}	
 }

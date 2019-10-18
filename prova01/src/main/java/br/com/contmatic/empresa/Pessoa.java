@@ -2,6 +2,8 @@ package br.com.contmatic.empresa;
 
 public class Pessoa {
 	
+	private static final int PRIMEIRO_INDICE = 1;
+
 	private static final int MAX_RG = 9;
 
 	private static final int MIN_RG = 8;
@@ -68,19 +70,24 @@ public class Pessoa {
 	}
 	
 	private void checkNomeCompostoPorUmaUnicaLetra(String nome) {
+		int repetidos = contarLetrasRepetidas(nome);
+		if(repetidos == nome.length() - PRIMEIRO_INDICE) {
+			throw new IllegalArgumentException("Nome não pode ser composto unicamente pelo mesmo caractere.");
+		}
+	}
+
+	private int contarLetrasRepetidas(String nome) {
 		String temp = nome.toLowerCase();
 		char primeiro = temp.charAt(0);		
 		int repetidos = 0;
-		for(int i=0; i<nome.length()-1; i++) {
-			if(primeiro == temp.charAt(i+1)) {
+		for(int i=0; i<nome.length() - PRIMEIRO_INDICE; i++) {
+			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
 			}
 		}
-		if(repetidos == nome.length()-1) {
-			throw new IllegalArgumentException("Nome não pode ser composto unicamente pelo mesmo caractere.");
-		}
+		return repetidos;
 	}
 
 	private void checkNomeCaracteresValidos(String nome) {
@@ -126,14 +133,14 @@ public class Pessoa {
 	private void checkRgDigitosRepetidos(String rg) {
 		char primeiro = rg.charAt(0);
 		int repetidos = 0;
-		for(int i=0; i<rg.length()-1; i++) {
-			if(primeiro == rg.charAt(i+1)) {
+		for(int i=0; i<rg.length() - PRIMEIRO_INDICE; i++) {
+			if(primeiro == rg.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
 			}
 		}
-		if(repetidos == rg.length()-1) {
+		if(repetidos == rg.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("RG não pode ser composto por dígitos iguais.");
 		}
 	}
@@ -167,14 +174,14 @@ public class Pessoa {
 	private void checkCpfCompostoPorDigitosIguais(String cpf) {
 		char primeiro = cpf.charAt(0);
 		int repetidos = 0;
-		for(int i=0; i<cpf.length()-1; i++) {
-			if(primeiro == cpf.charAt(i+1)) {
+		for(int i=0; i<cpf.length() - PRIMEIRO_INDICE; i++) {
+			if(primeiro == cpf.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
 			}
 		}
-		if(repetidos == cpf.length()-1) {
+		if(repetidos == cpf.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("CPF não pode ser composto por dígitos iguais.");
 		}
 	}

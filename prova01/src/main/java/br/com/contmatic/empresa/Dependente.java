@@ -4,6 +4,8 @@ import java.util.List;
 
 public class Dependente extends Pessoa {
 	
+	private static final int PRIMEIRO_INDICE = 1;
+
 	private static final int MAX_IDADE = 120;
 
 	private static final int MIN_IDADE = 0;
@@ -57,12 +59,16 @@ public class Dependente extends Pessoa {
 	}
 
 	public boolean cadastrar(Funcionario fun) {
-		if(fun == null) {
-			throw new NullPointerException("O funcionário passado como parâmetro não pode ser nulo.");
-		}
+		checkFuncionarioNulo(fun);
 		checkDependenteRepetido(fun);
 		this.provedor = fun;
 		return fun.getDependentes().add(this);
+	}
+
+	private void checkFuncionarioNulo(Funcionario fun) {
+		if(fun == null) {
+			throw new NullPointerException("O funcionário passado como parâmetro não pode ser nulo.");
+		}
 	}
 
 	private void checkDependenteRepetido(Funcionario fun) {
@@ -80,7 +86,7 @@ public class Dependente extends Pessoa {
 	
 	private void checkParentescoCompostoPorUmaUnicaLetra(String parentesco) {
 		int repetidos = contarLetrasRepetidas(parentesco);
-		if(repetidos == parentesco.length()-1) {
+		if(repetidos == parentesco.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Parentesco do dependente não pode ser composto unicamente pelo mesmo caractere.");
 		}
 	}
@@ -89,8 +95,8 @@ public class Dependente extends Pessoa {
 		String temp = parentesco.toLowerCase();
 		char primeiro = temp.charAt(0);		
 		int repetidos = 0;
-		for(int i=0; i<parentesco.length()-1; i++) {
-			if(primeiro == temp.charAt(i+1)) {
+		for(int i=0; i<parentesco.length() - PRIMEIRO_INDICE; i++) {
+			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;

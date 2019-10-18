@@ -47,6 +47,9 @@ public class EnderecoTest {
 	@Test
 	public void deve_retornar_false_para_indicar_que_o_metodo_toString_esta_sobrescrito() {
 		assertFalse(new Endereco().toString().contains("["));
+		System.out.println(end1);
+		end2.setNumero(null);
+		System.out.println(end2);
 	}
 	
 	@Test
@@ -95,7 +98,11 @@ public class EnderecoTest {
 		assertTrue(end1.hashCode() == end2.hashCode());
 	}
 	
-	
+	@Test
+	public void nao_deve_apontar_igualdade_entre_os_objetos_endereco_usando_hashcode_sobrescrito_porque_numero_do_objeto2_e_nulo() {
+		end2.setNumero(null);
+		assertFalse(end1.hashCode() == end2.hashCode());
+	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_endereco_usando_hashcode_sobrescrito() {
@@ -203,7 +210,7 @@ public class EnderecoTest {
 	 * */
 	@Test
 	public void deve_definir_um_novo_numero_para_o_endereco() {
-		int numero = 654;
+		Integer numero = 654;
 		end1.setNumero(numero);
 		assertEquals(numero, end1.getNumero());
 	}
@@ -214,8 +221,8 @@ public class EnderecoTest {
 	}
 	
 	@Test
-	public void deve_aceitar_numero_0_para_indicar_edificio_sem_numero() {
-		end1.setNumero(0);
+	public void deve_aceitar_numero_nulo_para_indicar_edificio_sem_numero() {
+		end1.setNumero(null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

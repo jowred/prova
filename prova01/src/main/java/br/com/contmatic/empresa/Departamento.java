@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Departamento {
 	
+	private static final int PRIMEIRO_INDICE = 1;
+
 	private static final int MIN_NOME = 2;
 
 	private static final int MAX_NOME = 55;
@@ -68,14 +70,18 @@ public class Departamento {
 	}
 
 	public boolean cadastrar(Empresa emp) {
-		if(emp == null) {
-			throw new NullPointerException("A empresa passada como parâmetro não pode ser nula.");
-		}
-		checkDeptoRepetido(emp);
+		checkEmpresaNula(emp);
+		checkDepartamentoRepetido(emp);
 		return emp.getDepartamentos().add(this);
 	}
 
-	private void checkDeptoRepetido(Empresa emp) {
+	private void checkEmpresaNula(Empresa emp) {
+		if(emp == null) {
+			throw new NullPointerException("A empresa passada como parâmetro não pode ser nula.");
+		}
+	}
+
+	private void checkDepartamentoRepetido(Empresa emp) {
 		List<Departamento> d = emp.getDepartamentos();
 		for(int i=0; i<emp.getDepartamentos().size(); i++) {
 			if(d.get(i).equals(this)) {
@@ -86,7 +92,7 @@ public class Departamento {
 	
 	private void checkNomeCompostoPorApenasUmaLetra(String nome) {
 		int repetidos = contarLetrasRepetidas(nome);
-		if (repetidos == nome.length() - 1) {
+		if (repetidos == nome.length() - PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Nome do departamento não pode ser composto unicamente pelo mesmo caractere.");
 		}
 	}
@@ -95,8 +101,8 @@ public class Departamento {
 		String temp = nome.toLowerCase();
 		char primeiro = temp.charAt(0);
 		int repetidos = 0;
-		for (int i = 0; i < nome.length() - 1; i++) {
-			if (primeiro == temp.charAt(i + 1)) {
+		for (int i = 0; i < nome.length() - PRIMEIRO_INDICE; i++) {
+			if (primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
 				repetidos++;
 			} else {
 				break;
@@ -145,7 +151,7 @@ public class Departamento {
 	
 	private void checkDescricaoCompostaPorUmaUnicaLetra(String descricao) {
 		int repetidos = contarLetrasRepetidas(descricao);
-		if(repetidos == descricao.length()-1) {
+		if(repetidos == descricao.length()-PRIMEIRO_INDICE) {
 			throw new IllegalArgumentException("Descrição do departamento não pode ser composta unicamente pelo mesmo caractere.");
 		}
 	}

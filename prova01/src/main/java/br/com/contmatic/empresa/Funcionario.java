@@ -28,15 +28,24 @@ public class Funcionario extends Pessoa {
 	}
 
 	public boolean cadastrar(Departamento depto) {
-		if(depto == null)
-			throw new NullPointerException("O departamento passado como parâmetro não pode ser nulo.");
-		
-		List<Funcionario> f = depto.getFuncionarios();
-		for(int i=0; i<depto.getFuncionarios().size(); i++)
-			if(f.get(i).equals(this))
-				throw new IllegalArgumentException("O departamento passado como parâmetro já possui este funcionário.");
-		
+		checkDepartamentoNulo(depto);
+		checkFuncionarioRepetido(depto);		
 		return depto.getFuncionarios().add(this);
+	}
+
+	private void checkFuncionarioRepetido(Departamento depto) {
+		List<Funcionario> f = depto.getFuncionarios();
+		for(int i=0; i<depto.getFuncionarios().size(); i++) {
+			if(f.get(i).equals(this)) {
+				throw new IllegalArgumentException("O departamento passado como parâmetro já possui este funcionário.");
+			}
+		}
+	}
+
+	private void checkDepartamentoNulo(Departamento depto) {
+		if(depto == null) {
+			throw new NullPointerException("O departamento passado como parâmetro não pode ser nulo.");
+		}
 	}
 	
 	private void checkNovaListaIgualAntiga(List<Dependente> dependentes) {
