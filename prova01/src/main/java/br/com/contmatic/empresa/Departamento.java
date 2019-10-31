@@ -1,20 +1,16 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.empresa.Constantes.MAX_DESCRICAO;
+import static br.com.contmatic.empresa.Constantes.MAX_NOME_DEPTO;
+import static br.com.contmatic.empresa.Constantes.MIN_DESCRICAO;
+import static br.com.contmatic.empresa.Constantes.MIN_NOME_DEPTO;
+import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Departamento {
-	/**/
-	private static final int PRIMEIRO_INDICE = 1;
-
-	private static final int MIN_NOME = 2;
-
-	private static final int MAX_NOME = 55;
 	
-	private static final int MIN_DESCRICAO = 2;
-	
-	private static final int MAX_DESCRICAO = 100;
-
 	private String nome;
 	
 	private String descricao;
@@ -122,7 +118,7 @@ public class Departamento {
 
 	private void checkNomeQuantidadeLetras(String nome) {
 		int qtdeLetras = contarQtdeLetras(nome);
-		if(qtdeLetras < MIN_NOME || nome.length() > MAX_NOME) {
+		if(qtdeLetras < MIN_NOME_DEPTO || nome.length() > MAX_NOME_DEPTO) {
 			throw new IllegalArgumentException("Nome do departamento deve ter no mínimo 2 e no máximo 55 caracteres, e ter ao menos 2 letras.");
 		}
 	}

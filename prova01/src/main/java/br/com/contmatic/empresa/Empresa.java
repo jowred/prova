@@ -1,32 +1,22 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.empresa.Constantes.ASCII_INICIO_NUMEROS;
+import static br.com.contmatic.empresa.Constantes.CNPJ_POS_VERIF_1;
+import static br.com.contmatic.empresa.Constantes.CNPJ_POS_VERIF_2;
+import static br.com.contmatic.empresa.Constantes.CNPJ_SIZE;
+import static br.com.contmatic.empresa.Constantes.MAX_AREA_ATUACAO;
+import static br.com.contmatic.empresa.Constantes.MAX_NOME_FANTASIA;
+import static br.com.contmatic.empresa.Constantes.MAX_RAZ_SOCIAL;
+import static br.com.contmatic.empresa.Constantes.MIN_AREA_ATUACAO;
+import static br.com.contmatic.empresa.Constantes.MIN_NOME_FANTASIA;
+import static br.com.contmatic.empresa.Constantes.MIN_RAZ_SOCIAL;
+import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Empresa {
 	
-	private static final int CNPJ_POS_VERIF_2 = 13;
-
-	private static final int CNPJ_POS_VERIF_1 = 12;
-
-	private static final int CNPJ_SIZE = 14;
-
-	private static final int PRIMEIRO_INDICE = 1;
-
-	private static final int ASCII_INICIO_NUMEROS = 48;
-
-	private static final int MAX_AREA_ATUACAO = 55;
-
-	private static final int MIN_AREA_ATUACAO = 4;
-
-	private static final int MAX_NOME_FANTASIA = 55;
-
-	private static final int MIN_NOME_FANTASIA = 1;
-
-	private static final int MAX_RAZ_SOCIAL = 100;
-
-	private static final int MIN_RAZ_SOCIAL = 5;
-
 	private String razaoSocial;
 	
 	private String nomeFantasia;

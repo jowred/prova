@@ -1,26 +1,17 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.empresa.Constantes.CEP_SIZE;
+import static br.com.contmatic.empresa.Constantes.MAX_BAIRRO;
+import static br.com.contmatic.empresa.Constantes.MAX_CIDADE;
+import static br.com.contmatic.empresa.Constantes.MAX_LOGRADOURO;
+import static br.com.contmatic.empresa.Constantes.MAX_NUM_RUA;
+import static br.com.contmatic.empresa.Constantes.MAX_PAIS;
+import static br.com.contmatic.empresa.Constantes.MIN_NUM_RUA;
+import static br.com.contmatic.empresa.Constantes.MIN_PAIS;
+import static br.com.contmatic.empresa.Constantes.MIN_TEXTO;
+import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
+
 public class Endereco {
-	
-	private static final int PRIMEIRO_INDICE = 1;
-
-	private static final int MIN_NUM_RUA = 1;
-
-	private static final int MAX_NUM_RUA = 99999;
-
-	private static final int CEP_SIZE = 8;
-
-	private static final int MAX_PAIS = 100;
-
-	private static final int MIN_PAIS = 3;
-
-	private static final int MAX_CIDADE = 100;
-
-	private static final int MAX_BAIRRO = 55;
-
-	private static final int MAX_LOGRADOURO = 100;
-
-	private static final int MIN_TEXTO = 2;
 
 	private String logradouro;
 	

@@ -1,19 +1,15 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.empresa.Constantes.MAX_IDADE;
+import static br.com.contmatic.empresa.Constantes.MAX_PARENTESCO;
+import static br.com.contmatic.empresa.Constantes.MIN_IDADE;
+import static br.com.contmatic.empresa.Constantes.MIN_PARENTESCO;
+import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
+
 import java.util.List;
 
 public class Dependente extends Pessoa {
 	
-	private static final int MAX_PARENTESCO = 55;
-
-	private static final int MIN_PARENTESCO = 3;
-
-	private static final int PRIMEIRO_INDICE = 1;
-
-	private static final int MAX_IDADE = 120;
-
-	private static final int MIN_IDADE = 0;
-
 	private Funcionario provedor;
 	
 	private String parentesco;

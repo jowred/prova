@@ -1,27 +1,19 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.empresa.Constantes.MAX_COD_PAIS;
+import static br.com.contmatic.empresa.Constantes.MAX_DDD;
+import static br.com.contmatic.empresa.Constantes.MAX_TIPO;
+import static br.com.contmatic.empresa.Constantes.MIN_COD_PAIS;
+import static br.com.contmatic.empresa.Constantes.MIN_DDD;
+import static br.com.contmatic.empresa.Constantes.MIN_TIPO;
+import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
+import static br.com.contmatic.empresa.Constantes.PRIMEIRO_NUM_TEL;
+import static br.com.contmatic.empresa.Constantes.ULTIMO_NUM_TEL;
+
 import java.util.List;
 
 public class Telefone {
 	
-	private static final int PRIMEIRO_INDICE = 1;
-
-	private static final int ULTIMO_NUM_TEL = 999999999;
-
-	private static final int PRIMEIRO_NUM_TEL = 10000000;
-
-	private static final int MIN_TIPO = 3;
-	
-	private static final int MAX_TIPO = 55;
-
-	private static final int MAX_DDD = 99;
-
-	private static final int MIN_DDD = 11;
-
-	private static final int MIN_COD_PAIS = 1;
-
-	private static final int MAX_COD_PAIS = 999;
-
 	private int codigoPais;
 	
 	private int ddd;

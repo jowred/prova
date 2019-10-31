@@ -1,28 +1,18 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.empresa.Constantes.ASCII_INICIO_NUMEROS;
+import static br.com.contmatic.empresa.Constantes.CPF_POS_VERIF_1;
+import static br.com.contmatic.empresa.Constantes.CPF_POS_VERIF_2;
+import static br.com.contmatic.empresa.Constantes.CPF_SIZE;
+import static br.com.contmatic.empresa.Constantes.CPF_SIZE_SEM_VERIF;
+import static br.com.contmatic.empresa.Constantes.MAX_NOME;
+import static br.com.contmatic.empresa.Constantes.MAX_RG;
+import static br.com.contmatic.empresa.Constantes.MIN_NOME;
+import static br.com.contmatic.empresa.Constantes.MIN_RG;
+import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
+import static br.com.contmatic.empresa.Constantes.QTDE_VERIFICADORES;
+
 public class Pessoa {
-
-	private static final int CPF_SIZE_SEM_VERIF = 9;
-
-	private static final int ASCII_INICIO_NUMEROS = 48;
-	
-	private static final int QTDE_VERIFICADORES = 2;
-
-	private static final int CPF_POS_VERIF_1 = 9;
-	
-	private static final int CPF_POS_VERIF_2 = 10;
-
-	private static final int CPF_SIZE = 11;
-
-	private static final int PRIMEIRO_INDICE = 1;
-
-	private static final int MAX_RG = 9;
-
-	private static final int MIN_RG = 8;
-
-	private static final int MAX_NOME = 100;
-
-	private static final int MIN_NOME = 2;
 
 	private String nome;
 	
