@@ -8,6 +8,9 @@ import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
 
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class Dependente extends Pessoa {
 	
 	private Funcionario provedor;
@@ -153,26 +156,19 @@ public class Dependente extends Pessoa {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + idade;
-		return result;
+		return super.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if(this == obj)
+		if(this == obj) {
 			return true;
-		if(!super.equals(obj))
-			return false;
-		return true;
+		}
+		return super.equals(obj);
 	}
 	
 	@Override
 	public String toString() {
-		return super.toString() + "\n"
-				+ "Idade: " + idade + "\n"
-				+ "Provedor: " + provedor.getNome() + "\n"
-				+ "Parentesco: " + parentesco;
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
 }

@@ -15,6 +15,11 @@ import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class Empresa {
 	
 	private String razaoSocial;
@@ -439,10 +444,9 @@ public class Empresa {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + cnpj.hashCode();
-		return result;
+		return new HashCodeBuilder()
+				.append(this.cnpj)
+				.toHashCode();
 	}
 
 	@Override
@@ -454,16 +458,13 @@ public class Empresa {
 		if(getClass() != obj.getClass())
 			return false;
 		Empresa other = (Empresa)obj;		
-		if(!cnpj.equals(other.cnpj))
-			return false;
-		return true;
+		return new EqualsBuilder()
+				.append(this.cnpj, other.cnpj)
+				.isEquals();
 	}
 	
 	@Override
 	public String toString() {
-		return "DADOS DA EMPRESA:\n"
-				+ "Razão social: " + razaoSocial + "\n"
-				+ "CNPJ: " + cnpj + "\n"
-				+ "Área de atuação: " + areaAtuacao + "\n";
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
 }

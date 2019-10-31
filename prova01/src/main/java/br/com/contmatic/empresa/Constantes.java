@@ -2,7 +2,9 @@ package br.com.contmatic.empresa;
 
 public final class Constantes {
 	
-	private Constantes() {}
+	private Constantes() {
+		
+	}
 	
 	public static final int PRIMEIRO_INDICE = 1;
 

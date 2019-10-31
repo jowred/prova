@@ -1,5 +1,7 @@
 package br.com.contmatic.empresa;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -38,8 +40,8 @@ public class PessoaTest {
 	}
 	
 	@Test
-	public void deve_retornar_false_para_indicar_que_o_metodo_toString_esta_sobrescrito() {
-		assertFalse(new Pessoa().toString().contains("["));
+	public void deve_indicar_que_o_metodo_toString_esta_sobrescrito_por_nao_conter_o_caractere_arroba() {
+		assertThat(new Pessoa().toString(), not(containsString("@")));
 	}
 	
 	@Test

@@ -12,6 +12,11 @@ import static br.com.contmatic.empresa.Constantes.ULTIMO_NUM_TEL;
 
 import java.util.List;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class Telefone {
 	
 	private int codigoPais;
@@ -171,12 +176,11 @@ public class Telefone {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + codigoPais;
-		result = prime * result + ddd;
-		result = prime * result + (int)(numero ^ (numero >>> 32));
-		return result;
+		return new HashCodeBuilder()
+				.append(this.codigoPais)
+				.append(this.ddd)
+				.append(this.numero)
+				.toHashCode();
 	}
 
 	@Override
@@ -188,18 +192,15 @@ public class Telefone {
 		if (getClass() != obj.getClass())
 			return false;
 		Telefone other = (Telefone) obj;
-		if (codigoPais != other.codigoPais)
-			return false;
-		if (ddd != other.ddd)
-			return false;
-		if (numero != other.numero)
-			return false;
-		return true;
+		return new EqualsBuilder()
+				.append(this.codigoPais, other.codigoPais)
+				.append(this.ddd, other.ddd)
+				.append(this.numero, other.numero)
+				.isEquals();
 	}
 
 	@Override
 	public String toString() {
-		return "+" + codigoPais + " " + ddd + numero + "\n"
-				+ "Tipo: " + tipo;
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
 }

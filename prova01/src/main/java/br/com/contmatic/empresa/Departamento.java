@@ -9,6 +9,11 @@ import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class Departamento {
 	
 	private String nome;
@@ -209,12 +214,11 @@ public class Departamento {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + descricao.hashCode();
-		result = prime * result + funcionarios.hashCode();
-		result = prime * result + nome.hashCode();
-		return result;
+		return new HashCodeBuilder()
+				.append(this.descricao)
+				.append(this.funcionarios)
+				.append(this.nome)
+				.toHashCode();
 	}
 	
 	@Override
@@ -226,18 +230,15 @@ public class Departamento {
 		if(getClass() != obj.getClass())
 			return false;
 		Departamento other = (Departamento)obj;
-		if(!nome.equals(other.nome))
-			return false;
-		if(!funcionarios.equals(other.funcionarios))
-			return false;
-		if(!descricao.equals(other.descricao))
-			return false;
-		return true;
+		return new EqualsBuilder()
+				.append(this.descricao, other.descricao)
+				.append(this.funcionarios, other.funcionarios)
+				.append(this.nome, other.nome)
+				.isEquals();
 	}
 	
 	@Override
 	public String toString() {
-		return "Nome do departamento: " + nome + "\n"
-				+ "Descrição: " + descricao + "\n";
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
 }

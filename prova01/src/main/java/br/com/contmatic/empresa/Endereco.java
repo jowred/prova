@@ -11,6 +11,11 @@ import static br.com.contmatic.empresa.Constantes.MIN_PAIS;
 import static br.com.contmatic.empresa.Constantes.MIN_TEXTO;
 import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class Endereco {
 
 	private String logradouro;
@@ -371,11 +376,10 @@ public class Endereco {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
-		result = prime * result + cep.hashCode();
-		return result;
+		return new HashCodeBuilder()
+				.append(this.numero)
+				.append(this.cep)
+				.toHashCode();
 	}
 
 	@Override
@@ -387,14 +391,14 @@ public class Endereco {
 		if(getClass() != obj.getClass())
 			return false;
 		Endereco other = (Endereco)obj;
-		if(!((cep.equals(other.cep)) && (numero.equals(other.numero))))
-			return false;
-		return true;
+		return new EqualsBuilder()
+				.append(this.numero, other.numero)
+				.append(this.cep, other.cep)
+				.isEquals();
 	}
 	
 	@Override
 	public String toString() {
-		return logradouro + " " + ((numero == null)? "sem nº" : numero) + ", " + bairro + ", " + cidade + " - " + uf + ", " + pais + "\n"
-				+ "CEP: " + cep;
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}	
 }

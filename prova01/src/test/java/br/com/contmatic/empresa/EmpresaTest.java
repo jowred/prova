@@ -94,8 +94,8 @@ public class EmpresaTest {
 	}
 	
 	@Test
-	public void deve_retornar_false_para_indicar_que_o_metodo_toString_esta_sobrescrito() {
-		assertFalse(new Empresa().toString().contains("["));
+	public void deve_indicar_que_o_metodo_toString_esta_sobrescrito_por_nao_conter_o_caractere_arroba() {
+		assertThat(new Empresa().toString(), not(containsString("@")));
 	}
 	
 	@Test

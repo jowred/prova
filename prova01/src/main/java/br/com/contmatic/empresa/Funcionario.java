@@ -3,6 +3,9 @@ package br.com.contmatic.empresa;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class Funcionario extends Pessoa {
 	
 	private List<Dependente> dependentes;
@@ -68,23 +71,19 @@ public class Funcionario extends Pessoa {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + dependentes.hashCode();
-		return result;
+		return super.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if(this == obj)
+		if(this == obj) {
 			return true;
-		if(!super.equals(obj))
-			return false;
-		return true;
+		}
+		return super.equals(obj);
 	}
 	
 	@Override
 	public String toString() {
-		return super.toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
 }

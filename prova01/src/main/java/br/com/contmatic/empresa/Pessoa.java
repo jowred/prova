@@ -12,6 +12,11 @@ import static br.com.contmatic.empresa.Constantes.MIN_RG;
 import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
 import static br.com.contmatic.empresa.Constantes.QTDE_VERIFICADORES;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class Pessoa {
 
 	private String nome;
@@ -276,10 +281,9 @@ public class Pessoa {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + cpf.hashCode();
-		return result;
+		return new HashCodeBuilder()
+				.append(this.cpf)
+				.toHashCode();
 	}
 
 	@Override
@@ -291,15 +295,13 @@ public class Pessoa {
 		if(getClass() != obj.getClass())
 			return false;
 		Pessoa other = (Pessoa)obj;
-		if(!cpf.equals(other.cpf))
-			return false;
-		return true;
+		return new EqualsBuilder()
+				.append(this.cpf, other.cpf)
+				.isEquals();
 	}
 	
 	@Override
 	public String toString() {
-		return "Nome: " + nome + "\n"
-				+ "RG: " + rg + "\n"
-				+ "CPF: " + cpf;
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
 }

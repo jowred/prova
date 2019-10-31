@@ -1,5 +1,7 @@
 package br.com.contmatic.empresa;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -42,8 +44,8 @@ public class DependenteTest {
 	}
 	
 	@Test
-	public void deve_retornar_false_para_indicar_que_o_metodo_toString_esta_sobrescrito() {
-		assertFalse(new Dependente().toString().contains("["));
+	public void deve_indicar_que_o_metodo_toString_esta_sobrescrito_por_nao_conter_o_caractere_arroba() {
+		assertThat(new Dependente().toString(), not(containsString("@")));
 	}
 	
 	@Test
@@ -96,7 +98,7 @@ public class DependenteTest {
 	
 	//hashcode
 	@Test
-	public void deve_apontar_igualdade_entre_os_objetos_funcionario_usando_hashcode_sobrescrito() {
+	public void deve_apontar_igualdade_entre_os_objetos_dependente_usando_hashcode_sobrescrito() {
 		String nome = dependente.getNome();
 		String rg = dependente.getRg();
 		String cpf = dependente.getCpf();

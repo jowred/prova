@@ -1,5 +1,7 @@
 package br.com.contmatic.empresa;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -45,11 +47,8 @@ public class EnderecoTest {
 	}
 	
 	@Test
-	public void deve_retornar_false_para_indicar_que_o_metodo_toString_esta_sobrescrito() {
-		assertFalse(new Endereco().toString().contains("["));
-		System.out.println(end1);
-		end2.setNumero(null);
-		System.out.println(end2);
+	public void deve_indicar_que_o_metodo_toString_esta_sobrescrito_por_nao_conter_o_caractere_arroba() {
+		assertThat(new Endereco().toString(), not(containsString("@")));
 	}
 	
 	@Test

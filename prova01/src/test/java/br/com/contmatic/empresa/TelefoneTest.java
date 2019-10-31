@@ -1,8 +1,11 @@
 package br.com.contmatic.empresa;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -50,8 +53,8 @@ public class TelefoneTest {
 	}
 	
 	@Test
-	public void deve_retornar_false_para_indicar_que_o_metodo_toString_esta_sobrescrito() {
-		assertFalse(tel1.toString().contains("["));
+	public void deve_indicar_que_o_metodo_toString_esta_sobrescrito_por_nao_conter_o_caractere_arroba() {
+		assertThat(new Telefone().toString(), not(containsString("@")));
 	}
 	
 	@Test
