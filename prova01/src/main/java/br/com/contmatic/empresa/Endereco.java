@@ -1,41 +1,59 @@
 package br.com.contmatic.empresa;
 
-import static br.com.contmatic.empresa.Constantes.CEP_SIZE;
-import static br.com.contmatic.empresa.Constantes.MAX_BAIRRO;
-import static br.com.contmatic.empresa.Constantes.MAX_CIDADE;
-import static br.com.contmatic.empresa.Constantes.MAX_LOGRADOURO;
-import static br.com.contmatic.empresa.Constantes.MAX_NUM_RUA;
-import static br.com.contmatic.empresa.Constantes.MAX_PAIS;
-import static br.com.contmatic.empresa.Constantes.MIN_NUM_RUA;
-import static br.com.contmatic.empresa.Constantes.MIN_PAIS;
-import static br.com.contmatic.empresa.Constantes.MIN_TEXTO;
-import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
+import static br.com.contmatic.constantes.Numericas.CEP_SIZE;
+import static br.com.contmatic.constantes.Numericas.MAX_BAIRRO;
+import static br.com.contmatic.constantes.Numericas.MAX_CIDADE;
+import static br.com.contmatic.constantes.Numericas.MAX_LOGRADOURO;
+import static br.com.contmatic.constantes.Numericas.MAX_NUM_RUA;
+import static br.com.contmatic.constantes.Numericas.MAX_PAIS;
+import static br.com.contmatic.constantes.Numericas.MIN_NUM_RUA;
+import static br.com.contmatic.constantes.Numericas.MIN_PAIS;
+import static br.com.contmatic.constantes.Numericas.MIN_TEXTO;
+import static br.com.contmatic.constantes.Numericas.PRIMEIRO_INDICE;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import br.com.contmatic.enums.EnumTipoEndereco;
+
 public class Endereco {
 
+	@NotBlank(message = "Logradouro não pode ser nulo")
 	private String logradouro;
 	
+	@Min(value = MIN_NUM_RUA, message = "Número não pode ser menor que {min}")
+	@Max(value = MAX_NUM_RUA, message = "Número não pode ser maior que {max}")
 	private Integer numero;
 	
+	@NotBlank(message = "Bairro não pode ser nulo ou vazio.")
 	private String bairro;
 	
+	@NotBlank(message = "Cidade não pode ser nulo ou vazia.")
 	private String cidade;
 	
+	@NotBlank(message = "UF não pode ser nula ou vazia.")
 	private String uf;
 	
+	@NotBlank(message = "País não pode ser nulo ou vazio.")
 	private String pais;
 	
+	@NotBlank(message = "CEP não pode ser nulo ou vazio.")
 	private String cep;
 	
-	public Endereco() {
-		
-	}
+	@NotNull(message = "Tipo do endereço não pode ser nulo.")
+	private EnumTipoEndereco tipo;
 	
+	public Endereco() {
+		this.setTipoEndereco(EnumTipoEndereco.RUA);
+	}
+
 	public Endereco(String logradouro, String bairro, String cidade, String uf, String pais, String cep) {
 		this.setLogradouro(logradouro);
 		this.setBairro(bairro);
@@ -43,6 +61,7 @@ public class Endereco {
 		this.setUf(uf);
 		this.setPais(pais);
 		this.setCep(cep);
+		this.setTipoEndereco(EnumTipoEndereco.RUA);
 	}
 
 	public String getLogradouro() {
@@ -131,6 +150,14 @@ public class Endereco {
 	public void setNumero(Integer numero) {
 		checkNumeroValido(numero);		
 		this.numero = numero;
+	}
+	
+	public EnumTipoEndereco getTipoEndereco() {
+		return tipo;
+	}
+
+	public void setTipoEndereco(EnumTipoEndereco tipoEndereco) {
+		this.tipo = tipoEndereco;
 	}
 	
 	private void checkLogradouroCompostoUnicamentePeloMesmoCaractere(String logradouro) {

@@ -1,29 +1,42 @@
 package br.com.contmatic.empresa;
 
-import static br.com.contmatic.empresa.Constantes.MAX_DESCRICAO;
-import static br.com.contmatic.empresa.Constantes.MAX_NOME_DEPTO;
-import static br.com.contmatic.empresa.Constantes.MIN_DESCRICAO;
-import static br.com.contmatic.empresa.Constantes.MIN_NOME_DEPTO;
-import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
+import static br.com.contmatic.constantes.Numericas.MAX_DESCRICAO;
+import static br.com.contmatic.constantes.Numericas.MAX_NOME;
+import static br.com.contmatic.constantes.Numericas.MAX_NOME_DEPTO;
+import static br.com.contmatic.constantes.Numericas.MIN_DESCRICAO;
+import static br.com.contmatic.constantes.Numericas.MIN_NOME;
+import static br.com.contmatic.constantes.Numericas.MIN_NOME_DEPTO;
+import static br.com.contmatic.constantes.Numericas.PRIMEIRO_INDICE;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.Length;
 
 public class Departamento {
 	
+	@Length(min = MIN_NOME, max = MAX_NOME, message = "Nome deve ter de {min} a {max} caracteres.")
+	@NotBlank(message = "Nome não pode ser nulo ou vazio.")
+	@Pattern(regexp = "")
 	private String nome;
 	
+	@Length(min = MIN_DESCRICAO, max = MAX_DESCRICAO, message = "Descrição deve ter de {min} a {max} caracteres.")
+	@NotBlank(message = "Descrição não pode ser nula ou vazia.")
 	private String descricao;
 	
-	private List<Funcionario> funcionarios;
+	@NotEmpty(message = "A coleção de funcionários não pode estar vazia ou ser nula.")
+	private Set<Funcionario> funcionarios;
 	
 	public Departamento() {
-		this.funcionarios = new ArrayList<>();
+		this.funcionarios = new HashSet<>();
 	}
 	
 	public Departamento(String nome, String descricao) {
@@ -42,6 +55,7 @@ public class Departamento {
 		checkNomeQuantidadeLetras(nome);
 		checkNomeCaracteresValidos(nome);
 		checkNomeCompostoPorApenasUmaLetra(nome);
+//		checkNotNull(nome, "Nome do departamento não pode ser nulo.");
 		this.nome = nome;
 	}
 
@@ -59,20 +73,19 @@ public class Departamento {
 		this.descricao = descricao;
 	}
 
-	public List<Funcionario> getFuncionarios() {
+	public Set<Funcionario> getFuncionarios() {
 		return funcionarios;
 	}
 
-	public void setFuncionarios(List<Funcionario> funcionarios) {
-		checkListaFuncionariosNula(funcionarios);		
-		checkListaFuncionariosVazia(funcionarios);
-		checkNovaListaFuncionariosIgualAntiga(funcionarios);
+	public void setFuncionarios(Set<Funcionario> funcionarios) {
+		checkSetFuncionariosNulo(funcionarios);		
+		checkSetFuncionariosVazio(funcionarios);
+		checkNovoSetFuncionariosIgualAntigo(funcionarios);
 		this.funcionarios = funcionarios;
 	}
 
 	public boolean cadastrar(Empresa emp) {
 		checkEmpresaNula(emp);
-		checkDepartamentoRepetido(emp);
 		return emp.getDepartamentos().add(this);
 	}
 
@@ -82,15 +95,6 @@ public class Departamento {
 		}
 	}
 
-	private void checkDepartamentoRepetido(Empresa emp) {
-		List<Departamento> d = emp.getDepartamentos();
-		for(int i=0; i<emp.getDepartamentos().size(); i++) {
-			if(d.get(i).equals(this)) {
-				throw new IllegalArgumentException("A empresa passada como parâmetro já possui este departamento.");
-			}
-		}
-	}
-	
 	private void checkNomeCompostoPorApenasUmaLetra(String nome) {
 		int repetidos = contarLetrasRepetidas(nome);
 		if (repetidos == nome.length() - PRIMEIRO_INDICE) {
@@ -194,21 +198,21 @@ public class Departamento {
 		}
 	}
 	
-	private void checkNovaListaFuncionariosIgualAntiga(List<Funcionario> funcionarios) {
+	private void checkNovoSetFuncionariosIgualAntigo(Set<Funcionario> funcionarios) {
 		if(this.funcionarios.equals(funcionarios)) {
-			throw new IllegalArgumentException("A lista de funcionários a ser inserida não pode ser idêntica à atual.");
+			throw new IllegalArgumentException("O set de funcionários a ser inserido não pode ser idêntico ao atual.");
 		}
 	}
 	
-	private void checkListaFuncionariosVazia(List<Funcionario> funcionarios) {
+	private void checkSetFuncionariosVazio(Set<Funcionario> funcionarios) {
 		if(funcionarios.isEmpty()) {
-			throw new IllegalArgumentException("A lista de funcionários a ser inserida não pode estar vazia (tamanho 0).");
+			throw new IllegalArgumentException("O set de funcionários a ser inserido não pode estar vazio (tamanho 0).");
 		}
 	}
 	
-	private void checkListaFuncionariosNula(List<Funcionario> funcionarios) {
+	private void checkSetFuncionariosNulo(Set<Funcionario> funcionarios) {
 		if(funcionarios == null) {
-			throw new NullPointerException("A lista de funcionários não pode ser nula.");
+			throw new NullPointerException("O set de funcionários não pode ser nulo.");
 		}
 	}
 	

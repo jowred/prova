@@ -1,8 +1,8 @@
-package br.com.contmatic.empresa;
+package br.com.contmatic.constantes;
 
-public final class Constantes {
+public final class Numericas {
 	
-	private Constantes() {
+	private Numericas() {
 		
 	}
 	

@@ -1,22 +1,31 @@
 package br.com.contmatic.empresa;
 
-import static br.com.contmatic.empresa.Constantes.MAX_IDADE;
-import static br.com.contmatic.empresa.Constantes.MAX_PARENTESCO;
-import static br.com.contmatic.empresa.Constantes.MIN_IDADE;
-import static br.com.contmatic.empresa.Constantes.MIN_PARENTESCO;
-import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
+import static br.com.contmatic.constantes.Numericas.MAX_IDADE;
+import static br.com.contmatic.constantes.Numericas.MAX_PARENTESCO;
+import static br.com.contmatic.constantes.Numericas.MIN_IDADE;
+import static br.com.contmatic.constantes.Numericas.MIN_PARENTESCO;
+import static br.com.contmatic.constantes.Numericas.PRIMEIRO_INDICE;
 
-import java.util.List;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.Length;
 
 public class Dependente extends Pessoa {
 	
+	@NotNull(message = "Provedor não pode ser nulo.")
 	private Funcionario provedor;
 	
+	@Length(min = MIN_PARENTESCO, max = MAX_PARENTESCO, message = "Parentesco deve ter de {min} a {max} caracteres.")
+	@NotBlank(message = "Parentesco não pode ser nulo ou vazio.")
 	private String parentesco;
 	
+	@Min(value = MIN_IDADE, message = "Idade não pode ser menor que {min}.")
+	@Max(value = MAX_IDADE, message = "Idade não pode ser maior que {max}.")
 	private int idade;
 	
 	public Dependente() {
@@ -63,7 +72,6 @@ public class Dependente extends Pessoa {
 
 	public boolean cadastrar(Funcionario fun) {
 		checkFuncionarioNulo(fun);
-		checkDependenteRepetido(fun);
 		this.provedor = fun;
 		return fun.getDependentes().add(this);
 	}
@@ -74,15 +82,6 @@ public class Dependente extends Pessoa {
 		}
 	}
 
-	private void checkDependenteRepetido(Funcionario fun) {
-		List<Dependente> dep = fun.getDependentes();
-		for(int i=0; i<fun.getDependentes().size(); i++) {
-			if(dep.get(i).equals(this)) {
-				throw new IllegalArgumentException("O funcionário passado como parâmetro já possui este dependente cadastrado.");
-			}
-		}
-	}
-	
 	private void checkProvedorNulo(Funcionario provedor) {
 		if(provedor == null) {
 			throw new NullPointerException("Provedor não pode ser nulo.");

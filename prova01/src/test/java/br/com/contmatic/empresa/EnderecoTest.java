@@ -1,8 +1,14 @@
 package br.com.contmatic.empresa;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -10,7 +16,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import br.com.contmatic.empresa.Endereco;
+import br.com.contmatic.enums.EnumTipoEndereco;
 
 public class EnderecoTest {
 	
@@ -34,11 +40,13 @@ public class EnderecoTest {
 		String uf = "SP";
 		String pais = "Brasil";
 		String cep = "08587789";
+		EnumTipoEndereco tipo = EnumTipoEndereco.RUA;
 		
 		end1 = new Endereco(logradouro, bairro, cidade, uf, pais, cep);
 		end2 = new Endereco(logradouro, bairro, cidade, uf, pais, cep);
 		end1.setNumero(901);
-		end2.setNumero(901);
+		end1.setTipoEndereco(tipo);
+		end2.setTipoEndereco(tipo);
 	}
 	
 	@After
@@ -538,6 +546,7 @@ public class EnderecoTest {
 	@Test
 	public void deve_aceitar_cep_com_8_digitos() {//RG em MG
 		end1.setCep("03314030");
+		assertThat(end1.getCep(), notNullValue());
 	}
 	
 	@Test(expected = NullPointerException.class)
@@ -573,5 +582,15 @@ public class EnderecoTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_aceitar_cep_composto_por_mais_de_8_digitos() {
 		end1.setCep("033140305");
+	}
+	
+	/*
+	 * TIPO
+	 * */
+	@Test
+	public void deve_redefinir_o_tipo_de_endereco_do_objeto() {
+		EnumTipoEndereco tipo = EnumTipoEndereco.RUA;
+		end1.setTipoEndereco(tipo);
+		assertThat(end1.getTipoEndereco(), equalTo(tipo));
 	}
 }

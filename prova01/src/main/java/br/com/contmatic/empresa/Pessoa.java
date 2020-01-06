@@ -1,29 +1,56 @@
 package br.com.contmatic.empresa;
 
-import static br.com.contmatic.empresa.Constantes.ASCII_INICIO_NUMEROS;
-import static br.com.contmatic.empresa.Constantes.CPF_POS_VERIF_1;
-import static br.com.contmatic.empresa.Constantes.CPF_POS_VERIF_2;
-import static br.com.contmatic.empresa.Constantes.CPF_SIZE;
-import static br.com.contmatic.empresa.Constantes.CPF_SIZE_SEM_VERIF;
-import static br.com.contmatic.empresa.Constantes.MAX_NOME;
-import static br.com.contmatic.empresa.Constantes.MAX_RG;
-import static br.com.contmatic.empresa.Constantes.MIN_NOME;
-import static br.com.contmatic.empresa.Constantes.MIN_RG;
-import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
-import static br.com.contmatic.empresa.Constantes.QTDE_VERIFICADORES;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_PATTERN;
+import static br.com.contmatic.constantes.Numericas.ASCII_INICIO_NUMEROS;
+import static br.com.contmatic.constantes.Numericas.CPF_POS_VERIF_1;
+import static br.com.contmatic.constantes.Numericas.CPF_POS_VERIF_2;
+import static br.com.contmatic.constantes.Numericas.CPF_SIZE;
+import static br.com.contmatic.constantes.Numericas.CPF_SIZE_SEM_VERIF;
+import static br.com.contmatic.constantes.Numericas.MAX_NOME;
+import static br.com.contmatic.constantes.Numericas.MAX_RG;
+import static br.com.contmatic.constantes.Numericas.MIN_NOME;
+import static br.com.contmatic.constantes.Numericas.MIN_RG;
+import static br.com.contmatic.constantes.Numericas.PRIMEIRO_INDICE;
+import static br.com.contmatic.constantes.Numericas.QTDE_VERIFICADORES;
+import static br.com.contmatic.constantes.Regex.REGEX_NOME_PESSOA;
+
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
+import org.joda.time.LocalDate;
 
 public class Pessoa {
 
+	@NotBlank(message = "Nome não pode ser nulo ou vazio.")
+	@Length(min = MIN_NOME, max = MAX_NOME, message = MENSAGEM_NOME_PESSOA_TAMANHO)
+	@Pattern(regexp = REGEX_NOME_PESSOA, message = MENSAGEM_NOME_PESSOA_PATTERN)
 	private String nome;
 	
+	@NotBlank(message = "RG não pode ser nulo ou vazio.")
+	@Length(min = MIN_RG, max = MAX_RG, message = MENSAGEM_NOME_PESSOA_TAMANHO)
+	@Pattern(regexp = "^\\d{8,9}", message = MENSAGEM_RG_PATTERN)
 	private String rg;
 	
+	@CPF(message = "CPF deve ser válido.")
 	private String cpf;
+	
+	@NotNull(message = "A data de nascimento não pode ser nula.")
+	@Past(message = "A data de nascimento deve refletir uma data do passado.")
+	private LocalDate dataNascimento;
 	
 	public Pessoa() {
 		
@@ -42,10 +69,10 @@ public class Pessoa {
 	public void setNome(String nome) {
 		checkNomeNull(nome);		
 		checkNomeVazio(nome);		
-		checkNomeTamanho(nome);		
+		//checkNomeTamanho(nome);		
 		checkNomeComecaComLetra(nome);		
 		checkNomeCaracteresValidos(nome);
-		checkNomeCompostoPorUmaUnicaLetra(nome);		
+		//checkNomeCompostoPorUmaUnicaLetra(nome);		
 		this.nome = nome;
 	}
 
@@ -76,27 +103,14 @@ public class Pessoa {
 		this.cpf = cpf;
 	}
 	
-	private void checkNomeCompostoPorUmaUnicaLetra(String nome) {
-		int repetidos = contarLetrasRepetidas(nome);
-		if(repetidos == nome.length() - PRIMEIRO_INDICE) {
-			throw new IllegalArgumentException("Nome não pode ser composto unicamente pelo mesmo caractere.");
-		}
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
 	}
 
-	private int contarLetrasRepetidas(String nome) {
-		String temp = nome.toLowerCase();
-		char primeiro = temp.charAt(0);		
-		int repetidos = 0;
-		for(int i=0; i<nome.length() - PRIMEIRO_INDICE; i++) {
-			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
-				repetidos++;
-			} else {
-				break;
-			}
-		}
-		return repetidos;
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
-
+	
 	private void checkNomeCaracteresValidos(String nome) {
 		for(int i=0; i<nome.length(); i++) {
 			if(!Character.isAlphabetic(nome.charAt(i)) &&
@@ -111,23 +125,6 @@ public class Pessoa {
 		if(!Character.isAlphabetic(nome.charAt(0))) {
 			throw new IllegalArgumentException("Nome deve obrigatoriamente começar com uma letra.");
 		}
-	}
-
-	private void checkNomeTamanho(String nome) {
-		int qtdeLetras = contarQtdeLetras(nome);
-		if(qtdeLetras < MIN_NOME || nome.length() > MAX_NOME) {
-			throw new IllegalArgumentException("Nome deve ter no mínimo 2 e no máximo 100 caracteres, e ter ao menos 2 letras.");
-		}
-	}
-
-	private int contarQtdeLetras(String nome) {
-		int qtdeLetras = 0;
-		for(int i=0; i<nome.length(); i++) {
-			if(Character.isAlphabetic(nome.charAt(i))) {
-				qtdeLetras++;
-			}
-		}
-		return qtdeLetras;
 	}
 
 	private void checkNomeVazio(String nome) {
@@ -277,6 +274,17 @@ public class Pessoa {
 			iCpf[i] = cpf.charAt(i) - ASCII_INICIO_NUMEROS;
 		}
 		return iCpf;
+	}
+	
+	public void validar(Validator validator) {
+		Set<ConstraintViolation<Pessoa>> violations = validator.validate(this);
+		if (violations.isEmpty()) {
+			System.out.println("Validado com sucesso.");
+		} else {
+			for(ConstraintViolation<Pessoa> violation : violations) {
+				System.out.println((violation.getMessage()));
+			}
+		}
 	}
 	
 	@Override

@@ -2,20 +2,20 @@ package br.com.contmatic.empresa;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import br.com.contmatic.empresa.Departamento;
-import br.com.contmatic.empresa.Empresa;
-import br.com.contmatic.empresa.Funcionario;
 
 public class DepartamentoTest {
 	
@@ -113,7 +113,7 @@ public class DepartamentoTest {
 		depto = new Departamento("RH", "Recursos humanos");
 		String nome = depto.getNome();
 		String descricao = depto.getDescricao();
-		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+		Set<Funcionario> funcionarios = new HashSet<Funcionario>();
 		funcionarios.add(new Funcionario());
 		Departamento depto2 = new Departamento(nome, descricao);
 		depto2.setFuncionarios(funcionarios);
@@ -294,8 +294,8 @@ public class DepartamentoTest {
 	 * FUNCIONARIOS
 	 * */
 	@Test
-	public void deve_redefinir_a_lista_de_funcionarios() {
-		List<Funcionario> funcionarios= new ArrayList<Funcionario>();
+	public void deve_redefinir_o_set_de_funcionarios() {
+		Set<Funcionario> funcionarios= new HashSet<Funcionario>();
 		for(int i=0; i<10; i++) {
 			Funcionario f = new Funcionario();
 			funcionarios.add(f);
@@ -305,14 +305,14 @@ public class DepartamentoTest {
 	}
 	
 	@Test(expected = NullPointerException.class)
-	public void nao_deve_redefinir_a_lista_de_funcionarios_por_uma_lista_nula() {
-		List<Funcionario> funcionarios = null;
+	public void nao_deve_redefinir_o_set_de_funcionarios_por_um_set_nulo() {
+		Set<Funcionario> funcionarios = null;
 		depto.setFuncionarios(funcionarios);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_redefinir_a_lista_de_funcionarios_por_uma_lista_igual() {
-		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+	public void nao_deve_redefinir_o_set_de_funcionarios_por_um_set_igual() {
+		Set<Funcionario> funcionarios = new HashSet<Funcionario>();
 		for(int i=0; i<10; i++) {
 			Funcionario f = new Funcionario();
 			funcionarios.add(f);
@@ -322,8 +322,8 @@ public class DepartamentoTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_redefinir_a_lista_de_funcionarios_por_uma_lista_que_esteja_vazia() {
-		List<Funcionario> funcionarios = new ArrayList<Funcionario>();
+	public void nao_deve_redefinir_o_set_de_funcionarios_por_um_set_que_esteja_vazio() {
+		Set<Funcionario> funcionarios = new HashSet<Funcionario>();
 		depto.setFuncionarios(funcionarios);
 	}
 	
@@ -336,10 +336,10 @@ public class DepartamentoTest {
 		depto.cadastrar(emp);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_realizar_cadastro_de_departamento_repetido() {
 		depto.cadastrar(emp);
-		depto.cadastrar(emp);
+		assertFalse(depto.cadastrar(emp));
 	}
 	
 	@Test

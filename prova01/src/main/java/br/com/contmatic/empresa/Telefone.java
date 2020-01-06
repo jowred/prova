@@ -1,14 +1,11 @@
 package br.com.contmatic.empresa;
 
-import static br.com.contmatic.empresa.Constantes.MAX_COD_PAIS;
-import static br.com.contmatic.empresa.Constantes.MAX_DDD;
-import static br.com.contmatic.empresa.Constantes.MAX_TIPO;
-import static br.com.contmatic.empresa.Constantes.MIN_COD_PAIS;
-import static br.com.contmatic.empresa.Constantes.MIN_DDD;
-import static br.com.contmatic.empresa.Constantes.MIN_TIPO;
-import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
-import static br.com.contmatic.empresa.Constantes.PRIMEIRO_NUM_TEL;
-import static br.com.contmatic.empresa.Constantes.ULTIMO_NUM_TEL;
+import static br.com.contmatic.constantes.Numericas.MAX_COD_PAIS;
+import static br.com.contmatic.constantes.Numericas.MAX_DDD;
+import static br.com.contmatic.constantes.Numericas.MIN_COD_PAIS;
+import static br.com.contmatic.constantes.Numericas.MIN_DDD;
+import static br.com.contmatic.constantes.Numericas.PRIMEIRO_NUM_TEL;
+import static br.com.contmatic.constantes.Numericas.ULTIMO_NUM_TEL;
 
 import java.util.List;
 
@@ -17,6 +14,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import br.com.contmatic.enums.EnumTipoTelefone;
+
 public class Telefone {
 	
 	private int codigoPais;
@@ -24,9 +23,9 @@ public class Telefone {
 	private int ddd;
 	
 	private long numero;
-	
-	private String tipo;
-	
+		
+	private EnumTipoTelefone tipo;
+
 	public Telefone() {
 		
 	}
@@ -63,20 +62,15 @@ public class Telefone {
 		checkNumeroValido(numero);
 		this.numero = numero;
 	}
-
-	public String getTipo() {
+	
+	public EnumTipoTelefone getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
-		checkTipoNulo(tipo);		
-		checkTipoVazio(tipo);	
-		checkTipoQuantidadeLetras(tipo);		
-		checkTipoCaracteresValidos(tipo);		
-		checkTipoCompostoPorApenasUmaLetra(tipo);		
+	public void setTipo(EnumTipoTelefone tipo) {
 		this.tipo = tipo;
 	}
-	
+
 	public boolean cadastrar(List<Telefone> telefones) {
 		checkListaTelefonesNula(telefones);
 		checkTelefoneRepetido(telefones);
@@ -112,65 +106,6 @@ public class Telefone {
 	private void checkNumeroValido(long numero) {
 		if(numero < PRIMEIRO_NUM_TEL || numero > ULTIMO_NUM_TEL) {
 			throw new IllegalArgumentException("Número de telefone deve conter 8 ou 9 dígitos");
-		}
-	}
-	
-	private void checkTipoCompostoPorApenasUmaLetra(String tipo) {
-		int repetidos = contarLetrasRepetidas(tipo);
-		if(repetidos == tipo.length() - PRIMEIRO_INDICE) {
-			throw new IllegalArgumentException("Tipo do telefone não pode ser composto unicamente pelo mesmo caractere.");
-		}
-	}
-
-	private int contarLetrasRepetidas(String tipo) {
-		String temp = tipo.toLowerCase();
-		char primeiro = temp.charAt(0);		
-		int repetidos = 0;
-		for(int i=0; i<tipo.length() - PRIMEIRO_INDICE; i++) {
-			if(primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
-				repetidos++;
-			} else {
-				break;
-			}
-		}
-		return repetidos;
-	}
-
-	private void checkTipoCaracteresValidos(String tipo) {
-		for(int i=0; i<tipo.length(); i++) {
-			if(!Character.isAlphabetic(tipo.charAt(i)) &&
-					(tipo.charAt(i) != ' ')) {
-				throw new IllegalArgumentException("Tipo do telefone pode ser composto apenas por letras e espaços.");
-			}
-		}
-	}
-
-	private void checkTipoQuantidadeLetras(String tipo) {
-		int qtdeLetras = contarLetras(tipo);
-		if(qtdeLetras < MIN_TIPO || tipo.length() > MAX_TIPO) {
-			throw new IllegalArgumentException("Tipo do telefone deve ter no mínimo 3 e no máximo 55 caracteres, e ter ao menos 3 letras.");
-		}
-	}
-
-	private int contarLetras(String tipo) {
-		int qtdeLetras = 0;
-		for(int i=0; i<tipo.length(); i++) {
-			if(Character.isAlphabetic(tipo.charAt(i))) {
-				qtdeLetras++;
-			}
-		}
-		return qtdeLetras;
-	}
-
-	private void checkTipoVazio(String tipo) {
-		if(tipo.equals("")) {
-			throw new IllegalArgumentException("Tipo do telefone não pode estar em branco.");
-		}
-	}
-
-	private void checkTipoNulo(String tipo) {
-		if(tipo == null) {
-			throw new NullPointerException("Tipo do telefone não pode ser nulo.");
 		}
 	}
 	

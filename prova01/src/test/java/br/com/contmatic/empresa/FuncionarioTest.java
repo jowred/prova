@@ -1,21 +1,22 @@
 package br.com.contmatic.empresa;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import br.com.contmatic.empresa.Departamento;
-import br.com.contmatic.empresa.Dependente;
-import br.com.contmatic.empresa.Funcionario;
 
 public class FuncionarioTest {
 	
@@ -71,7 +72,7 @@ public class FuncionarioTest {
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_sao_o_mesmo_objeto() {
 		Funcionario fun = f;
-		f.equals(fun);
+		assertTrue(f.equals(fun));
 	}
 	
 	@Test
@@ -109,7 +110,7 @@ public class FuncionarioTest {
 	
 	@Test
 	public void deve_redefinir_lista_de_dependentes() {
-		List<Dependente> dependentes = new ArrayList<Dependente>();
+		Set<Dependente> dependentes = new HashSet<Dependente>();
 		dependentes.add(new Dependente());
 		f.setDependentes(dependentes);
 		assertEquals(dependentes, f.getDependentes());
@@ -117,13 +118,13 @@ public class FuncionarioTest {
 	
 	@Test(expected = NullPointerException.class)
 	public void nao_deve_redefinir_lista_de_dependentes_por_uma_lista_nula() {
-		List<Dependente> dependentes = null;
+		Set<Dependente> dependentes = null;
 		f.setDependentes(dependentes);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_redefinir_a_lista_de_dependentes_por_uma_lista_igual() {
-		List<Dependente> dependentes = new ArrayList<Dependente>();
+		Set<Dependente> dependentes = new HashSet<Dependente>();
 		for(int i=0; i<10; i++) {
 			Dependente d = new Dependente();
 			dependentes.add(d);
@@ -134,7 +135,7 @@ public class FuncionarioTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_redefinir_a_lista_de_dependentes_por_uma_lista_que_esteja_vazia() {
-		List<Dependente> dependentes = new ArrayList<Dependente>();
+		Set<Dependente> dependentes = new HashSet<Dependente>();
 		f.setDependentes(dependentes);
 	}
 	
@@ -146,6 +147,7 @@ public class FuncionarioTest {
 	public void deve_realizar_cadastro_em_departamento_valido() {
 		Departamento depto = new Departamento("Novas tecnologias", "Departamento de inovações em tecnologia");
 		f.cadastrar(depto);
+		assertThat(depto.getFuncionarios(), hasItem(f));
 	}
 	
 	@Test
@@ -157,6 +159,7 @@ public class FuncionarioTest {
 		String cpf = "16292336093";
 		Funcionario fun = new Funcionario(nome, rg, cpf);
 		fun.cadastrar(depto);
+		assertThat(depto.getFuncionarios(), hasItem(fun));
 	}
 	
 	@Test(expected = NullPointerException.class)
@@ -164,10 +167,10 @@ public class FuncionarioTest {
 		f.cadastrar(null);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_realizar_cadastro_duas_vezes_no_mesmo_departamento() {
 		Departamento depto = new Departamento("Novas tecnologias", "Departamento de inovações em tecnologia");
 		f.cadastrar(depto);
-		f.cadastrar(depto);
+		assertFalse(f.cadastrar(depto));
 	}
 }

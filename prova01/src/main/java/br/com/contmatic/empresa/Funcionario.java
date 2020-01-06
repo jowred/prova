@@ -1,48 +1,56 @@
 package br.com.contmatic.empresa;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.joda.time.LocalDate;
 
 public class Funcionario extends Pessoa {
 	
-	private List<Dependente> dependentes;
+	@NotEmpty(message = "A coleção de dependentes não pode ser nula ou vazia (tamanho 0).")
+	private Set<Dependente> dependentes;
 	
+	@NotNull(message = "A data de admissão não pode ser nula.")
+	@Past(message = "O valor deve refletir uma data do passado.")
+	private LocalDate dataAdmissao;
+	
+	public LocalDate getDataAdmissao() {
+		return dataAdmissao;
+	}
+
+	public void setDataAdmissao(LocalDate dataAdmissao) {
+		this.dataAdmissao = dataAdmissao;
+	}
+
 	public Funcionario() {
-		dependentes = new ArrayList<>();
+		dependentes = new HashSet<>();
 	}
 	
 	public Funcionario(String nome, String rg, String cpf) {
 		super(nome, rg, cpf);
-		this.dependentes = new ArrayList<>();
+		this.dependentes = new HashSet<>();
 	}
 	
-	public List<Dependente> getDependentes() {
+	public Set<Dependente> getDependentes() {
 		return dependentes;
 	}
 
-	public void setDependentes(List<Dependente> dependentes) {
-		checkListaDependentesNula(dependentes);		
-		checkListaDependentesVazia(dependentes);		
-		checkNovaListaIgualAntiga(dependentes);		
+	public void setDependentes(Set<Dependente> dependentes) {
+		checkSetDependentesNulo(dependentes);		
+		checkSetDependentesVazio(dependentes);		
+		checkNovoSetIgualAntigo(dependentes);		
 		this.dependentes = dependentes;
 	}
 
 	public boolean cadastrar(Departamento depto) {
 		checkDepartamentoNulo(depto);
-		checkFuncionarioRepetido(depto);		
 		return depto.getFuncionarios().add(this);
-	}
-
-	private void checkFuncionarioRepetido(Departamento depto) {
-		List<Funcionario> f = depto.getFuncionarios();
-		for(int i=0; i<f.size(); i++) {
-			if(f.get(i).equals(this)) {
-				throw new IllegalArgumentException("O departamento passado como parâmetro já possui este funcionário.");
-			}
-		}
 	}
 
 	private void checkDepartamentoNulo(Departamento depto) {
@@ -51,19 +59,19 @@ public class Funcionario extends Pessoa {
 		}
 	}
 	
-	private void checkNovaListaIgualAntiga(List<Dependente> dependentes) {
+	private void checkNovoSetIgualAntigo(Set<Dependente> dependentes) {
 		if(this.dependentes.equals(dependentes)) {
 			throw new IllegalArgumentException("A lista de dependentes a ser inserida não pode ser idêntica à atual.");
 		}
 	}
 
-	private void checkListaDependentesVazia(List<Dependente> dependentes) {
+	private void checkSetDependentesVazio(Set<Dependente> dependentes) {
 		if(dependentes.isEmpty()) {
 			throw new IllegalArgumentException("A lista de dependentes a ser inserida não pode estar vazia (tamanho 0).");
 		}
 	}
 
-	private void checkListaDependentesNula(List<Dependente> dependentes) {
+	private void checkSetDependentesNulo(Set<Dependente> dependentes) {
 		if(dependentes == null) {
 			throw new NullPointerException("A lista de dependentes não pode ser nula.");
 		}

@@ -4,10 +4,16 @@ import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,10 +21,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import br.com.contmatic.empresa.Departamento;
-import br.com.contmatic.empresa.Empresa;
-import br.com.contmatic.empresa.Endereco;
-import br.com.contmatic.empresa.Telefone;
+import br.com.contmatic.enums.EnumTipoTelefone;
 
 public class EmpresaTest {
 	
@@ -678,17 +681,17 @@ public class EmpresaTest {
 	@Test
 	public void deve_realizar_cadastro_de_telefones() {
 		Telefone tel = new Telefone(55, 11, 987654321);
-		tel.setTipo("Celular");
+		tel.setTipo(EnumTipoTelefone.CELULAR);
 		emp1.getTelefones().add(tel);
-		assertEquals(tel, emp1.getTelefones().get(0));
+		assertTrue(emp1.getTelefones().contains(tel));
 	}
 	
 	@Test
-	public void deve_redefinir_a_lista_de_telefones() {
-		List<Telefone> telefones = new ArrayList<Telefone>();
+	public void deve_redefinir_a_colecao_de_telefones() {
+		Set<Telefone> telefones = new HashSet<Telefone>();
 		for(int i=0; i<10; i++) {
 			Telefone tel = new Telefone(55, 11, 987654321+i);
-			tel.setTipo("Celular");
+			tel.setTipo(EnumTipoTelefone.CELULAR);
 			telefones.add(tel);
 		}
 		emp1.setTelefones(telefones);
@@ -697,16 +700,16 @@ public class EmpresaTest {
 
 	@Test(expected = NullPointerException.class)
 	public void nao_deve_redefinir_a_lista_de_telefones_por_uma_lista_nula() {
-		List<Telefone> telefones = null;
+		Set<Telefone> telefones = null;
 		emp1.setTelefones(telefones);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_redefinir_a_lista_de_telefones_por_uma_lista_igual() {
-		List<Telefone> telefones = new ArrayList<Telefone>();
+		Set<Telefone> telefones = new HashSet<Telefone>();
 		for(int i=0; i<10; i++) {
 			Telefone tel = new Telefone(55, 11, 987654321+i);
-			tel.setTipo("Celular");
+			tel.setTipo(EnumTipoTelefone.CELULAR);
 			telefones.add(tel);
 		}
 		emp1.setTelefones(telefones);
@@ -715,7 +718,7 @@ public class EmpresaTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_redefinir_a_lista_de_telefones_por_uma_lista_que_esteja_vazia() {
-		List<Telefone> telefones = new ArrayList<Telefone>();
+		Set<Telefone> telefones = new HashSet<Telefone>();
 		emp1.setTelefones(telefones);
 	}
 	
@@ -734,12 +737,12 @@ public class EmpresaTest {
 		d.setNome("Recursos Humanos");
 		d.setDescricao("Departamento que administra questões relativas aos colaboradores");
 		emp1.getDepartamentos().add(d);
-		assertEquals(d, emp1.getDepartamentos().get(0));
+		assertTrue(emp1.getDepartamentos().contains(d));
 	}
 	
 	@Test
 	public void deve_redefinir_a_lista_de_departamentos() {
-		List<Departamento> departamentos = new ArrayList<Departamento>();
+		Set<Departamento> departamentos = new HashSet<Departamento>();
 		for(int i=0; i<10; i++) {
 			Departamento d = new Departamento();
 			d.setDescricao("Departamento " + i+1);
@@ -751,13 +754,13 @@ public class EmpresaTest {
 
 	@Test(expected = NullPointerException.class)
 	public void nao_deve_redefinir_a_lista_de_departamentos_por_uma_lista_nula() {
-		List<Departamento> departamentos = null;
+		Set<Departamento> departamentos = null;
 		emp1.setDepartamentos(departamentos);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_redefinir_a_lista_de_departamentos_por_uma_lista_igual() {
-		List<Departamento> departamentos = new ArrayList<Departamento>();
+		Set<Departamento> departamentos = new HashSet<Departamento>();
 		for(int i=0; i<10; i++) {
 			Departamento d = new Departamento();
 			d.setDescricao("Departamento " + i+1);
@@ -769,7 +772,7 @@ public class EmpresaTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_redefinir_a_lista_de_departamentos_por_uma_lista_que_esteja_vazia() {
-		List<Departamento> departamentos = new ArrayList<Departamento>();
+		Set<Departamento> departamentos = new HashSet<Departamento>();
 		emp1.setDepartamentos(departamentos);
 	}
 	

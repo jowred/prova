@@ -1,6 +1,7 @@
 package br.com.contmatic.empresa;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -17,7 +18,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import br.com.contmatic.empresa.Telefone;
+import br.com.contmatic.enums.EnumTipoTelefone;
 
 public class TelefoneTest {
 	
@@ -35,7 +36,7 @@ public class TelefoneTest {
 		int codigoPais = 55;
 		int ddd = 11;
 		long numero = 982654587;
-		String tipo = "Celular"; 
+		EnumTipoTelefone tipo = EnumTipoTelefone.CELULAR; 
 		tel1 = new Telefone(codigoPais, ddd, numero);
 		tel1.setTipo(tipo);
 		tel2 = new Telefone();
@@ -207,89 +208,16 @@ public class TelefoneTest {
 	 * */
 	@Test
 	public void deve_definir_um_tipo_para_o_telefone() {
-		String tipo = "Celular";
+		EnumTipoTelefone tipo = EnumTipoTelefone.TELEFONE_FIXO;
 		tel1.setTipo(tipo);
 		assertEquals(tipo, tel1.getTipo());
 	}
-	
-	@Test
-	public void deve_aceitar_tipo_apenas_com_letras() {
-		tel1.setTipo("Telefone");
-	}
-	
-	@Test
-	public void deve_aceitar_tipo_com_letras_e_espacos() {
-		tel1.setTipo("Telefone fixo");
-	}
-	
-	@Test(expected = NullPointerException.class)
-	public void nao_deve_aceitar_tipo_nulo() {
-		tel1.setTipo(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_tipo_em_branco() {
-		tel1.setTipo("");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_tipo_apenas_com_espaco() {
-		tel1.setTipo(" ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_tipo_apenas_com_ponto() {
-		tel1.setTipo(".");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_tipo_com_numero() {
-		tel1.setTipo("Telefone 1");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_tipo_sem_letras() {
-		tel1.setTipo("           ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_tipo_com_caracteres_especiais() {
-		tel1.setTipo("Telefone #");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_tipo_composto_unicamente_pelo_mesmo_caractere() {
-		tel1.setTipo("AAAAAA");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_tipo_composto_unicamente_pelo_mesmo_caractere_independentemente_de_caixa() {
-		tel1.setTipo("AAaAA");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_tipo_de_tamanho_menor_que_3_caracteres() {
-		tel1.setTipo("XX");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_tipo_de_tamanho_maior_que_55_caracteres() {
-		StringBuilder sb = new StringBuilder("Z");
-		for(int i=0; i<55; i++)
-			sb.append("A");
-		tel1.setTipo(sb.toString());
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_tipo_com_menos_de_uma_letra_independentemente_da_quantidade_de_caracteres_da_string() {
-		tel1.setTipo(" k ");
-	}
-	
+		
 	/*
 	 * MÉTODOS
 	 * */
 	@Test(expected = NullPointerException.class)
-	public void nao_deve_realizar_cadastro_em_lista_nula() {
+	public void nao_deve_realizar_cadastro_em_colecao_nula() {
 		tel1.cadastrar(null);
 	}
 	
@@ -304,7 +232,8 @@ public class TelefoneTest {
 	public void deve_realizar_cadastro_de_telefone_ainda_nao_existente() {
 		List<Telefone> telefones = new ArrayList<Telefone>();
 		tel1.cadastrar(telefones);
-		tel1 = new Telefone(55, 11, 987474751);
-		tel1.cadastrar(telefones);
+		Telefone tel2 = new Telefone(55, 11, 987474751);
+		tel2.cadastrar(telefones);
+		assertThat(telefones, hasItems(tel1, tel2));
 	}
 }

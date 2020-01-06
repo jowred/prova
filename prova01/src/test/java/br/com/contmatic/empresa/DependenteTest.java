@@ -1,6 +1,7 @@
 package br.com.contmatic.empresa;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
@@ -270,11 +271,11 @@ public class DependenteTest {
 		dependente.cadastrar(null);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_realizar_cadastro_com_funcionario_repetido() {
 		Funcionario fun = new Funcionario();
 		dependente.cadastrar(fun);
-		dependente.cadastrar(fun);
+		assertThat(dependente.cadastrar(fun), is(false));
 	}
 	
 	@Test

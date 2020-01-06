@@ -1,44 +1,60 @@
 package br.com.contmatic.empresa;
 
-import static br.com.contmatic.empresa.Constantes.ASCII_INICIO_NUMEROS;
-import static br.com.contmatic.empresa.Constantes.CNPJ_POS_VERIF_1;
-import static br.com.contmatic.empresa.Constantes.CNPJ_POS_VERIF_2;
-import static br.com.contmatic.empresa.Constantes.CNPJ_SIZE;
-import static br.com.contmatic.empresa.Constantes.MAX_AREA_ATUACAO;
-import static br.com.contmatic.empresa.Constantes.MAX_NOME_FANTASIA;
-import static br.com.contmatic.empresa.Constantes.MAX_RAZ_SOCIAL;
-import static br.com.contmatic.empresa.Constantes.MIN_AREA_ATUACAO;
-import static br.com.contmatic.empresa.Constantes.MIN_NOME_FANTASIA;
-import static br.com.contmatic.empresa.Constantes.MIN_RAZ_SOCIAL;
-import static br.com.contmatic.empresa.Constantes.PRIMEIRO_INDICE;
+import static br.com.contmatic.constantes.Numericas.ASCII_INICIO_NUMEROS;
+import static br.com.contmatic.constantes.Numericas.CNPJ_POS_VERIF_1;
+import static br.com.contmatic.constantes.Numericas.CNPJ_POS_VERIF_2;
+import static br.com.contmatic.constantes.Numericas.CNPJ_SIZE;
+import static br.com.contmatic.constantes.Numericas.MAX_AREA_ATUACAO;
+import static br.com.contmatic.constantes.Numericas.MAX_NOME_FANTASIA;
+import static br.com.contmatic.constantes.Numericas.MAX_RAZ_SOCIAL;
+import static br.com.contmatic.constantes.Numericas.MIN_AREA_ATUACAO;
+import static br.com.contmatic.constantes.Numericas.MIN_NOME_FANTASIA;
+import static br.com.contmatic.constantes.Numericas.MIN_RAZ_SOCIAL;
+import static br.com.contmatic.constantes.Numericas.PRIMEIRO_INDICE;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 public class Empresa {
 	
+	@Length(min = MIN_RAZ_SOCIAL, max = MAX_RAZ_SOCIAL, message = "Razão social deve conter de {min} a {max} caracteres.")
+	@NotBlank(message = "Razão social não pode ser nula ou vazia.")
 	private String razaoSocial;
 	
+	@Length(min = MIN_NOME_FANTASIA, max = MAX_NOME_FANTASIA, message = "Nome fantasia deve conter de {min} a {max} caracteres.")
+	@NotBlank(message = "Nome fantasia não pode ser nulo ou vazio.")
 	private String nomeFantasia;
 	
+	@CNPJ(message = "CNPJ deve ser válido.")
 	private String cnpj;
 	
+	@Length(min = MIN_AREA_ATUACAO, max = MAX_AREA_ATUACAO, message = "Área de atuação deve conter de {min} a {max} caracteres.")
+	@NotBlank(message = "Área de atuação não pode ser nula ou em vazia.")
 	private String areaAtuacao;
 	
-	private List<Departamento> departamentos;
+	@NotEmpty(message = "A coleção de departamentos não pode ser nula ou de tamanho 0.")
+	private Set<Departamento> departamentos;
 	
-	private List<Telefone> telefones;
+	@NotEmpty(message = "A coleção de telefones não pode ser nula ou de tamanho 0.")
+	private Set<Telefone> telefones;
 	
+	@NotNull(message = "Endereço não pode ser nulo")
 	private Endereco endereco;
 	
 	public Empresa() {
-		this.departamentos = new ArrayList<>();
-		this.telefones = new ArrayList<>();
+		this.departamentos = new HashSet<>();
+		this.telefones = new HashSet<>();
 		this.endereco = new Endereco();
 	}
 	
@@ -105,25 +121,25 @@ public class Empresa {
 		this.areaAtuacao = areaAtuacao;
 	}
 
-	public List<Departamento> getDepartamentos() {
+	public Set<Departamento> getDepartamentos() {
 		return departamentos;
 	}
 
-	public void setDepartamentos(List<Departamento> departamentos) {
-		checkListaDepartamentosNula(departamentos);
-		checkListaDepartamentosVazia(departamentos);		
-		checkNovaListaDepartamentosIgualAntiga(departamentos);		
+	public void setDepartamentos(Set<Departamento> departamentos) {
+		checkSetDepartamentosNulo(departamentos);
+		checkSetDepartamentosVazio(departamentos);		
+		checkNovoSetDepartamentosIgualAntigo(departamentos);		
 		this.departamentos = departamentos;
 	}
 	
-	public List<Telefone> getTelefones() {
+	public Set<Telefone> getTelefones() {
 		return telefones;
 	}
 
-	public void setTelefones(List<Telefone> telefones) {
-		checkListaTelefonesNula(telefones);
-		checkListaTelefonesVazia(telefones);		
-		checkNovaListaTelefonesIgualAntiga(telefones);
+	public void setTelefones(Set<Telefone> telefones) {
+		checkSetTelefonesNulo(telefones);
+		checkSetTelefonesVazio(telefones);		
+		checkNovoSetTelefonesIgualAntigo(telefones);
 		this.telefones = telefones;
 	}
 
@@ -339,21 +355,21 @@ public class Empresa {
 		}
 	}
 	
-	private void checkNovaListaDepartamentosIgualAntiga(List<Departamento> departamentos) {
+	private void checkNovoSetDepartamentosIgualAntigo(Set<Departamento> departamentos) {
 		if(this.departamentos.equals(departamentos)) {
-			throw new IllegalArgumentException("A lista de departamentos a ser inserida não pode ser idêntica à atual.");
+			throw new IllegalArgumentException("O set de departamentos a ser inserido não pode ser idêntico ao atual.");
 		}
 	}
 
-	private void checkListaDepartamentosVazia(List<Departamento> departamentos) {
+	private void checkSetDepartamentosVazio(Set<Departamento> departamentos) {
 		if(departamentos.isEmpty()) {
-			throw new IllegalArgumentException("A lista de departamentos a ser inserida não pode estar vazia (tamanho 0).");
+			throw new IllegalArgumentException("O set de departamentos a ser inserido não pode estar vazio (tamanho 0).");
 		}
 	}
 
-	private void checkListaDepartamentosNula(List<Departamento> departamentos) {
+	private void checkSetDepartamentosNulo(Set<Departamento> departamentos) {
 		if(departamentos == null) {
-			throw new NullPointerException("A lista de departamentos não pode ser nula.");
+			throw new NullPointerException("O set de departamentos não pode ser nulo.");
 		}
 	}
 	
@@ -412,21 +428,21 @@ public class Empresa {
 		}
 	}
 	
-	private void checkNovaListaTelefonesIgualAntiga(List<Telefone> telefones) {
+	private void checkNovoSetTelefonesIgualAntigo(Set<Telefone> telefones) {
 		if(this.telefones.equals(telefones)) {
-			throw new IllegalArgumentException("A lista de telefones a ser inserida não pode ser idêntica à atual.");
+			throw new IllegalArgumentException("O set de telefones a ser inserido não pode ser idêntico ao atual.");
 		}
 	}
 
-	private void checkListaTelefonesVazia(List<Telefone> telefones) {
+	private void checkSetTelefonesVazio(Set<Telefone> telefones) {
 		if(telefones.isEmpty()) {
-			throw new IllegalArgumentException("A lista de telefones a ser inserida não pode estar vazia (tamanho 0).");
+			throw new IllegalArgumentException("O set de telefones a ser inserido não pode estar vazio (tamanho 0).");
 		}
 	}
 
-	private void checkListaTelefonesNula(List<Telefone> telefones) {
+	private void checkSetTelefonesNulo(Set<Telefone> telefones) {
 		if(telefones == null) {
-			throw new NullPointerException("A lista de telefones não pode ser nula.");
+			throw new NullPointerException("O set de telefones não pode ser nulo.");
 		}
 	}
 	
@@ -441,6 +457,7 @@ public class Empresa {
 			throw new NullPointerException("Endereço não pode ser nulo");
 		}
 	}
+	
 	
 	@Override
 	public int hashCode() {
