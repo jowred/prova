@@ -1,8 +1,14 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CPF;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_NASCIMENTO_NULA;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_NASCIMENTO_PAST;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_PATTERN;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_TAMANHO;
 import static br.com.contmatic.constantes.Numericas.ASCII_INICIO_NUMEROS;
 import static br.com.contmatic.constantes.Numericas.CPF_POS_VERIF_1;
 import static br.com.contmatic.constantes.Numericas.CPF_POS_VERIF_2;
@@ -15,6 +21,7 @@ import static br.com.contmatic.constantes.Numericas.MIN_RG;
 import static br.com.contmatic.constantes.Numericas.PRIMEIRO_INDICE;
 import static br.com.contmatic.constantes.Numericas.QTDE_VERIFICADORES;
 import static br.com.contmatic.constantes.Regex.REGEX_NOME_PESSOA;
+import static br.com.contmatic.constantes.Regex.REGEX_RG;
 
 import java.util.Set;
 
@@ -35,21 +42,21 @@ import org.joda.time.LocalDate;
 
 public class Pessoa {
 
-	@NotBlank(message = "Nome não pode ser nulo ou vazio.")
+	@NotBlank(message = MENSAGEM_NOME_PESSOA_BLANK)
 	@Length(min = MIN_NOME, max = MAX_NOME, message = MENSAGEM_NOME_PESSOA_TAMANHO)
 	@Pattern(regexp = REGEX_NOME_PESSOA, message = MENSAGEM_NOME_PESSOA_PATTERN)
 	private String nome;
 	
-	@NotBlank(message = "RG não pode ser nulo ou vazio.")
-	@Length(min = MIN_RG, max = MAX_RG, message = MENSAGEM_NOME_PESSOA_TAMANHO)
-	@Pattern(regexp = "^\\d{8,9}", message = MENSAGEM_RG_PATTERN)
+	@NotBlank(message = MENSAGEM_RG_BLANK)
+	@Length(min = MIN_RG, max = MAX_RG, message = MENSAGEM_RG_TAMANHO)
+	@Pattern(regexp = REGEX_RG, message = MENSAGEM_RG_PATTERN)
 	private String rg;
 	
-	@CPF(message = "CPF deve ser válido.")
+	@CPF(message = MENSAGEM_CPF)
 	private String cpf;
 	
-	@NotNull(message = "A data de nascimento não pode ser nula.")
-	@Past(message = "A data de nascimento deve refletir uma data do passado.")
+	@NotNull(message = MENSAGEM_DATA_NASCIMENTO_NULA)
+	@Past(message = MENSAGEM_DATA_NASCIMENTO_PAST)
 	private LocalDate dataNascimento;
 	
 	public Pessoa() {

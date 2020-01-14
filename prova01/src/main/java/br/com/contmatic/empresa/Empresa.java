@@ -1,5 +1,8 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_TAMANHO;
 import static br.com.contmatic.constantes.Numericas.ASCII_INICIO_NUMEROS;
 import static br.com.contmatic.constantes.Numericas.CNPJ_POS_VERIF_1;
 import static br.com.contmatic.constantes.Numericas.CNPJ_POS_VERIF_2;
@@ -11,6 +14,8 @@ import static br.com.contmatic.constantes.Numericas.MIN_AREA_ATUACAO;
 import static br.com.contmatic.constantes.Numericas.MIN_NOME_FANTASIA;
 import static br.com.contmatic.constantes.Numericas.MIN_RAZ_SOCIAL;
 import static br.com.contmatic.constantes.Numericas.PRIMEIRO_INDICE;
+import static br.com.contmatic.constantes.Regex.REGEX_NOME_FANTASIA;
+import static br.com.contmatic.constantes.Regex.REGEX_RAZAO_SOCIAL;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +23,7 @@ import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -28,12 +34,14 @@ import org.hibernate.validator.constraints.br.CNPJ;
 
 public class Empresa {
 	
-	@Length(min = MIN_RAZ_SOCIAL, max = MAX_RAZ_SOCIAL, message = "Razão social deve conter de {min} a {max} caracteres.")
-	@NotBlank(message = "Razão social não pode ser nula ou vazia.")
+	@Length(min = MIN_RAZ_SOCIAL, max = MAX_RAZ_SOCIAL, message = MENSAGEM_RAZAO_SOCIAL_TAMANHO)
+	@NotBlank(message = MENSAGEM_RAZAO_SOCIAL_BLANK)
+	@Pattern(regexp = REGEX_RAZAO_SOCIAL, message = MENSAGEM_RAZAO_SOCIAL_PATTERN)
 	private String razaoSocial;
 	
 	@Length(min = MIN_NOME_FANTASIA, max = MAX_NOME_FANTASIA, message = "Nome fantasia deve conter de {min} a {max} caracteres.")
 	@NotBlank(message = "Nome fantasia não pode ser nulo ou vazio.")
+	@Pattern(regexp = REGEX_NOME_FANTASIA, message = "")
 	private String nomeFantasia;
 	
 	@CNPJ(message = "CNPJ deve ser válido.")
