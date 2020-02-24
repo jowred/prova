@@ -1,5 +1,11 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CNPJ;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_PATTERN;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_TAMANHO;
@@ -35,20 +41,21 @@ import org.hibernate.validator.constraints.br.CNPJ;
 public class Empresa {
 	
 	@Length(min = MIN_RAZ_SOCIAL, max = MAX_RAZ_SOCIAL, message = MENSAGEM_RAZAO_SOCIAL_TAMANHO)
-	@NotBlank(message = MENSAGEM_RAZAO_SOCIAL_BLANK)
 	@Pattern(regexp = REGEX_RAZAO_SOCIAL, message = MENSAGEM_RAZAO_SOCIAL_PATTERN)
+	@NotBlank(message = MENSAGEM_RAZAO_SOCIAL_BLANK)
 	private String razaoSocial;
 	
-	@Length(min = MIN_NOME_FANTASIA, max = MAX_NOME_FANTASIA, message = "Nome fantasia deve conter de {min} a {max} caracteres.")
-	@NotBlank(message = "Nome fantasia não pode ser nulo ou vazio.")
-	@Pattern(regexp = REGEX_NOME_FANTASIA, message = "")
+	@Length(min = MIN_NOME_FANTASIA, max = MAX_NOME_FANTASIA, message = MENSAGEM_NOME_FANTASIA_TAMANHO)
+	@Pattern(regexp = REGEX_NOME_FANTASIA, message = MENSAGEM_NOME_FANTASIA_PATTERN)
+	@NotBlank(message = MENSAGEM_NOME_FANTASIA_BLANK)
 	private String nomeFantasia;
 	
-	@CNPJ(message = "CNPJ deve ser válido.")
+	@CNPJ(message = MENSAGEM_CNPJ)
 	private String cnpj;
 	
-	@Length(min = MIN_AREA_ATUACAO, max = MAX_AREA_ATUACAO, message = "Área de atuação deve conter de {min} a {max} caracteres.")
-	@NotBlank(message = "Área de atuação não pode ser nula ou em vazia.")
+	@Length(min = MIN_AREA_ATUACAO, max = MAX_AREA_ATUACAO, message = MENSAGEM_AREA_ATUACAO_TAMANHO)
+	@Pattern(regexp = "\\d")
+	@NotBlank(message = MENSAGEM_AREA_ATUACAO_BLANK )
 	private String areaAtuacao;
 	
 	@NotEmpty(message = "A coleção de departamentos não pode ser nula ou de tamanho 0.")

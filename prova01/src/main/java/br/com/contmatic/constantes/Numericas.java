@@ -96,4 +96,8 @@ public final class Numericas {
 
 	public static final int MIN_TEXTO = 2;
 	
+	public static final int MIN_EMAIL = 6;
+	
+	public static final int MAX_EMAIL = 30;
+	
 }

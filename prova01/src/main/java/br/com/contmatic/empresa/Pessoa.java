@@ -1,8 +1,12 @@
 package br.com.contmatic.empresa;
 
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CPF;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CPF_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CPF_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_NASCIMENTO_FUTURE;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_NASCIMENTO_NULA;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_NASCIMENTO_PAST;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_PATTERN;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_TAMANHO;
@@ -12,21 +16,18 @@ import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_TAMANHO;
 import static br.com.contmatic.constantes.Numericas.ASCII_INICIO_NUMEROS;
 import static br.com.contmatic.constantes.Numericas.CPF_POS_VERIF_1;
 import static br.com.contmatic.constantes.Numericas.CPF_POS_VERIF_2;
-import static br.com.contmatic.constantes.Numericas.CPF_SIZE;
 import static br.com.contmatic.constantes.Numericas.CPF_SIZE_SEM_VERIF;
+import static br.com.contmatic.constantes.Numericas.MAX_EMAIL;
 import static br.com.contmatic.constantes.Numericas.MAX_NOME;
 import static br.com.contmatic.constantes.Numericas.MAX_RG;
+import static br.com.contmatic.constantes.Numericas.MIN_EMAIL;
 import static br.com.contmatic.constantes.Numericas.MIN_NOME;
 import static br.com.contmatic.constantes.Numericas.MIN_RG;
-import static br.com.contmatic.constantes.Numericas.PRIMEIRO_INDICE;
 import static br.com.contmatic.constantes.Numericas.QTDE_VERIFICADORES;
+import static br.com.contmatic.constantes.Regex.REGEX_EMAIL;
 import static br.com.contmatic.constantes.Regex.REGEX_NOME_PESSOA;
 import static br.com.contmatic.constantes.Regex.REGEX_RG;
 
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -42,22 +43,28 @@ import org.joda.time.LocalDate;
 
 public class Pessoa {
 
-	@NotBlank(message = MENSAGEM_NOME_PESSOA_BLANK)
 	@Length(min = MIN_NOME, max = MAX_NOME, message = MENSAGEM_NOME_PESSOA_TAMANHO)
 	@Pattern(regexp = REGEX_NOME_PESSOA, message = MENSAGEM_NOME_PESSOA_PATTERN)
+	@NotBlank(message = MENSAGEM_NOME_PESSOA_BLANK)
 	private String nome;
 	
-	@NotBlank(message = MENSAGEM_RG_BLANK)
 	@Length(min = MIN_RG, max = MAX_RG, message = MENSAGEM_RG_TAMANHO)
 	@Pattern(regexp = REGEX_RG, message = MENSAGEM_RG_PATTERN)
+	@NotBlank(message = MENSAGEM_RG_BLANK)
 	private String rg;
 	
-	@CPF(message = MENSAGEM_CPF)
+	@CPF(message = MENSAGEM_CPF_PATTERN)
+	@NotBlank(message = MENSAGEM_CPF_BLANK)
 	private String cpf;
 	
+	@Past(message = MENSAGEM_DATA_NASCIMENTO_FUTURE)
 	@NotNull(message = MENSAGEM_DATA_NASCIMENTO_NULA)
-	@Past(message = MENSAGEM_DATA_NASCIMENTO_PAST)
 	private LocalDate dataNascimento;
+	
+	@Length(min = MIN_EMAIL, max = MAX_EMAIL, message = MENSAGEM_EMAIL_TAMANHO)
+	@Pattern(regexp = REGEX_EMAIL, message = MENSAGEM_EMAIL_PATTERN)
+	@NotBlank(message = MENSAGEM_EMAIL_BLANK)
+	private String email;
 	
 	public Pessoa() {
 		
@@ -69,17 +76,17 @@ public class Pessoa {
 		this.setCpf(cpf);
 	}
 	
+	public Pessoa(String nome, String rg, String cpf, LocalDate dataNascimento, String email) {
+		this(nome, rg, cpf);
+		this.setDataNascimento(dataNascimento);
+		this.setEmail(email);
+	}
+	
 	public String getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		checkNomeNull(nome);		
-		checkNomeVazio(nome);		
-		//checkNomeTamanho(nome);		
-		checkNomeComecaComLetra(nome);		
-		checkNomeCaracteresValidos(nome);
-		//checkNomeCompostoPorUmaUnicaLetra(nome);		
+	public void setNome(String nome) {	
 		this.nome = nome;
 	}
 
@@ -88,11 +95,6 @@ public class Pessoa {
 	}
 
 	public void setRg(String rg) {
-		checkRgNulo(rg);		
-		checkRgVazio(rg);		
-		checkRgTamanho(rg);		
-		checkRgContemApenasDigitos(rg);		
-		checkRgDigitosRepetidos(rg);
 		this.rg = rg;
 	}
 
@@ -101,12 +103,6 @@ public class Pessoa {
 	}
 
 	public void setCpf(String cpf) {
-		checkCpfNulo(cpf);		
-		checkCpfVazio(cpf);		
-		checkCpfTamanho(cpf);
-		checkCpfContemApenasDigitos(cpf);		
-		checkCpfCompostoPorDigitosIguais(cpf);		
-		checkCpfValido(cpf);
 		this.cpf = cpf;
 	}
 	
@@ -118,117 +114,12 @@ public class Pessoa {
 		this.dataNascimento = dataNascimento;
 	}
 	
-	private void checkNomeCaracteresValidos(String nome) {
-		for(int i=0; i<nome.length(); i++) {
-			if(!Character.isAlphabetic(nome.charAt(i)) &&
-					(nome.charAt(i) != ' ') &&
-					(nome.charAt(i) != '.')) {
-				throw new IllegalArgumentException("Nome pode ser composto apenas por letras e espaços.");
-			}
-		}
+	public String getEmail() {
+		return email;
 	}
 
-	private void checkNomeComecaComLetra(String nome) {
-		if(!Character.isAlphabetic(nome.charAt(0))) {
-			throw new IllegalArgumentException("Nome deve obrigatoriamente começar com uma letra.");
-		}
-	}
-
-	private void checkNomeVazio(String nome) {
-		if(nome.equals("")) {
-			throw new IllegalArgumentException("Nome não pode estar em branco.");
-		}
-	}
-
-	private void checkNomeNull(String nome) {
-		if(nome == null) {
-			throw new NullPointerException("Nome não pode ser nulo.");
-		}
-	}
-	
-	private void checkRgDigitosRepetidos(String rg) {
-		int repetidos = contarDigitosRepetidos(rg);
-		if(repetidos == rg.length() - PRIMEIRO_INDICE) {
-			throw new IllegalArgumentException("RG não pode ser composto por dígitos iguais.");
-		}
-	}
-
-	private void checkRgContemApenasDigitos(String rg) {
-		for(int i=0; i<rg.length(); i++) {
-			if(!Character.isDigit(rg.charAt(i))) {
-				throw new IllegalArgumentException("RG deve conter apenas dígitos.");
-			}
-		}
-	}
-
-	private void checkRgTamanho(String rg) {
-		if(rg.length() < MIN_RG || rg.length() > MAX_RG) {
-			throw new IllegalArgumentException("RG precisa ter 8 ou 9 dígitos.");
-		}
-	}
-
-	private void checkRgVazio(String rg) {
-		if(rg.equals("")) {
-			throw new IllegalArgumentException("RG não pode estar em branco.");
-		}
-	}
-
-	private void checkRgNulo(String rg) {
-		if(rg == null) {
-			throw new NullPointerException("RG não pode ser nulo.");
-		}
-	}
-	
-	private void checkCpfCompostoPorDigitosIguais(String cpf) {
-		int repetidos = contarDigitosRepetidos(cpf);
-		if(repetidos == CPF_SIZE - PRIMEIRO_INDICE) {
-			throw new IllegalArgumentException("CPF não pode ser composto por dígitos iguais.");
-		}
-	}
-
-	private int contarDigitosRepetidos(String num) {
-		char primeiro = num.charAt(0);
-		int repetidos = 0;
-		for(int i=0; i<num.length() - PRIMEIRO_INDICE; i++) {
-			if(primeiro == num.charAt(i + PRIMEIRO_INDICE)) {
-				repetidos++;
-			} else {
-				break;
-			}
-		}
-		return repetidos;
-	}
-
-	private void checkCpfContemApenasDigitos(String cpf) {
-		for(int i=0; i<CPF_SIZE; i++) {
-			if(!Character.isDigit(cpf.charAt(i))) {
-				throw new IllegalArgumentException("CPF deve conter apenas dígitos.");
-			}
-		}
-	}
-
-	private void checkCpfTamanho(String cpf) {
-		if(cpf.length() != CPF_SIZE) {
-			throw new IllegalArgumentException("CPF precisa ter 11 dígitos.");
-		}
-	}
-
-	private void checkCpfVazio(String cpf) {
-		if(cpf.equals("")) {
-			throw new IllegalArgumentException("CPF não pode ser deixado em branco.");
-		}
-	}
-
-	private void checkCpfNulo(String cpf) {
-		if(cpf == null) {
-			throw new NullPointerException("CPF não pode ser nulo.");
-		}
-	}
-	
-	private void checkCpfValido(String cpf) {
-		if(!cpfValido(cpf)) {
-			throw new IllegalArgumentException("CPF inválido.");
-		}
+	public void setEmail(String email) {
+		this.email = email.toLowerCase();
 	}
 	
 	protected boolean primeiroDigitoValido(int[] cpf, int digitoVerif) {
@@ -281,17 +172,6 @@ public class Pessoa {
 			iCpf[i] = cpf.charAt(i) - ASCII_INICIO_NUMEROS;
 		}
 		return iCpf;
-	}
-	
-	public void validar(Validator validator) {
-		Set<ConstraintViolation<Pessoa>> violations = validator.validate(this);
-		if (violations.isEmpty()) {
-			System.out.println("Validado com sucesso.");
-		} else {
-			for(ConstraintViolation<Pessoa> violation : violations) {
-				System.out.println((violation.getMessage()));
-			}
-		}
 	}
 	
 	@Override

@@ -23,8 +23,8 @@ import org.hibernate.validator.constraints.Length;
 
 public class Departamento {
 	
-	@Length(min = MIN_NOME, max = MAX_NOME, message = "Nome deve ter de {min} a {max} caracteres.")
-	@NotBlank(message = "Nome não pode ser nulo ou vazio.")
+	@Length(min = MIN_NOME_DEPTO, max = MAX_NOME_DEPTO, message = "Nome deve ter de {min} a {max} caracteres.")
+	@NotBlank(message = "Nome do departamento não pode ser nulo ou vazio.")
 	@Pattern(regexp = "")
 	private String nome;
 	

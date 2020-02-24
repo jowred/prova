@@ -1,8 +1,15 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CPF_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CPF_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_NASCIMENTO_FUTURE;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_PATTERN;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_TAMANHO;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -60,7 +67,7 @@ public class PessoaTest {
 	public void tearDown() {
 		p = null;
 	}
-
+	
 	@AfterClass
 	public static void tearDownAfterClass() {
 		System.out.println("Testes da classe Pessoa concluídos.");
@@ -170,40 +177,60 @@ public class PessoaTest {
 	public void nao_deve_aceitar_nome_de_tamanho_diferente_do_especificado() {
 		String nome = "j";
 		p.setNome(nome);
-		p.validar(validator);
+		validator.validate(p);
 		assertThat(getErros(p), hasItem(MENSAGEM_NOME_PESSOA_TAMANHO));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_nome_nulo() {
+		p.setNome(null);
+		assertThat(getErros(p), hasItem(MENSAGEM_NOME_PESSOA_BLANK));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_nome_em_branco() {
+		p.setNome("");
+		assertThat(getErros(p), hasItem(MENSAGEM_NOME_PESSOA_BLANK));
 	}
 
 	@Test
 	public void deve_definir_um_novo_nome_para_a_pessoa() {
 		String nome = "Maria";
+		
+		// Fazer um teste para nomes como João, François, Vitória etc.
+		
 		p.setNome(nome);
-		assertEquals(nome, p.getNome());
+//		assertEquals(nome, p.getNome());
+		Set<String> erros = getErros(p);
+		assertThat(p.getNome(), equalTo(nome));
+		assertThat(erros, not(hasItem(MENSAGEM_NOME_PESSOA_BLANK)));
+		assertThat(erros, not(hasItem(MENSAGEM_NOME_PESSOA_TAMANHO)));
+		assertThat(erros, not(hasItem(MENSAGEM_NOME_PESSOA_PATTERN)));
+		// melhorar o assert com um hasItems, se existir para finalidade desejada
 	}
 
 	@Test
 	public void deve_aceitar_nome_apenas_com_letras() {
-		p.setNome("Vitória");
+		p = Fixture.from(Pessoa.class).gimme("valido");
+		String nome = "Vitória";
+		p.setNome(nome);
+		assertThat(getErros(p).isEmpty(), is(true));
 	}
 
 	@Test
 	public void deve_aceitar_nome_apenas_com_letras_e_espaco() {
-		p.setNome("Vitória da Silva");
+		p = Fixture.from(Pessoa.class).gimme("valido");
+		String nome = "Vitória da Silva";
+		p.setNome(nome);
+		assertThat(getErros(p).isEmpty(), is(true));
 	}
 
 	@Test
 	public void deve_aceitar_nome_com_letras_espaco_e_ponto() {
-		p.setNome("Vitória M. Silva");
-	}
-
-	@Test(expected = NullPointerException.class)
-	public void nao_deve_aceitar_nome_nulo() {
-		p.setNome(null);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_nome_em_branco() {
-		p.setNome("");
+		p = Fixture.from(Pessoa.class).gimme("valido");
+		String nome = "Vitória M. Silva";
+		p.setNome(nome);
+		assertThat(getErros(p).isEmpty(), is(true));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -323,53 +350,82 @@ public class PessoaTest {
 	}
 
 	@Test
-	public void deve_aceitar_cpf_valido_sem_caracteres_especiais() {
-		p.setCpf("54676325070");
+	public void deve_aceitar_cpf_valido_sem_caracteres_especiais_estranhos_ao_padrao() {
+		p = Fixture.from(Pessoa.class).gimme("valido");
+		String cpf = "54676325070";
+		p.setCpf(cpf);
+		assertThat(getErros(p), not(hasItem(MENSAGEM_CPF_PATTERN)));
+	}
+	
+	@Test
+	public void deve_aceitar_cpf_valido_com_mascara() {
+		p = Fixture.from(Pessoa.class).gimme("valido");
+		String cpf = "546.763.250-70";
+		p.setCpf(cpf);
+		assertThat(getErros(p), not(hasItem(MENSAGEM_CPF_PATTERN)));
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void nao_deve_aceitar_cpf_nulo() {
+		p = Fixture.from(Pessoa.class).gimme("valido");
 		p.setCpf(null);
+		assertThat(getErros(p), hasItem(MENSAGEM_CPF_BLANK));
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cpf_em_branco() {
-		p.setCpf("");
+		p = Fixture.from(Pessoa.class).gimme("valido");
+		String cpf = "";
+		p.setCpf(cpf);
+		assertThat(getErros(p), hasItem(MENSAGEM_CPF_BLANK));
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cpf_composto_por_menos_de_11_digitos() {
-		p.setCpf("5467632507");
+		p = Fixture.from(Pessoa.class).gimme("valido");
+		String cpf = "5467632507";
+		p.setCpf(cpf);
+		assertThat(getErros(p), hasItem(MENSAGEM_CPF_PATTERN));
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cpf_composto_por_mais_de_11_digitos() {
-		p.setCpf("546763250704");
+		p = Fixture.from(Pessoa.class).gimme("valido");
+		String cpf = "546763250704";
+		p.setCpf(cpf);
+		assertThat(getErros(p), hasItem(MENSAGEM_CPF_PATTERN));
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cpf_composto_por_letras() {
-		p.setCpf("abcdefghijk");
+		p = Fixture.from(Pessoa.class).gimme("valido");
+		String cpf = "abcdefghijk";
+		p.setCpf(cpf);
+		assertThat(getErros(p), hasItem(MENSAGEM_CPF_PATTERN));
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cpf_composto_por_caracteres_especiais() {
-		p.setCpf("!@#$.%&*()!@#$");
+		p = Fixture.from(Pessoa.class).gimme("valido");
+		String cpf = "!@#$.%&*()!@#$";
+		p.setCpf(cpf);
+		assertThat(getErros(p), hasItem(MENSAGEM_CPF_PATTERN));
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cpf_que_contenha_qualquer_caractere_estranho_a_digitos() {
-		p.setCpf("546.763.250-70");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cpf_composto_por_digitos_iguais() {
-		p.setCpf("99999999999");
+		p = Fixture.from(Pessoa.class).gimme("valido");
+		String cpf = "99999999999";
+		p.setCpf(cpf);
+		assertThat(getErros(p), hasItem(MENSAGEM_CPF_PATTERN));
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cpf_invalido() {
-		p.setCpf("87548965809");
+		p = Fixture.from(Pessoa.class).gimme("valido");
+		String cpf = "87548965809";
+		p.setCpf(cpf);
+		assertThat(getErros(p), hasItem(MENSAGEM_CPF_PATTERN));
 	}
 
 	/*
@@ -377,7 +433,14 @@ public class PessoaTest {
 	 */
 	@Test
 	public void nao_deve_aceitar_rg_com_menos_de_8_digitos() {
-//		String rg = 
+		p.setRg("4963592");
+		assertThat(getErros(p), hasItem(MENSAGEM_RG_TAMANHO));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_rg_com_mais_de_9_digitos() {
+		p.setRg("4963592789");
+		assertThat(getErros(p), hasItem(MENSAGEM_RG_TAMANHO));
 	}
 
 	@Test
@@ -389,12 +452,16 @@ public class PessoaTest {
 
 	@Test
 	public void deve_aceitar_rg_com_8_digitos() {// RG em MG
+		p = Fixture.from(Pessoa.class).gimme("valido");
 		p.setRg("26542809");
+		assertThat(getErros(p).isEmpty(), is(true));
 	}
 
 	@Test
 	public void deve_aceitar_rg_com_9_digitos() {
+		p = Fixture.from(Pessoa.class).gimme("valido");
 		p.setRg("265428099");
+		assertThat(getErros(p).isEmpty(), is(true));
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -443,9 +510,9 @@ public class PessoaTest {
 	@Test
 	public void deve_aceitar_data_de_nascimento_especificada() {
 		p = Fixture.from(Pessoa.class).gimme("valido");
-		p.validar(validator);
-//		assertThat(getErros(p), not(hasItem("A data de nascimento deve refletir uma data do passado.")));
-		assertThat(getErros(p).isEmpty(), is(false));
+		p.setDataNascimento(new LocalDate("1985-01-25"));
+		validator.validate(p);
+		assertThat(getErros(p).isEmpty(), is(true));
 	}
 
 	@Test
@@ -453,8 +520,26 @@ public class PessoaTest {
 		p = Fixture.from(Pessoa.class).gimme("valido");
 		LocalDate localDate = new LocalDate(2021, 4, 1);
 		p.setDataNascimento(localDate);
-		System.out.println(localDate.toString("dd-MM-YYYY"));
-		p.validar(validator);
-		assertThat(getErros(p), not(hasItem("A data de nascimento deve refletir uma data do passado.")));
+		validator.validate(p);
+		assertThat(getErros(p), hasItem(MENSAGEM_DATA_NASCIMENTO_FUTURE));
+	}
+	
+	/*
+	 * EMAIL
+	 */
+	@Test
+	public void deve_aceitar_email_valido() {
+		p = Fixture.from(Pessoa.class).gimme("valido");
+		validator.validate(p);
+		System.out.println(p);
+		assertThat(getErros(p).isEmpty(), is(true));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_email_invalido() {
+		p = Fixture.from(Pessoa.class).gimme("valido");
+		String email = "testmail@@gmail.com";
+		p.setEmail(email);
+		assertThat(getErros(p), hasItem(MENSAGEM_EMAIL_PATTERN));
 	}
 }
