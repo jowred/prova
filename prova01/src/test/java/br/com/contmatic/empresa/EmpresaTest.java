@@ -14,6 +14,11 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -22,12 +27,33 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import br.com.contmatic.enums.EnumTipoTelefone;
+import br.com.six2six.fixturefactory.Fixture;
+import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 
 public class EmpresaTest {
 	
-	Empresa emp1;
+	private Empresa emp1;
+	
+	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();;
+	
+	private Validator validator = factory.getValidator();
 	
 	int[] iCnpj = new int[14];
+	
+	public Set<String> getErros(Pessoa pessoa) {
+		Set<String> erros = new HashSet<>();
+		for (ConstraintViolation<Pessoa> constraintViolation : validator.validate(pessoa)) {
+			erros.add(constraintViolation.getMessageTemplate());
+			System.out.println(constraintViolation.getMessageTemplate()); // Retorna o template, sem converter {mix}
+																			// para o valor mínimo
+		}
+		return erros;
+	}
+	
+	@Test
+	public void test_fixture() {
+		System.out.println(emp1);
+	}
 	
 	@Test(timeout = 1000)
 	public void deve_executar_sem_exceder_o_limite_de_tempo() {
@@ -41,18 +67,12 @@ public class EmpresaTest {
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		System.out.println("Iniciando os testes da classe Empresa...");
+		FixtureFactoryLoader.loadTemplates("br.com.contmatic.templates");
 	}
 	
 	@Before
 	public void setUp() {
-		String razaoSocial = "PepsiCo do Brasil Ltda.";
-		String nomeFantasia = "PepsiCo";
-		String cnpj = "31565104000177";
-		String areaAtuacao = "Alimentos";
-		
-		emp1 = new Empresa(razaoSocial, cnpj);
-		emp1.setNomeFantasia(nomeFantasia);
-		emp1.setAreaAtuacao(areaAtuacao);
+		emp1 = Fixture.from(Empresa.class).gimme("valido");
 	}
 	
 	@After

@@ -25,6 +25,7 @@ public class PessoaTemplate implements TemplateLoader {
 			add("rg", "266706721");
 			add("cpf", "05704367020");
 			add("dataNascimento", new LocalDate(1998, 9, 21));
+			add("email", "vitoriavi@gmail.com");
 		}});
 		
 	}

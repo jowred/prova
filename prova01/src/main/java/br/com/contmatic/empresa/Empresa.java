@@ -3,23 +3,33 @@ package br.com.contmatic.empresa;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CNPJ;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_ENDERECO_NULL;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_PATTERN;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_PATTERN;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_DEPARTAMENTOS_VAZIO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_TELEFONES_VAZIO;
 import static br.com.contmatic.constantes.Numericas.ASCII_INICIO_NUMEROS;
 import static br.com.contmatic.constantes.Numericas.CNPJ_POS_VERIF_1;
 import static br.com.contmatic.constantes.Numericas.CNPJ_POS_VERIF_2;
 import static br.com.contmatic.constantes.Numericas.CNPJ_SIZE;
 import static br.com.contmatic.constantes.Numericas.MAX_AREA_ATUACAO;
+import static br.com.contmatic.constantes.Numericas.MAX_EMAIL;
 import static br.com.contmatic.constantes.Numericas.MAX_NOME_FANTASIA;
 import static br.com.contmatic.constantes.Numericas.MAX_RAZ_SOCIAL;
 import static br.com.contmatic.constantes.Numericas.MIN_AREA_ATUACAO;
+import static br.com.contmatic.constantes.Numericas.MIN_EMAIL;
 import static br.com.contmatic.constantes.Numericas.MIN_NOME_FANTASIA;
 import static br.com.contmatic.constantes.Numericas.MIN_RAZ_SOCIAL;
 import static br.com.contmatic.constantes.Numericas.PRIMEIRO_INDICE;
+import static br.com.contmatic.constantes.Regex.REGEX_AREA_ATUACAO;
+import static br.com.contmatic.constantes.Regex.REGEX_EMAIL;
 import static br.com.contmatic.constantes.Regex.REGEX_NOME_FANTASIA;
 import static br.com.contmatic.constantes.Regex.REGEX_RAZAO_SOCIAL;
 
@@ -54,17 +64,22 @@ public class Empresa {
 	private String cnpj;
 	
 	@Length(min = MIN_AREA_ATUACAO, max = MAX_AREA_ATUACAO, message = MENSAGEM_AREA_ATUACAO_TAMANHO)
-	@Pattern(regexp = "\\d")
+	@Pattern(regexp = REGEX_AREA_ATUACAO)
 	@NotBlank(message = MENSAGEM_AREA_ATUACAO_BLANK )
 	private String areaAtuacao;
 	
-	@NotEmpty(message = "A coleção de departamentos não pode ser nula ou de tamanho 0.")
+	@Length(min = MIN_EMAIL, max = MAX_EMAIL, message = MENSAGEM_EMAIL_TAMANHO)
+	@Pattern(regexp = REGEX_EMAIL, message = MENSAGEM_EMAIL_PATTERN)
+	@NotBlank(message = MENSAGEM_EMAIL_BLANK)
+	private String email;
+	
+	@NotEmpty(message = MENSAGEM_SET_DEPARTAMENTOS_VAZIO)
 	private Set<Departamento> departamentos;
 	
-	@NotEmpty(message = "A coleção de telefones não pode ser nula ou de tamanho 0.")
+	@NotEmpty(message = MENSAGEM_SET_TELEFONES_VAZIO)
 	private Set<Telefone> telefones;
 	
-	@NotNull(message = "Endereço não pode ser nulo")
+	@NotNull(message = MENSAGEM_ENDERECO_NULL)
 	private Endereco endereco;
 	
 	public Empresa() {

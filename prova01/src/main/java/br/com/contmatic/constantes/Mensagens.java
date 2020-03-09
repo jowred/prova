@@ -60,4 +60,43 @@ public final class Mensagens {
 	
 	public static final String MENSAGEM_AREA_ATUACAO_TAMANHO = "Área de atuação deve conter de {min} a {max} caracteres.";
 	
+	public static final String MENSAGEM_SET_DEPARTAMENTOS_VAZIO = "A coleção de departamentos não pode ser nula ou de tamanho 0.";
+	
+	public static final String MENSAGEM_SET_TELEFONES_VAZIO = "A coleção de telefones não pode ser nula ou de tamanho 0.";
+	
+	public static final String MENSAGEM_ENDERECO_NULL = "Endereço não pode ser nulo";
+	
+	/////////////////////////////////////////////////////////
+	///////////////////// DEPARTAMENTO //////////////////////
+	/////////////////////////////////////////////////////////
+	
+	public static final String MENSAGEM_NOME_DEPARTAMENTO_BLANK = "Nome do departamento não pode ser nulo ou vazio.";
+	
+	public static final String MENSAGEM_NOME_DEPARTAMENTO_PATTERN = "Nome do departamento pode ser composto apenas por letras e espaços.";
+	
+	public static final String MENSAGEM_NOME_DEPARTAMENTO_TAMANHO = "Nome do departamento deve ter de {min} a {max} caracteres.";
+		
+	public static final String MENSAGEM_DESCRICAO_DEPARTAMENTO_BLANK = "Descrição do departamento não pode ser nula ou vazia.";
+	
+	public static final String MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN = "Descrição do departamento pode ser composta apenas por letras, espaços e caracteres de pontuação (\",\", \";\", \".\".)";
+	
+	public static final String MENSAGEM_DESCRICAO_DEPARTAMENTO_TAMANHO = "Descrição deve ter de {min} a {max} caracteres.";
+	
+	public static final String MENSAGEM_SET_FUNCIONARIOS_VAZIO = "A coleção de funcionários não pode estar vazia ou ser nula.";
+	
+	/////////////////////////////////////////////////////////
+	////////////////////// DEPENDENTE ///////////////////////
+	/////////////////////////////////////////////////////////
+	
+	public static final String MENSAGEM_PROVEDOR_NULL = "Provedor não pode ser nulo.";
+	
+	public static final String MENSAGEM_PARENTESCO_BLANK = "Parentesco não pode ser nulo ou vazio.";
+	
+	public static final String MENSAGEM_PARENTESCO_PATTERN = "";
+	
+	public static final String MENSAGEM_PARENTESCO_TAMANHO = "Parentesco deve ter de {min} a {max} caracteres.";
+	
+	public static final String MENSAGEM_IDADE_MIN = "Idade não pode ser menor que {min}.";
+	
+	public static final String MENSAGEM_IDADE_MAX = "Idade não pode ser maior que {max}.";
 }

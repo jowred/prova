@@ -42,9 +42,9 @@ public class PessoaTest {
 
 	private Pessoa p;
 
-	private ValidatorFactory factory;
+	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
-	private Validator validator;
+	private Validator validator = factory.getValidator();
 
 	int[] iCpf = new int[11];
 
@@ -57,8 +57,6 @@ public class PessoaTest {
 	@Before
 	public void setUp() {
 		p = Fixture.from(Pessoa.class).gimme("valido");
-		factory = Validation.buildDefaultValidatorFactory();
-		validator = factory.getValidator();
 	}
 
 	@After

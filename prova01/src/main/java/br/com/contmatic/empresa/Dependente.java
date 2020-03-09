@@ -1,5 +1,10 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_IDADE_MAX;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_IDADE_MIN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_PARENTESCO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_PARENTESCO_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_PROVEDOR_NULL;
 import static br.com.contmatic.constantes.Numericas.MAX_IDADE;
 import static br.com.contmatic.constantes.Numericas.MAX_PARENTESCO;
 import static br.com.contmatic.constantes.Numericas.MIN_IDADE;
@@ -17,19 +22,20 @@ import org.hibernate.validator.constraints.Length;
 
 public class Dependente extends Pessoa {
 	
-	@NotNull(message = "Provedor não pode ser nulo.")
+	@NotNull(message = MENSAGEM_PROVEDOR_NULL)
 	private Funcionario provedor;
 	
-	@Length(min = MIN_PARENTESCO, max = MAX_PARENTESCO, message = "Parentesco deve ter de {min} a {max} caracteres.")
-	@NotBlank(message = "Parentesco não pode ser nulo ou vazio.")
+	@Length(min = MIN_PARENTESCO, max = MAX_PARENTESCO, message = MENSAGEM_PARENTESCO_TAMANHO)
+	@NotBlank(message = MENSAGEM_PARENTESCO_BLANK)
 	private String parentesco;
 	
-	@Min(value = MIN_IDADE, message = "Idade não pode ser menor que {min}.")
-	@Max(value = MAX_IDADE, message = "Idade não pode ser maior que {max}.")
+	@Min(value = MIN_IDADE, message = MENSAGEM_IDADE_MIN)
+	@Max(value = MAX_IDADE, message = MENSAGEM_IDADE_MAX)
 	private int idade;
 	
 	public Dependente() {
 		this.provedor = new Funcionario();
+		// Criar enum
 		this.setParentesco("Não declarado");
 	}
 

@@ -1,12 +1,19 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DESCRICAO_DEPARTAMENTO_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_DEPARTAMENTO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_DEPARTAMENTO_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_DEPARTAMENTO_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_FUNCIONARIOS_VAZIO;
 import static br.com.contmatic.constantes.Numericas.MAX_DESCRICAO;
-import static br.com.contmatic.constantes.Numericas.MAX_NOME;
 import static br.com.contmatic.constantes.Numericas.MAX_NOME_DEPTO;
 import static br.com.contmatic.constantes.Numericas.MIN_DESCRICAO;
-import static br.com.contmatic.constantes.Numericas.MIN_NOME;
 import static br.com.contmatic.constantes.Numericas.MIN_NOME_DEPTO;
 import static br.com.contmatic.constantes.Numericas.PRIMEIRO_INDICE;
+import static br.com.contmatic.constantes.Regex.REGEX_DESCRICAO_DEPARTAMENTO;
+import static br.com.contmatic.constantes.Regex.REGEX_NOME_DEPARTAMENTO;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,16 +30,17 @@ import org.hibernate.validator.constraints.Length;
 
 public class Departamento {
 	
-	@Length(min = MIN_NOME_DEPTO, max = MAX_NOME_DEPTO, message = "Nome deve ter de {min} a {max} caracteres.")
-	@NotBlank(message = "Nome do departamento não pode ser nulo ou vazio.")
-	@Pattern(regexp = "")
+	@Length(min = MIN_NOME_DEPTO, max = MAX_NOME_DEPTO, message = MENSAGEM_NOME_DEPARTAMENTO_TAMANHO)
+	@Pattern(regexp = REGEX_NOME_DEPARTAMENTO, message = MENSAGEM_NOME_DEPARTAMENTO_PATTERN)
+	@NotBlank(message = MENSAGEM_NOME_DEPARTAMENTO_BLANK)
 	private String nome;
 	
-	@Length(min = MIN_DESCRICAO, max = MAX_DESCRICAO, message = "Descrição deve ter de {min} a {max} caracteres.")
-	@NotBlank(message = "Descrição não pode ser nula ou vazia.")
+	@Length(min = MIN_DESCRICAO, max = MAX_DESCRICAO, message = MENSAGEM_DESCRICAO_DEPARTAMENTO_TAMANHO)
+	@Pattern(regexp = REGEX_DESCRICAO_DEPARTAMENTO, message = MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN)
+	@NotBlank(message = MENSAGEM_AREA_ATUACAO_BLANK)
 	private String descricao;
 	
-	@NotEmpty(message = "A coleção de funcionários não pode estar vazia ou ser nula.")
+	@NotEmpty(message = MENSAGEM_SET_FUNCIONARIOS_VAZIO)
 	private Set<Funcionario> funcionarios;
 	
 	public Departamento() {
