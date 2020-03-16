@@ -2,8 +2,7 @@ package br.com.contmatic.empresa;
 
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_IDADE_MAX;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_IDADE_MIN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_PARENTESCO_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_PARENTESCO_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_PARENTESCO_NULO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_PROVEDOR_NULL;
 import static br.com.contmatic.constantes.Numericas.MAX_IDADE;
 import static br.com.contmatic.constantes.Numericas.MAX_PARENTESCO;
@@ -13,21 +12,21 @@ import static br.com.contmatic.constantes.Numericas.PRIMEIRO_INDICE;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.validator.constraints.Length;
 
 public class Dependente extends Pessoa {
 	
 	@NotNull(message = MENSAGEM_PROVEDOR_NULL)
 	private Funcionario provedor;
 	
-	@Length(min = MIN_PARENTESCO, max = MAX_PARENTESCO, message = MENSAGEM_PARENTESCO_TAMANHO)
-	@NotBlank(message = MENSAGEM_PARENTESCO_BLANK)
-	private String parentesco;
+//	@Length(min = MIN_PARENTESCO, max = MAX_PARENTESCO, message = MENSAGEM_PARENTESCO_TAMANHO)
+//	@Pattern(regexp = REGEX_PARENTESCO, message = MENSAGEM_PARENTESCO_PATTERN)
+//	@NotBlank(message = MENSAGEM_PARENTESCO_BLANK)
+	@NotNull(message = MENSAGEM_PARENTESCO_NULO)
+	private String parentesco; // Enum, talvez
 	
 	@Min(value = MIN_IDADE, message = MENSAGEM_IDADE_MIN)
 	@Max(value = MAX_IDADE, message = MENSAGEM_IDADE_MAX)

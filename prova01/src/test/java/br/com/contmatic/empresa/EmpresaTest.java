@@ -1,15 +1,26 @@
 package br.com.contmatic.empresa;
 
-import static org.hamcrest.CoreMatchers.both;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CNPJ_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CNPJ_INVALIDO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_ENDERECO_NULL;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_DEPARTAMENTOS_VAZIO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_TELEFONES_VAZIO;
+import static br.com.contmatic.enums.EnumEstadosBrasileiros.SP;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +37,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import br.com.contmatic.enums.EnumEstadosBrasileiros;
 import br.com.contmatic.enums.EnumTipoTelefone;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
@@ -34,25 +46,26 @@ public class EmpresaTest {
 	
 	private Empresa emp1;
 	
-	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();;
+	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	
 	private Validator validator = factory.getValidator();
 	
 	int[] iCnpj = new int[14];
 	
-	public Set<String> getErros(Pessoa pessoa) {
+	public Set<String> getErros(Empresa empresa) {
 		Set<String> erros = new HashSet<>();
-		for (ConstraintViolation<Pessoa> constraintViolation : validator.validate(pessoa)) {
+		for (ConstraintViolation<Empresa> constraintViolation : validator.validate(empresa)) {
 			erros.add(constraintViolation.getMessageTemplate());
-			System.out.println(constraintViolation.getMessageTemplate()); // Retorna o template, sem converter {mix}
+			System.out.println(constraintViolation.getMessageTemplate()); // Retorna o template, sem converter {min}
 																			// para o valor mínimo
 		}
 		return erros;
 	}
 	
 	@Test
-	public void test_fixture() {
+	public void deve_retornar_true_na_validacao_do_objeto_fixture() {
 		System.out.println(emp1);
+		assertThat(getErros(emp1).isEmpty(), is(true));
 	}
 	
 	@Test(timeout = 1000)
@@ -62,6 +75,7 @@ public class EmpresaTest {
 			dep = new Departamento("Departamento X", "Departamento " + i+1);
 			dep.cadastrar(emp1);
 		}
+		assertThat(emp1.getDepartamentos().size(), is(100));
 	}
 	
 	@BeforeClass
@@ -85,36 +99,36 @@ public class EmpresaTest {
 		System.out.println("Testes da classe Empresa concluídos.");
 	}
 	
-	@Test
-	public void deve_confirmar_a_presenca_das_strings_na_razao_social_do_objeto_usado_em_toda_a_classe_de_teste() {
-		assertThat(emp1.getRazaoSocial(), both(containsString("PepsiCo")).and(containsString("Ltda.")));
-	}
+//	@Test
+//	public void deve_confirmar_a_presenca_das_strings_na_razao_social_do_objeto_usado_em_toda_a_classe_de_teste() {
+//		assertThat(emp1.getRazaoSocial(), both(containsString("PepsiCo")).and(containsString("Ltda.")));
+//	}
+//	
+//	@Test
+//	public void deve_confirmar_a_presenca_da_string_no_nome_fantasia_do_objeto_usado_em_toda_a_classe_de_teste() {
+//		assertThat(emp1.getNomeFantasia(), containsString("Pepsi"));
+//	}
+//	
+//	@Test
+//	public void deve_confirmar_o_cnpj_do_objeto_usado_em_toda_a_classe_de_teste() {
+//		assertThat(emp1.getCnpj(), containsString("31565104000177"));
+//	}
+	
+//	@Test
+//	public void nao_deve_confirmar_a_presenca_da_string_na_razao_social_do_objeto_usado_em_toda_a_classe_de_teste() {
+//		assertThat(emp1.getRazaoSocial(), is(not("Coca-Cola")));
+//	}
 	
 	@Test
-	public void deve_confirmar_a_presenca_da_string_no_nome_fantasia_do_objeto_usado_em_toda_a_classe_de_teste() {
-		assertThat(emp1.getNomeFantasia(), containsString("Pepsi"));
-	}
-	
-	@Test
-	public void deve_confirmar_o_cnpj_do_objeto_usado_em_toda_a_classe_de_teste() {
-		assertThat(emp1.getCnpj(), containsString("31565104000177"));
-	}
-	
-	@Test
-	public void nao_deve_confirmar_a_presenca_da_string_na_razao_social_do_objeto_usado_em_toda_a_classe_de_teste() {
-		assertThat(emp1.getRazaoSocial(), is(not("Coca-Cola")));
-	}
-	
 	@Ignore("Exemplo de teste ignorado")
-	@Test
 	public void nao_deve_confirmar_a_presenca_dessa_segunda_string_na_razao_social_do_objeto_usado_em_toda_a_classe_de_teste() {
 		assertThat(emp1.getRazaoSocial(), is(not("Nestlé")));
 	}
 	
-	@Test
-	public void deve_confirmar_a_presenca_da_string_na_area_de_atuacao_do_objeto_usado_em_toda_a_classe_de_teste() {
-		assertThat(emp1.getAreaAtuacao(), containsString("Alimentos"));
-	}
+//	@Test
+//	public void deve_confirmar_a_presenca_da_string_na_area_de_atuacao_do_objeto_usado_em_toda_a_classe_de_teste() {
+//		assertThat(emp1.getAreaAtuacao(), containsString("Alimentos"));
+//	}
 	
 	@Test
 	public void deve_indicar_que_o_metodo_toString_esta_sobrescrito_por_nao_conter_o_caractere_arroba() {
@@ -123,229 +137,231 @@ public class EmpresaTest {
 	
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_empresa() {
-		String razaoSocial = emp1.getRazaoSocial();
-		String nomeFantasia = emp1.getNomeFantasia();
-		String cnpj = emp1.getCnpj();
-		String areaAtuacao = emp1.getAreaAtuacao();
-		Empresa emp2 = new Empresa(razaoSocial, cnpj);
-		emp2.setNomeFantasia(nomeFantasia);
-		emp2.setAreaAtuacao(areaAtuacao);
-		assertEquals(emp1, emp2);
+		emp1 = Fixture.from(Empresa.class).gimme("mock");
+		Empresa emp2 = Fixture.from(Empresa.class).gimme("mock");
+		assertThat(emp1, equalTo(emp2));
 	}
 	
 	//equals
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_ambos_tem_o_mesmo_cnpj() {
-		String razaoSocial = "PepsiCo Ltda.";
-		String nomeFantasia = "PepsiCo";
-		String cnpj = emp1.getCnpj();
-		String areaAtuacao = "Indústria alimentícia";
-		Empresa emp2 = new Empresa(razaoSocial, cnpj);
-		emp2.setNomeFantasia(nomeFantasia);
-		emp2.setAreaAtuacao(areaAtuacao);
-		assertTrue(emp1.equals(emp2));
+		Empresa emp2 = Fixture.from(Empresa.class).gimme("valido");
+		emp2.setCnpj(emp1.getCnpj());
+		assertThat(emp1, equalTo(emp2));
 	}
 	
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_sao_o_mesmo_objeto() {
 		Empresa emp2 = emp1;
-		assertTrue(emp1.equals(emp2));
+		assertThat(emp1, equalTo(emp2));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_cnpj_do_objeto2_e_diferente() {
-		String razaoSocial = "PepsiCo Ltda.";
-		String nomeFantasia = "Pepsi";
-		String areaAtuacao = "Alimentos";
+		Empresa emp2 = Fixture.from(Empresa.class).gimme("valido");
 		String cnpj = "55062400000113";
-		Empresa emp2 = new Empresa(razaoSocial, cnpj);
-		emp2.setNomeFantasia(nomeFantasia);
-		emp2.setAreaAtuacao(areaAtuacao);
-		assertFalse(emp1.equals(emp2));
+		emp2.setCnpj(cnpj);
+		assertThat(emp1, not(equalTo(emp2)));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_objeto2_e_nulo() {
 		Empresa emp2 = null;
-		assertFalse(emp1.equals(emp2));
+		assertThat(emp1, not(equalTo(emp2)));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_sao_de_classes_diferentes() {
-		assertFalse(emp1.equals(new Object()));
+		assertThat(emp1, not(equalTo(new Object())));
 	}
 	
 	//hashCode
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_empresa_usando_hashcode_sobrescrito() {
-		String razaoSocial = emp1.getRazaoSocial();
-		String nomeFantasia = emp1.getNomeFantasia();
-		String areaAtuacao = emp1.getAreaAtuacao();
-		String cnpj = emp1.getCnpj();
-		Empresa emp2 = new Empresa(razaoSocial, cnpj);
-		emp2.setNomeFantasia(nomeFantasia);
-		emp2.setAreaAtuacao(areaAtuacao);
-		assertEquals(emp1.hashCode(), emp2.hashCode());
+		emp1 = Fixture.from(Empresa.class).gimme("mock");
+		Empresa emp2 = Fixture.from(Empresa.class).gimme("mock");
+		assertThat(emp1.hashCode(), equalTo(emp2.hashCode()));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_empresa_usando_hashcode_sobrescrito() {
-		String razaoSocial = "Coca-Cola Ltda.";
-		String nomeFantasia = "Coca-Cola";
-		String areaAtuacao = "Bebidas";
-		String cnpj = "45997418000153";
-		Empresa emp2 = new Empresa(razaoSocial, cnpj);
-		emp2.setNomeFantasia(nomeFantasia);
-		emp2.setAreaAtuacao(areaAtuacao);
-		assertNotEquals(emp1.hashCode(), emp2.hashCode());
+		Empresa emp2 = Fixture.from(Empresa.class).gimme("valido");
+		emp2.setCnpj("45997418000153");
+		assertThat(emp1.hashCode(), not(equalTo(emp2.hashCode())));
 	}
 	
 	/*
 	 * RAZÃO SOCIAL
 	 * */
+	
+	@Test
+	public void nao_deve_aceitar_razao_social_fora_da_regex_especificada() {
+		String razaoSocial = "@ Indústrias Ldta.";
+		emp1.setRazaoSocial(razaoSocial);
+		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
+	}
+	
 	@Test
 	public void deve_definir_uma_nova_razao_social_para_a_empresa() {
 		String razaoSocial = "Coca-Cola Indústrias Ltda.";
 		emp1.setRazaoSocial(razaoSocial);
-		assertEquals(razaoSocial, emp1.getRazaoSocial());
+		assertThat(emp1.getRazaoSocial(), equalTo(razaoSocial));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_BLANK)));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_TAMANHO)));
 	}
 	
 	@Test
 	public void deve_aceitar_razao_social_apenas_com_letras() {
 		emp1.setRazaoSocial("Nintendo");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_razao_social_com_letras_e_hifen() {
 		emp1.setRazaoSocial("Colgate-Palmolive");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_razao_social_com_letras_e_numeros() {
-		emp1.setRazaoSocial("99Taxis");
+		emp1.setRazaoSocial("Taxis 123 S.A.");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_razao_social_com_letras_e_espaco() {
 		emp1.setRazaoSocial("Itaú Unibanco");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_razao_social_com_letras_hifen_e_espaco() {
 		emp1.setRazaoSocial("Hi-Tech Indústria Tecnológica");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_razao_social_com_letras_hifen_espaco_e_ponto() {
 		emp1.setRazaoSocial("Hi-Tech Indústria Tecnológica Ltda.");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_razao_social_com_letras_numeros_espaco_e_ponto() {
 		emp1.setRazaoSocial("SEGA 12 Indústria de Jogos Eletrônicos Ltda.");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_razao_social_com_letras_numeros_hifen_espaco_e_ponto() {
 		emp1.setRazaoSocial("ABC-123 Alimentos Ltda.");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_razao_social_com_ponto_entre_caracteres() {
 		emp1.setRazaoSocial("Instituto A. Senna");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_razao_social_com_numeros_entre_letras() {
 		emp1.setRazaoSocial("Se7e Belo");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_razao_social_com_mais_de_um_ponto() {
 		emp1.setRazaoSocial("Itaú Unibanco S.A.");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_razao_social_com_E_comercial() {
 		emp1.setRazaoSocial("Dolce & Gabanna do Brasil Ltda.");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_razao_social_com_E_comercial_e_virgula() {
 		emp1.setRazaoSocial("Dolce & Gabbana do Brasil Comércio, Importação e Participações Ltda.");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void nao_deve_aceitar_razao_social_nula() {
 		emp1.setRazaoSocial(null);
+		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_razao_social_em_branco() {
 		emp1.setRazaoSocial("");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_razao_social_apenas_com_espaco() {
 		emp1.setRazaoSocial(" ");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_razao_social_apenas_com_ponto() {
 		emp1.setRazaoSocial(".");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_razao_social_apenas_com_caracteres_especiais() {
 		emp1.setRazaoSocial("!@(/.+**/-*");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_razao_social_com_letras_e_caracteres_especiais_diferentes() {
 		emp1.setRazaoSocial("Boom!@(*#");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_razao_social_com_hifen_no_inicio() {
 		emp1.setRazaoSocial("-Arcos Dourados Indústria de Alimentos Ltda.");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_razao_social_com_hifen_no_fim() {
 		emp1.setRazaoSocial("Arcos Dourados Indústria de Alimentos Ltda.-");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_razao_social_apenas_com_numeros() {
 		emp1.setRazaoSocial("123456789");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_razao_social_apenas_com_numeros_e_hifen() {
 		emp1.setRazaoSocial("12345-6789");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_razao_social_de_tamanho_menor_que_5_caracteres() {
-		emp1.setRazaoSocial("ABCD");
+	@Test
+	public void nao_deve_aceitar_razao_social_de_tamanho_menor_que_2_caracteres() {
+		emp1.setRazaoSocial("A");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_TAMANHO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_razao_social_composta_unicamente_pelo_mesmo_caractere() {
-		emp1.setRazaoSocial("aaaaaaaaaa");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_razao_social_composta_unicamente_pelo_mesmo_caractere_independentemente_de_caixa() {
-		emp1.setRazaoSocial("AaaAaaAaaa");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_razao_social_de_tamanho_maior_que_100_caracteres() {
 		StringBuilder sb = new StringBuilder("B");
 		for(int i=0; i<100; i++)
 			sb.append("A");
 		emp1.setRazaoSocial(sb.toString());
+		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_TAMANHO));
 	}
 	
 	/*
@@ -355,156 +371,176 @@ public class EmpresaTest {
 	public void deve_definir_um_novo_nome_fantasia_para_a_empresa() {
 		String nomeFantasia = "Coca-Cola";
 		emp1.setNomeFantasia(nomeFantasia);
-		assertEquals(nomeFantasia, emp1.getNomeFantasia());
+		assertThat(emp1.getNomeFantasia(), equalTo(nomeFantasia));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_BLANK)));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_TAMANHO)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_fantasia_apenas_com_letras() {
 		emp1.setNomeFantasia("PlayStation");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_fantasia_com_letras_e_hifen() {
 		emp1.setNomeFantasia("General-Motors");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_fantasia_com_letras_e_numeros() {
-		emp1.setNomeFantasia("Hao123");
+		emp1.setNomeFantasia("Hao123 Corp.");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_fantasia_com_letras_e_espaco() {
 		emp1.setNomeFantasia("Banco do Brasil");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_fantasia_com_letras_hifen_e_espaco() {
 		emp1.setNomeFantasia("Coca-Cola Coffee Plus");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_fantasia_com_letras_hifen_espaco_e_ponto() {
 		emp1.setNomeFantasia("M. Martins - Advocacia");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_fantasia_com_letras_numeros_espaco_e_ponto() {
 		emp1.setNomeFantasia("Rapi10 - A Massa da Galera");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_fantasia_com_letras_numeros_hifen_espaco_e_ponto() {
 		emp1.setNomeFantasia("ABC-123 Alimentos Ltda.");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_fantasia_com_ponto_entre_caracteres() {
 		emp1.setNomeFantasia("Instituto A. Senna");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_fantasia_com_numeros_entre_letras() {
 		emp1.setNomeFantasia("Se7e Belo");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_fantasia_com_mais_de_um_ponto() {
 		emp1.setNomeFantasia("Itaú Unibanco S.A.");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_fantasia_com_E_comercial() {
 		emp1.setNomeFantasia("Dolce & Gabanna");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
 	
 	/**/
 	@Test
 	public void deve_aceitar_nome_fantasia_com_virgula() {
 		emp1.setNomeFantasia("Du, Dudu & Edu");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_fantasia_com_exclamacao() {
-		emp1.setNomeFantasia("Big Boom!");
+		emp1.setNomeFantasia("Big Boom! Inc.");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_fantasia_com_arroba() {
 		emp1.setNomeFantasia("L@n House do João");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	/**/
-	@Test(expected = NullPointerException.class)
+	
+	@Test
 	public void nao_deve_aceitar_nome_fantasia_nulo() {
 		emp1.setNomeFantasia(null);
+		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_fantasia_em_branco() {
 		emp1.setNomeFantasia("");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_fantasia_apenas_com_espaco() {
 		emp1.setNomeFantasia(" ");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_fantasia_apenas_com_ponto() {
 		emp1.setNomeFantasia(".");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_fantasia_apenas_com_caracteres_especiais() {
 		emp1.setNomeFantasia("!@(*");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_fantasia_com_letras_e_caracteres_especiais_diferentes() {
 		emp1.setNomeFantasia("Boom¨¨");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_fantasia_com_hifen_no_inicio() {
 		emp1.setNomeFantasia("-Arcos Dourados Indústria de Alimentos Ltda.");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_fantasia_com_hifen_no_fim() {
 		emp1.setNomeFantasia("Arcos Dourados Indústria de Alimentos Ltda.-");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_fantasia_apenas_com_numeros() {
 		emp1.setNomeFantasia("123456789");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_fantasia_apenas_com_numeros_e_hifen() {
 		emp1.setNomeFantasia("12345-6789");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_fantasia_de_tamanho_menor_que_2_caracteres() {
 		emp1.setNomeFantasia("A");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_TAMANHO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_nome_fantasia_composto_unicamente_pelo_mesmo_caractere() {
-		emp1.setNomeFantasia("aaaaaaaaaa");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_nome_fantasia_composto_unicamente_pelo_mesmo_caractere_independentemente_de_caixa() {
-		emp1.setNomeFantasia("aaaAaaAaaA");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_fantasia_de_tamanho_maior_que_55_caracteres() {
 		StringBuilder sb = new StringBuilder("Z");
 		for(int i=0; i<55; i++)
 			sb.append("A");
 		emp1.setNomeFantasia(sb.toString());
+		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_TAMANHO));
 	}
 	
 	/*
@@ -514,109 +550,125 @@ public class EmpresaTest {
 	public void deve_definir_um_novo_cnpj_para_a_empresa() {
 		String cnpj = "45997418000153";
 		emp1.setCnpj(cnpj);
-		assertEquals(cnpj, emp1.getCnpj());
+		assertThat(emp1.getCnpj(), equalTo(cnpj));
 	}
 	
-	@Test
-	public void deve_retornar_true_na_validacao_do_primeiro_digito_verificador_do_cnpj() {
-		String cnpj = "61365284000104";
-		for(int i=0; i<iCnpj.length; i++)
-			iCnpj[i] = cnpj.charAt(i) - 48;
-		assertTrue(emp1.primeiroDigitoValido(iCnpj));
-	}
-	
-	@Test
-	public void deve_retornar_false_na_validacao_do_primeiro_digito_verificador_do_cnpj() {
-		String cnpj = "38837760000110";
-		for(int i=0; i<iCnpj.length; i++)
-			iCnpj[i] = cnpj.charAt(i) - 48;
-		assertFalse(emp1.primeiroDigitoValido(iCnpj));
-	}
-	
-	@Test
-	public void deve_retornar_true_na_validacao_do_segundo_digito_verificador_do_cnpj() {
-		String cnpj = "38837760000120";
-		for(int i=0; i<iCnpj.length; i++)
-			iCnpj[i] = cnpj.charAt(i) - 48;
-		assertTrue(emp1.segundoDigitoValido(iCnpj));
-	}
-	
-	@Test
-	public void deve_retornar_false_na_validacao_do_segundo_digito_verificador_do_cnpj() {
-		String cnpj = "99999999999991";
-		for(int i=0; i<iCnpj.length; i++)
-			iCnpj[i] = cnpj.charAt(i) - 48;
-		assertFalse(emp1.segundoDigitoValido(iCnpj));
-	}
-	
-	@Test
-	public void deve_retornar_true_na_validacao_do_cnpj() {
-		assertTrue(emp1.cnpjValido("61365284000104"));
-	}
-	
-	@Test
-	public void deve_retornar_false_na_validacao_do_cnpj_porque_digito_verificador_1_e_invalido() {
-		assertFalse(emp1.cnpjValido("38837760000110"));
-	}
-	
-	@Test
-	public void deve_retornar_false_na_validacao_do_cnpj_porque_digito_verificador_2_e_invalido() {
-		assertFalse(emp1.cnpjValido("38837760000122"));
-	}
-	
-	@Test
-	public void deve_retornar_false_na_validacao_do_cnpj_porque_ambos_os_digitos_verificadores_sao_invalidos() {
-		assertFalse(emp1.cnpjValido("38837760000122"));
-	}
+//	@Test
+//	public void deve_retornar_true_na_validacao_do_primeiro_digito_verificador_do_cnpj() {
+//		String cnpj = "61365284000104";
+//		for(int i=0; i<iCnpj.length; i++)
+//			iCnpj[i] = cnpj.charAt(i) - 48;
+//		assertTrue(emp1.primeiroDigitoValido(iCnpj));
+//	}
+//	
+//	@Test
+//	public void deve_retornar_false_na_validacao_do_primeiro_digito_verificador_do_cnpj() {
+//		String cnpj = "38837760000110";
+//		for(int i=0; i<iCnpj.length; i++)
+//			iCnpj[i] = cnpj.charAt(i) - 48;
+//		assertFalse(emp1.primeiroDigitoValido(iCnpj));
+//	}
+//	
+//	@Test
+//	public void deve_retornar_true_na_validacao_do_segundo_digito_verificador_do_cnpj() {
+//		String cnpj = "38837760000120";
+//		for(int i=0; i<iCnpj.length; i++)
+//			iCnpj[i] = cnpj.charAt(i) - 48;
+//		assertTrue(emp1.segundoDigitoValido(iCnpj));
+//	}
+//	
+//	@Test
+//	public void deve_retornar_false_na_validacao_do_segundo_digito_verificador_do_cnpj() {
+//		String cnpj = "99999999999991";
+//		for(int i=0; i<iCnpj.length; i++)
+//			iCnpj[i] = cnpj.charAt(i) - 48;
+//		assertFalse(emp1.segundoDigitoValido(iCnpj));
+//	}
+//	
+//	@Test
+//	public void deve_retornar_true_na_validacao_do_cnpj() {
+//		assertTrue(emp1.cnpjValido("61365284000104"));
+//	}
+//	
+//	@Test
+//	public void deve_retornar_false_na_validacao_do_cnpj_porque_digito_verificador_1_e_invalido() {
+//		assertFalse(emp1.cnpjValido("38837760000110"));
+//	}
+//	
+//	@Test
+//	public void deve_retornar_false_na_validacao_do_cnpj_porque_digito_verificador_2_e_invalido() {
+//		assertFalse(emp1.cnpjValido("38837760000122"));
+//	}
+//	
+//	@Test
+//	public void deve_retornar_false_na_validacao_do_cnpj_porque_ambos_os_digitos_verificadores_sao_invalidos() {
+//		assertFalse(emp1.cnpjValido("38837760000122"));
+//	}
 	
 	@Test
 	public void deve_aceitar_cnpj_valido_sem_caracteres_especiais() {
 		emp1.setCnpj("61365284000104");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_CNPJ_INVALIDO)));
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
+	public void deve_aceitar_cnpj_valido_com_mascara() {
+		emp1.setCnpj("61.365.284/0001-04");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_CNPJ_INVALIDO)));
+	}
+	
+	@Test
 	public void nao_deve_aceitar_cnpj_nulo() {
 		emp1.setCnpj(null);
+		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cnpj_em_branco() {
 		emp1.setCnpj("");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cnpj_composto_por_menos_de_14_digitos() {
 		emp1.setCnpj("123456789");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_INVALIDO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cnpj_composto_por_mais_de_14_digitos() {
 		emp1.setCnpj("123456789123456");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_INVALIDO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cnpj_composto_por_letras() {
 		emp1.setCnpj("abcdefghijklmn");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_INVALIDO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cnpj_composto_por_caracteres_especiais() {
 		emp1.setCnpj("!@#$.%&*()!@#$");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_INVALIDO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cnpj_que_contenha_qualquer_caractere_estranho_a_digitos() {
-		emp1.setCnpj("61.365.284/0001-04");
+		emp1.setCnpj("6136528400010a");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_INVALIDO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cnpj_composto_por_digitos_iguais() {
 		emp1.setCnpj("99999999999999");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_INVALIDO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cnpj_invalido() {
 		emp1.setCnpj("48785214000105");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_INVALIDO));
 	}
 	
 	/*
@@ -626,67 +678,80 @@ public class EmpresaTest {
 	public void deve_definir_uma_nova_area_de_atuacao_para_a_empresa() {
 		String areaAtuacao = "Indústria alimentícia";
 		emp1.setAreaAtuacao(areaAtuacao);
-		assertEquals(areaAtuacao, emp1.getAreaAtuacao());
+		assertThat(emp1.getAreaAtuacao(), equalTo(areaAtuacao));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_AREA_ATUACAO_BLANK)));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_AREA_ATUACAO_PATTERN)));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_AREA_ATUACAO_TAMANHO)));
 	}
 	
 	@Test
 	public void deve_aceitar_area_de_atuacao_apenas_com_letras() {
 		emp1.setAreaAtuacao("Educação");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_AREA_ATUACAO_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_area_de_atuacao_com_letras_e_espacos() {
 		emp1.setAreaAtuacao("Setor alimentício");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_AREA_ATUACAO_PATTERN)));
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void nao_deve_aceitar_area_de_atuacao_nula() {
 		emp1.setAreaAtuacao(null);
+		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_area_de_atuacao_em_branco() {
 		emp1.setAreaAtuacao("");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_area_de_atuacao_apenas_com_espaco() {
 		emp1.setAreaAtuacao(" ");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_area_de_atuacao_apenas_com_ponto() {
 		emp1.setAreaAtuacao(".");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_area_de_atuacao_apenas_com_caracteres_especiais() {
 		emp1.setAreaAtuacao("@#$$$$#%");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_area_de_atuacao_com_menos_de_4_caracteres() {
-		emp1.setAreaAtuacao("abc");
+	@Test
+	public void nao_deve_aceitar_area_de_atuacao_com_menos_de_2_caracteres() {
+		emp1.setAreaAtuacao("a");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_TAMANHO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_area_de_atuacao_com_mais_de_55_caracteres() {
-		emp1.setAreaAtuacao("abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij");
+		StringBuilder sb = new StringBuilder("B");
+		for(int i=0; i<55; i++) {
+			sb.append("A");
+		}
+		emp1.setAreaAtuacao(sb.toString());
+		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_TAMANHO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_area_de_atuacao_com_numeros() {
 		emp1.setAreaAtuacao("Indústria de fármacos 1");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_area_de_atuacao_com_caracteres_especiais() {
 		emp1.setAreaAtuacao("Indústria @automotiva");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_area_de_atuacao_composta_unicamente_pelo_mesmo_caractere() {
-		emp1.setAreaAtuacao("aaaaaaaaaaaaaaaaaa");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_PATTERN));
 	}
 	
 	/*
@@ -694,52 +759,41 @@ public class EmpresaTest {
 	 * */
 	@Test
 	public void deve_indicar_que_a_lista_de_telefones_e_inicializada_na_construcao_do_objeto() {
-		Empresa e1 = new Empresa();
-		assertNotNull(e1.getTelefones());
+		Empresa e1 = Fixture.from(Empresa.class).gimme("mock");
+		assertThat(e1.getTelefones(), not(equalTo(null)));
 	}
 	
-	@Test
-	public void deve_realizar_cadastro_de_telefones() {
-		Telefone tel = new Telefone(55, 11, 987654321);
-		tel.setTipo(EnumTipoTelefone.CELULAR);
-		emp1.getTelefones().add(tel);
-		assertTrue(emp1.getTelefones().contains(tel));
-	}
+//	@Test
+//	public void deve_realizar_cadastro_de_telefones() {
+//		Telefone tel = new Telefone(55, 11, "987654321");
+//		tel.setTipo(EnumTipoTelefone.CELULAR);
+//		emp1.getTelefones().add(tel);
+//		assertTrue(emp1.getTelefones().contains(tel));
+//	}
 	
 	@Test
 	public void deve_redefinir_a_colecao_de_telefones() {
 		Set<Telefone> telefones = new HashSet<Telefone>();
 		for(int i=0; i<10; i++) {
-			Telefone tel = new Telefone(55, 11, 987654321+i);
-			tel.setTipo(EnumTipoTelefone.CELULAR);
-			telefones.add(tel);
+			Telefone telefone = Fixture.from(Telefone.class).gimme("valido");
+			telefones.add(telefone);
 		}
 		emp1.setTelefones(telefones);
-		assertEquals(telefones, emp1.getTelefones());
+		assertThat(emp1.getTelefones(), equalTo(telefones));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_SET_TELEFONES_VAZIO)));
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void nao_deve_redefinir_a_lista_de_telefones_por_uma_lista_nula() {
-		Set<Telefone> telefones = null;
-		emp1.setTelefones(telefones);
+		emp1.setTelefones(null);
+		assertThat(getErros(emp1), hasItem(MENSAGEM_SET_TELEFONES_VAZIO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_redefinir_a_lista_de_telefones_por_uma_lista_igual() {
-		Set<Telefone> telefones = new HashSet<Telefone>();
-		for(int i=0; i<10; i++) {
-			Telefone tel = new Telefone(55, 11, 987654321+i);
-			tel.setTipo(EnumTipoTelefone.CELULAR);
-			telefones.add(tel);
-		}
-		emp1.setTelefones(telefones);
-		emp1.setTelefones(telefones);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_redefinir_a_lista_de_telefones_por_uma_lista_que_esteja_vazia() {
 		Set<Telefone> telefones = new HashSet<Telefone>();
 		emp1.setTelefones(telefones);
+		assertThat(getErros(emp1), hasItem(MENSAGEM_SET_TELEFONES_VAZIO));
 	}
 	
 	/*
@@ -747,18 +801,18 @@ public class EmpresaTest {
 	 * */
 	@Test
 	public void deve_indicar_que_a_lista_de_departamentos_e_inicializada_na_construcao_do_objeto() {
-		Empresa e1 = new Empresa();
-		assertNotNull(e1.getDepartamentos());
+		Empresa e1 = Fixture.from(Empresa.class).gimme("mock");
+		assertThat(e1.getDepartamentos(), not(equalTo(null)));
 	}
 	
-	@Test
-	public void deve_realizar_cadastro_de_departamentos() {
-		Departamento d = new Departamento();
-		d.setNome("Recursos Humanos");
-		d.setDescricao("Departamento que administra questões relativas aos colaboradores");
-		emp1.getDepartamentos().add(d);
-		assertTrue(emp1.getDepartamentos().contains(d));
-	}
+//	@Test
+//	public void deve_realizar_cadastro_de_departamentos() {
+//		Departamento d = new Departamento();
+//		d.setNome("Recursos Humanos");
+//		d.setDescricao("Departamento que administra questões relativas aos colaboradores");
+//		emp1.getDepartamentos().add(d);
+//		assertTrue(emp1.getDepartamentos().contains(d));
+//	}
 	
 	@Test
 	public void deve_redefinir_a_lista_de_departamentos() {
@@ -769,31 +823,21 @@ public class EmpresaTest {
 			departamentos.add(d);
 		}
 		emp1.setDepartamentos(departamentos);
-		assertEquals(departamentos, emp1.getDepartamentos());
+		assertThat(emp1.getDepartamentos(), equalTo(departamentos));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_SET_DEPARTAMENTOS_VAZIO)));
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void nao_deve_redefinir_a_lista_de_departamentos_por_uma_lista_nula() {
-		Set<Departamento> departamentos = null;
-		emp1.setDepartamentos(departamentos);
+		emp1.setDepartamentos(null);
+		assertThat(getErros(emp1), hasItem(MENSAGEM_SET_DEPARTAMENTOS_VAZIO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_redefinir_a_lista_de_departamentos_por_uma_lista_igual() {
-		Set<Departamento> departamentos = new HashSet<Departamento>();
-		for(int i=0; i<10; i++) {
-			Departamento d = new Departamento();
-			d.setDescricao("Departamento " + i+1);
-			departamentos.add(d);
-		}
-		emp1.setDepartamentos(departamentos);
-		emp1.setDepartamentos(departamentos);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_redefinir_a_lista_de_departamentos_por_uma_lista_que_esteja_vazia() {
 		Set<Departamento> departamentos = new HashSet<Departamento>();
 		emp1.setDepartamentos(departamentos);
+		assertThat(getErros(emp1), hasItem(MENSAGEM_SET_DEPARTAMENTOS_VAZIO));
 	}
 	
 	/*
@@ -804,30 +848,18 @@ public class EmpresaTest {
 		String logradouro = "Rua Piraju";
 		String bairro = "Monte Belo";
 		String cidade = "São Paulo";
-		String uf = "SP";
+		EnumEstadosBrasileiros uf = SP;
 		String pais = "Brasil";
 		String cep = "08587789";
-		
 		Endereco endereco = new Endereco(logradouro, bairro, cidade, uf, pais, cep);
 		emp1.setEndereco(endereco);
-		assertEquals(endereco, emp1.getEndereco());
+		assertThat(emp1.getEndereco(), equalTo(endereco));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_ENDERECO_NULL)));
 	}
 	
 	@Test
-	public void deve_aceitar_endereco_valido() {
-		String logradouro = "Rua Piraju";
-		String bairro = "Monte Belo";
-		String cidade = "São Paulo";
-		String uf = "SP";
-		String pais = "Brasil";
-		String cep = "08587789";
-		
-		Endereco endereco = new Endereco(logradouro, bairro, cidade, uf, pais, cep);
-		emp1.setEndereco(endereco);
-	}
-	
-	@Test(expected = NullPointerException.class)
 	public void nao_deve_aceitar_endereco_nulo() {
 		emp1.setEndereco(null);
+		assertThat(getErros(emp1), hasItem(MENSAGEM_ENDERECO_NULL));
 	}
 }

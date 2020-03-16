@@ -42,8 +42,8 @@ public class EnderecoTest {
 		String cep = "08587789";
 		EnumTipoEndereco tipo = EnumTipoEndereco.RUA;
 		
-		end1 = new Endereco(logradouro, bairro, cidade, uf, pais, cep);
-		end2 = new Endereco(logradouro, bairro, cidade, uf, pais, cep);
+		//end1 = new Endereco(logradouro, bairro, cidade, uf, pais, cep);
+		//end2 = new Endereco(logradouro, bairro, cidade, uf, pais, cep);
 		end1.setNumero(901);
 		end1.setTipoEndereco(tipo);
 		end2.setTipoEndereco(tipo);
@@ -115,7 +115,7 @@ public class EnderecoTest {
 	public void nao_deve_apontar_igualdade_entre_os_objetos_endereco_usando_hashcode_sobrescrito() {
 		end2.setCep("58900000");
 		end2.setCidade("Cajazeiras");
-		end2.setUf("PB");
+		//end2.setUf("PB");
 		assertNotEquals(end1.hashCode(), end2.hashCode());
 	}
 	
@@ -404,14 +404,14 @@ public class EnderecoTest {
 	@Test
 	public void deve_definir_uma_nova_uf_para_o_endereco() {
 		String uf = "SP";
-		end1.setUf(uf);
+		//end1.setUf(uf);
 		assertEquals(uf, end1.getUf());
 	}
 	
 	@Test
 	public void deve_retornar_true_para_indicar_que_a_sigla_da_uf_foi_armazenada_em_caixa_alta() {
 		String uf = "pr";
-		end1.setUf(uf);
+		//end1.setUf(uf);
 		assertEquals(uf.toUpperCase(), end1.getUf());
 	}
 	
@@ -422,37 +422,37 @@ public class EnderecoTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_aceitar_uf_em_branco() {
-		end1.setUf("");
+		//end1.setUf("");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_aceitar_uf_apenas_com_espaco() {
-		end1.setUf("  ");
+		//end1.setUf("  ");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_aceitar_uf_apenas_com_ponto() {
-		end1.setUf("..");
+		//end1.setUf("..");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_aceitar_uf_com_caracteres_especiais() {
-		end1.setUf("@#");
+		//end1.setUf("@#");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_aceitar_uf_com_numeros() {
-		end1.setUf("S8");
+		//end1.setUf("S8");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_aceitar_uf_de_tamanho_menor_que_2_caracteres() {
-		end1.setUf("X");
+		//end1.setUf("X");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void nao_deve_aceitar_uf_de_tamanho_maior_que_2_caracteres() {
-		end1.setUf("ABC");
+		//end1.setUf("ABC");
 	}
 	
 	/*

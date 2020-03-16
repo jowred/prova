@@ -1,5 +1,9 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_ADMISSAO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_ADMISSAO_PAST;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_DEPENDENTES_VAZIO;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,11 +17,12 @@ import org.joda.time.LocalDate;
 
 public class Funcionario extends Pessoa {
 	
-	@NotEmpty(message = "A coleção de dependentes não pode ser nula ou vazia (tamanho 0).")
+	@NotEmpty(message = MENSAGEM_SET_DEPENDENTES_VAZIO)
 	private Set<Dependente> dependentes;
+	// Fazer uma verificação usando o Guava para saber se a lista a ser inserida é igual à atual.
 	
-	@NotNull(message = "A data de admissão não pode ser nula.")
-	@Past(message = "O valor deve refletir uma data do passado.")
+	@Past(message = MENSAGEM_DATA_ADMISSAO_PAST)
+	@NotNull(message = MENSAGEM_DATA_ADMISSAO_BLANK)
 	private LocalDate dataAdmissao;
 	
 	public LocalDate getDataAdmissao() {

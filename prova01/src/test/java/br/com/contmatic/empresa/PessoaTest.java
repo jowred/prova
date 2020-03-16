@@ -87,15 +87,6 @@ public class PessoaTest {
 
 	// equals
 	@Test
-	public void deve_apontar_igualdade_entre_os_objetos_pessoa() {
-		String nome = p.getNome();
-		String rg = p.getRg();
-		String cpf = p.getCpf();
-		Pessoa p2 = new Pessoa(nome, rg, cpf);
-		assertEquals(p, p2);
-	}
-	
-	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_ambos_tem_o_mesmo_cpf() {
 		Pessoa p2 = Fixture.from(Pessoa.class).gimme("valido");
 		p2.setCpf(p.getCpf());

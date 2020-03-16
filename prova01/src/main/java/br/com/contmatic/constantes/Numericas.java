@@ -34,15 +34,15 @@ public final class Numericas {
 
 	public static final int MAX_AREA_ATUACAO = 55;
 
-	public static final int MIN_AREA_ATUACAO = 4;
+	public static final int MIN_AREA_ATUACAO = 2;
 
 	public static final int MAX_NOME_FANTASIA = 55;
 
-	public static final int MIN_NOME_FANTASIA = 1;
+	public static final int MIN_NOME_FANTASIA = 2;
 
 	public static final int MAX_RAZ_SOCIAL = 100;
 
-	public static final int MIN_RAZ_SOCIAL = 5;
+	public static final int MIN_RAZ_SOCIAL = 2;
 	
 	public static final int CPF_SIZE_SEM_VERIF = 9;
 
@@ -83,14 +83,20 @@ public final class Numericas {
 	public static final int MAX_NUM_RUA = 99999;
 
 	public static final int CEP_SIZE = 8;
-
-	public static final int MAX_PAIS = 100;
-
+	
 	public static final int MIN_PAIS = 3;
+	
+	public static final int MAX_PAIS = 100;
+	
+	public static final int MIN_CIDADE = 2;
 
 	public static final int MAX_CIDADE = 100;
 
+	public static final int MIN_BAIRRO = 2;
+	
 	public static final int MAX_BAIRRO = 55;
+	
+	public static final int MIN_LOGRADOURO = 2;
 
 	public static final int MAX_LOGRADOURO = 100;
 
@@ -99,5 +105,9 @@ public final class Numericas {
 	public static final int MIN_EMAIL = 6;
 	
 	public static final int MAX_EMAIL = 30;
+	
+	public static final int MIN_TELEFONE = 8;
+	
+	public static final int MAX_TELEFONE = 9;
 	
 }

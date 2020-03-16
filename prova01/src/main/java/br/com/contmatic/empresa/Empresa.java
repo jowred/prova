@@ -1,8 +1,10 @@
 package br.com.contmatic.empresa;
 
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_PATTERN;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CNPJ;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CNPJ_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CNPJ_INVALIDO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_PATTERN;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_TAMANHO;
@@ -60,11 +62,12 @@ public class Empresa {
 	@NotBlank(message = MENSAGEM_NOME_FANTASIA_BLANK)
 	private String nomeFantasia;
 	
-	@CNPJ(message = MENSAGEM_CNPJ)
+	@CNPJ(message = MENSAGEM_CNPJ_INVALIDO)
+	@NotBlank(message = MENSAGEM_CNPJ_BLANK)
 	private String cnpj;
 	
 	@Length(min = MIN_AREA_ATUACAO, max = MAX_AREA_ATUACAO, message = MENSAGEM_AREA_ATUACAO_TAMANHO)
-	@Pattern(regexp = REGEX_AREA_ATUACAO)
+	@Pattern(regexp = REGEX_AREA_ATUACAO, message = MENSAGEM_AREA_ATUACAO_PATTERN)
 	@NotBlank(message = MENSAGEM_AREA_ATUACAO_BLANK )
 	private String areaAtuacao;
 	
@@ -99,13 +102,13 @@ public class Empresa {
 	}
 
 	public void setRazaoSocial(String razaoSocial) {
-		checkRazaoSocialNula(razaoSocial);
-		checkRazaoSocialVazia(razaoSocial);		
-		checkRazaoSocialTamanho(razaoSocial);		
-		checkRazaoSocialCompostaUnicamentePorUmaLetra(razaoSocial);		
-		checkRazaoSocialContemLetras(razaoSocial);
-		checkRazaoSocialHifenInvalido(razaoSocial);
-		checkRazaoSocialCaracteresValidos(razaoSocial);
+//		checkRazaoSocialNula(razaoSocial);
+//		checkRazaoSocialVazia(razaoSocial);		
+//		checkRazaoSocialTamanho(razaoSocial);		
+//		checkRazaoSocialCompostaUnicamentePorUmaLetra(razaoSocial);		
+//		checkRazaoSocialContemLetras(razaoSocial);
+//		checkRazaoSocialHifenInvalido(razaoSocial);
+//		checkRazaoSocialCaracteresValidos(razaoSocial);
 		this.razaoSocial = razaoSocial;
 	}
 
@@ -114,13 +117,13 @@ public class Empresa {
 	}
 
 	public void setNomeFantasia(String nomeFantasia) {
-		checkNomeFantasiaNulo(nomeFantasia);		
-		checkNomeFantasiaVazio(nomeFantasia);		
-		checkNomeFantasiaTamanho(nomeFantasia);
-		checkNomeFantasiaCompostoUnicamentePorUmCaractere(nomeFantasia);
-		checkNomeFantasiaTemLetras(nomeFantasia);
-		checkNomeFantasiaHifenInvalido(nomeFantasia);
-		checkNomeFantasiaCaracteresValidos(nomeFantasia);
+//		checkNomeFantasiaNulo(nomeFantasia);		
+//		checkNomeFantasiaVazio(nomeFantasia);		
+//		checkNomeFantasiaTamanho(nomeFantasia);
+//		checkNomeFantasiaCompostoUnicamentePorUmCaractere(nomeFantasia);
+//		checkNomeFantasiaTemLetras(nomeFantasia);
+//		checkNomeFantasiaHifenInvalido(nomeFantasia);
+//		checkNomeFantasiaCaracteresValidos(nomeFantasia);
 		this.nomeFantasia = nomeFantasia;
 	}
 
@@ -129,12 +132,12 @@ public class Empresa {
 	}
 	
 	public void setCnpj(String cnpj) {
-		checkCnpjNulo(cnpj);		
-		checkCnpjVazio(cnpj);		
-		checkCnpjTamanho(cnpj);
-		checkCnpjContemApenasDigitos(cnpj);		
-		checkCnpjCompostoUnicamentePeloMesmoDigito(cnpj);		
-		checkCnpjValido(cnpj);
+//		checkCnpjNulo(cnpj);		
+//		checkCnpjVazio(cnpj);		
+//		checkCnpjTamanho(cnpj);
+//		checkCnpjContemApenasDigitos(cnpj);		
+//		checkCnpjCompostoUnicamentePeloMesmoDigito(cnpj);		
+//		checkCnpjValido(cnpj);
 		this.cnpj = cnpj;
 	}
 	
@@ -143,11 +146,11 @@ public class Empresa {
 	}
 
 	public void setAreaAtuacao(String areaAtuacao) {
-		checkAreaAtuacaoNula(areaAtuacao);		
-		checkAreaAtuacaoVazia(areaAtuacao);
-		checkAreaAtuacaoTamanho(areaAtuacao);		
-		checkAreaAtuacaoCaracteresValidos(areaAtuacao);		
-		checkAreaAtuacaoCompostaUnicamentePeloMesmoCaractere(areaAtuacao);		
+//		checkAreaAtuacaoNula(areaAtuacao);		
+//		checkAreaAtuacaoVazia(areaAtuacao);
+//		checkAreaAtuacaoTamanho(areaAtuacao);		
+//		checkAreaAtuacaoCaracteresValidos(areaAtuacao);		
+//		checkAreaAtuacaoCompostaUnicamentePeloMesmoCaractere(areaAtuacao);		
 		this.areaAtuacao = areaAtuacao;
 	}
 
@@ -156,9 +159,9 @@ public class Empresa {
 	}
 
 	public void setDepartamentos(Set<Departamento> departamentos) {
-		checkSetDepartamentosNulo(departamentos);
-		checkSetDepartamentosVazio(departamentos);		
-		checkNovoSetDepartamentosIgualAntigo(departamentos);		
+//		checkSetDepartamentosNulo(departamentos);
+//		checkSetDepartamentosVazio(departamentos);		
+//		checkNovoSetDepartamentosIgualAntigo(departamentos);		
 		this.departamentos = departamentos;
 	}
 	
@@ -167,9 +170,9 @@ public class Empresa {
 	}
 
 	public void setTelefones(Set<Telefone> telefones) {
-		checkSetTelefonesNulo(telefones);
-		checkSetTelefonesVazio(telefones);		
-		checkNovoSetTelefonesIgualAntigo(telefones);
+//		checkSetTelefonesNulo(telefones);
+//		checkSetTelefonesVazio(telefones);		
+//		checkNovoSetTelefonesIgualAntigo(telefones);
 		this.telefones = telefones;
 	}
 
@@ -178,7 +181,7 @@ public class Empresa {
 	}
 
 	public void setEndereco(Endereco endereco) {
-		checkEnderecoNulo(endereco);
+//		checkEnderecoNulo(endereco);
 		this.endereco = endereco;
 	}
 

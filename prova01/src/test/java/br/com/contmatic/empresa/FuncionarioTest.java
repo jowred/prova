@@ -1,7 +1,9 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_NASCIMENTO_FUTURE;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -12,27 +14,47 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
+import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import br.com.six2six.fixturefactory.Fixture;
+import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
+
 public class FuncionarioTest {
 	
 	Funcionario f;
 	
+	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+
+	private Validator validator = factory.getValidator();
+	
+	public Set<String> getErros(Funcionario funcionario) {
+		Set<String> erros = new HashSet<>();
+		for (ConstraintViolation<Funcionario> constraintViolation : validator.validate(funcionario)) {
+			erros.add(constraintViolation.getMessageTemplate());
+			System.out.println(constraintViolation.getMessageTemplate());
+		}
+		return erros;
+	}
+	
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		System.out.println("Iniciando testes da classe Funcionario...");
+		FixtureFactoryLoader.loadTemplates("br.com.contmatic.templates");
 	}
 	
 	@Before
 	public void setUp() {
-		String nome = "Vitória";
-		String rg = "516879541";
-		String cpf = "50736121080";
-		f = new Funcionario(nome, rg, cpf);
+		f = Fixture.from(Funcionario.class).gimme("valido");
 	}
 	
 	@After
@@ -43,6 +65,11 @@ public class FuncionarioTest {
 	@AfterClass
 	public static void tearDownAfterClass() {
 		System.out.println("Encerrando testes da classe Funcionario.");
+	}
+	
+	@Test
+	public void deve_validar_objeto_criado_com_o_fixture() {
+		assertThat(getErros(f).size(), is(0));
 	}
 	
 	@Test
@@ -172,5 +199,21 @@ public class FuncionarioTest {
 		Departamento depto = new Departamento("Novas tecnologias", "Departamento de inovações em tecnologia");
 		f.cadastrar(depto);
 		assertFalse(f.cadastrar(depto));
+	}
+	
+	/*
+	 * DATA ADMISSAO
+	 */
+	@Test
+	public void deve_aceitar_data_de_nascimento_especificada() {
+		f.setDataAdmissao(new LocalDate("2015-01-25"));
+		assertThat(getErros(f).isEmpty(), is(true));
+	}
+
+	@Test
+	public void nao_deve_aceitar_data_de_nascimento_futura() {
+		LocalDate localDate = new LocalDate(2040, 4, 1);
+		f.setDataAdmissao(localDate);
+		assertThat(getErros(f), hasItem(MENSAGEM_DATA_NASCIMENTO_FUTURE));
 	}
 }
