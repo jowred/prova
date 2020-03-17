@@ -1,3 +1,5 @@
+// Conflitos resolvidos???
+
 package br.com.contmatic.empresa;
 
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CODIGO_PAIS_TAMANHO;
