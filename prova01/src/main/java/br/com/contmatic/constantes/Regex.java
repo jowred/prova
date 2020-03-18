@@ -8,9 +8,9 @@ public class Regex {
 	
 	private static final String VOGAIS_ACENTUADAS = "áãêéóôõíú";
 	
-	private static final String REGEX_COMUM_NOME = "^[A-Za-z][a-zA-Zç\\s" + VOGAIS_ACENTUADAS + "\\.,]+[a-z]$";
+	private static final String REGEX_COMUM_NOME = "^[A-Za-z][a-zA-Zç\\s" + VOGAIS_ACENTUADAS + "\\.,]*[a-zA-Z\\.]$";
 	
-	public static final String REGEX_NOME_PESSOA = "^[A-Z][a-zA-Zç\\s" + VOGAIS_ACENTUADAS + "\\.,]+[a-z]$";
+	public static final String REGEX_NOME_PESSOA = "^[A-Z][a-zA-Zç\\s" + VOGAIS_ACENTUADAS + "\\.,]*[a-zA-Z\\. + " + VOGAIS_ACENTUADAS + "]$";
 	
 	public static final String REGEX_RG = "^\\d{8,9}";
 	

@@ -38,7 +38,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import br.com.contmatic.enums.EnumEstadosBrasileiros;
-import br.com.contmatic.enums.EnumTipoTelefone;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 

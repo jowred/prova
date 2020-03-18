@@ -1,15 +1,21 @@
 package br.com.contmatic.empresa;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,15 +23,32 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import br.com.six2six.fixturefactory.Fixture;
+import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
+
 public class DepartamentoTest {
 	
 	Empresa emp;
 	
 	Departamento depto;
+	
+	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+	
+	private Validator validator = factory.getValidator();
+	
+	public Set<String> getErros(Departamento depto) {
+		Set<String> erros = new HashSet<>();
+		for (ConstraintViolation<Departamento> constraintViolation : validator.validate(depto)) {
+			erros.add(constraintViolation.getMessageTemplate());
+			System.out.println(constraintViolation.getMessageTemplate());
+		}
+		return erros;
+	}
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		System.out.println("Iniciando os testes da classe Departamento...");
+		FixtureFactoryLoader.loadTemplates("br.com.contmatic.templates");
 	}
 	
 	@AfterClass
@@ -36,7 +59,7 @@ public class DepartamentoTest {
 	@Before
 	public void setUp() {
 		emp = new Empresa();
-		depto = new Departamento("RH", "Departamento de recursos humanos");
+		depto = Fixture.from(Departamento.class).gimme("valido");
 	}
 	
 	@After
@@ -46,20 +69,26 @@ public class DepartamentoTest {
 	}
 	
 	@Test
+	public void deve_validar_objeto_criado_com_fixture() {
+		System.out.println(depto);
+		assertThat(getErros(depto).size(), is(0));
+	}
+	
+	@Test
 	public void deve_indicar_que_o_metodo_toString_esta_sobrescrito_por_nao_conter_o_caractere_arroba() {
 		assertThat(new Departamento().toString(), not(containsString("@")));
 	}
 	
 	@Test
 	public void deve_indicar_que_a_lista_de_funcionarios_e_inicializada_na_construcao_do_objeto() {
-		Departamento d1 = new Departamento();
-		assertNotNull(d1.getFuncionarios());
+		assertThat(depto.getFuncionarios(), not(equalTo(null)));
 	}
 	
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_departamento() {
-		Departamento depto2 = new Departamento(depto.getNome(), depto.getDescricao());
-		assertEquals(depto, depto2);
+		depto = Fixture.from(Departamento.class).gimme("mock");
+		Departamento depto2 = Fixture.from(Departamento.class).gimme("mock");
+		assertThat(depto, equalTo(depto2));
 	}
 	
 	//equals
