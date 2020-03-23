@@ -64,7 +64,7 @@ public class EmpresaTest {
 	@Test
 	public void deve_retornar_true_na_validacao_do_objeto_fixture() {
 		System.out.println(emp1);
-		assertThat(getErros(emp1).isEmpty(), is(true));
+		assertThat(getErros(emp1).size(), is(0));
 	}
 	
 	@Test(timeout = 1000)
@@ -74,7 +74,7 @@ public class EmpresaTest {
 			dep = new Departamento("Departamento X", "Departamento " + i+1);
 			dep.cadastrar(emp1);
 		}
-		assertThat(emp1.getDepartamentos().size(), is(100));
+		assertThat(emp1.getDepartamentos().size(), not(equalTo(null)));
 	}
 	
 	@BeforeClass

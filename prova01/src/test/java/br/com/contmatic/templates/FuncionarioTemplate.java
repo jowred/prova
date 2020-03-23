@@ -2,6 +2,7 @@ package br.com.contmatic.templates;
 
 import org.joda.time.LocalDate;
 
+import br.com.contmatic.empresa.Dependente;
 import br.com.contmatic.empresa.Funcionario;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.Rule;
@@ -19,6 +20,7 @@ public class FuncionarioTemplate implements TemplateLoader {
 			String email = new String("${nome}" + (int)(Math.random() * 100) + "@gmail.com").toLowerCase();
 			add("email", email);
 			add("dataAdmissao", random(new LocalDate(2019, 12, 19), new LocalDate(2018, 8, 2), new LocalDate(2020, 1, 16)));
+			add("dependentes", has(1).of(Dependente.class, "mock"));
 		}});
 		
 		Fixture.of(Funcionario.class).addTemplate("mock", new Rule() {{
@@ -26,8 +28,7 @@ public class FuncionarioTemplate implements TemplateLoader {
 			add("rg", "516879541");
 			add("cpf", "50736121080");
 			add("dataNascimento", new LocalDate(1997, 12, 26));
-			String email = new String("${nome}" + (int)(Math.random() * 100) + "@gmail.com").toLowerCase();
-			add("email", email);
+			add("email", "${nome}14@gmail.com");
 			add("dataAdmissao", new LocalDate(2018, 7, 25));
 		}});
 	}

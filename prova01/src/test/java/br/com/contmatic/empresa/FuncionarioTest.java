@@ -1,15 +1,27 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CPF_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CPF_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_ADMISSAO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_ADMISSAO_PAST;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_NASCIMENTO_FUTURE;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_NASCIMENTO_NULA;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_DEPENDENTES_VAZIO;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -77,143 +89,426 @@ public class FuncionarioTest {
 		assertThat(new Funcionario().toString(), not(containsString("@")));
 	}
 	
-	@Test
-	public void deve_apontar_igualdade_entre_os_objetos_funcionario() {
-		String nome = f.getNome();
-		String rg = f.getRg();
-		String cpf = f.getCpf();
-		Funcionario fun = new Funcionario(nome, rg, cpf);
-		assertEquals(f, fun);
-	}
-	
 	//equals
 	@Test
+	public void deve_apontar_igualdade_entre_os_objetos_funcionario() {
+		f = Fixture.from(Funcionario.class).gimme("mock");
+		Funcionario fun = Fixture.from(Funcionario.class).gimme("mock");
+		assertThat(f, equalTo(fun));
+	}
+	
+	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_ambos_tem_o_mesmo_cpf() {
-		String nome = "Vitória M.";
-		String rg = f.getRg();
-		String cpf = f.getCpf();
-		Funcionario fun = new Funcionario(nome, rg, cpf);
-		assertTrue(f.equals(fun));
+		f = Fixture.from(Funcionario.class).gimme("valido");
+		Funcionario fun = Fixture.from(Funcionario.class).gimme("valido");
+		fun.setCpf(f.getCpf());
+		assertThat(f, equalTo(fun));
 	}
 	
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_sao_o_mesmo_objeto() {
 		Funcionario fun = f;
-		assertTrue(f.equals(fun));
+		assertThat(f, equalTo(fun));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_cpf_do_objeto2_e_diferente() {
-		String nome = f.getNome();
-		String rg = f.getRg();
-		String cpf = "73563445052";
-		Funcionario fun = new Funcionario(nome, rg, cpf);
-		assertFalse(f.equals(fun));
+		Funcionario fun = Fixture.from(Funcionario.class).gimme("valido");
+		fun.setCpf("73563445052");
+		assertThat(f, not(equalTo(fun)));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_os_objetos_sao_de_classes_diferentes() {
-		assertFalse(f.equals(new Object()));
+		assertThat(f, not(equalTo(new Object())));
 	}
 	
 	//hashcode
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_funcionario_usando_hashcode_sobrescrito() {
-		String nome = f.getNome();
-		String rg = f.getRg();
-		String cpf = f.getCpf();
-		Funcionario fun = new Funcionario(nome, rg, cpf);
-		assertEquals(f.hashCode(), fun.hashCode());
+		f = Fixture.from(Funcionario.class).gimme("mock");
+		Funcionario fun = Fixture.from(Funcionario.class).gimme("mock");
+		assertThat(f.hashCode(), equalTo(fun.hashCode()));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_usando_hashcode_sobrescrito() {
-		String nome = "Joseph Stewart";
-		String rg = "413720433";
-		String cpf = "22104854016";
-		Funcionario fun = new Funcionario(nome, rg, cpf);
-		assertNotEquals(f.hashCode(), fun.hashCode());
+		Funcionario fun = Fixture.from(Funcionario.class).gimme("valido");
+		fun.setCpf("22104854016");
+		assertThat(f.hashCode(), not(equalTo(fun.hashCode())));
 	}
 	
 	@Test
 	public void deve_redefinir_lista_de_dependentes() {
 		Set<Dependente> dependentes = new HashSet<Dependente>();
-		dependentes.add(new Dependente());
+		Dependente dep = Fixture.from(Dependente.class).gimme("valido");
+		dependentes.add(dep);
 		f.setDependentes(dependentes);
-		assertEquals(dependentes, f.getDependentes());
+		assertThat(f.getDependentes(), equalTo(dependentes));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_SET_DEPENDENTES_VAZIO)));
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void nao_deve_redefinir_lista_de_dependentes_por_uma_lista_nula() {
-		Set<Dependente> dependentes = null;
-		f.setDependentes(dependentes);
+		f.setDependentes(null);
+		assertThat(getErros(f), hasItem(MENSAGEM_SET_DEPENDENTES_VAZIO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_redefinir_a_lista_de_dependentes_por_uma_lista_igual() {
-		Set<Dependente> dependentes = new HashSet<Dependente>();
-		for(int i=0; i<10; i++) {
-			Dependente d = new Dependente();
-			dependentes.add(d);
-		}
-		f.setDependentes(dependentes);
-		f.setDependentes(dependentes);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_redefinir_a_lista_de_dependentes_por_uma_lista_que_esteja_vazia() {
 		Set<Dependente> dependentes = new HashSet<Dependente>();
 		f.setDependentes(dependentes);
+		assertThat(getErros(f), hasItem(MENSAGEM_SET_DEPENDENTES_VAZIO));
 	}
-	
 	
 	/*
-	 * MÉTODOS
-	 * */
+	 * NOME
+	 */
 	@Test
-	public void deve_realizar_cadastro_em_departamento_valido() {
-		Departamento depto = new Departamento("Novas tecnologias", "Departamento de inovações em tecnologia");
-		f.cadastrar(depto);
-		assertThat(depto.getFuncionarios(), hasItem(f));
+	public void nao_deve_aceitar_nome_fora_do_padrao_da_regex_especificada() {
+		f.setNome("maria");
+		assertThat(getErros(f), hasItem(MENSAGEM_NOME_PESSOA_PATTERN));
+	}
+
+	@Test
+	public void nao_deve_aceitar_nome_de_tamanho_diferente_do_especificado() {
+		f.setNome("j");
+		validator.validate(f);
+		assertThat(getErros(f), hasItem(MENSAGEM_NOME_PESSOA_TAMANHO));
 	}
 	
 	@Test
-	public void deve_realizar_cadastro_de_novo_funcionario_no_departamento() {
-		Departamento depto = new Departamento("Novas tecnologias", "Departamento de inovações em tecnologia");
-		f.cadastrar(depto);
-		String nome = "José Franco Gomes";
-		String rg = "228670755";
-		String cpf = "16292336093";
-		Funcionario fun = new Funcionario(nome, rg, cpf);
-		fun.cadastrar(depto);
-		assertThat(depto.getFuncionarios(), hasItem(fun));
-	}
-	
-	@Test(expected = NullPointerException.class)
-	public void nao_deve_realizar_cadastro_em_departamento_nulo() {
-		f.cadastrar(null);
+	public void nao_deve_aceitar_nome_nulo() {
+		f.setNome(null);
+		assertThat(getErros(f), hasItem(MENSAGEM_NOME_PESSOA_BLANK));
 	}
 	
 	@Test
-	public void nao_deve_realizar_cadastro_duas_vezes_no_mesmo_departamento() {
-		Departamento depto = new Departamento("Novas tecnologias", "Departamento de inovações em tecnologia");
-		f.cadastrar(depto);
-		assertFalse(f.cadastrar(depto));
+	public void nao_deve_aceitar_nome_em_branco() {
+		f.setNome("");
+		assertThat(getErros(f), hasItem(MENSAGEM_NOME_PESSOA_BLANK));
+	}
+
+	@Test
+	public void deve_definir_um_novo_nome_para_a_pessoa() {
+		String nome = "Maria";
+		f.setNome(nome);
+		Set<String> erros = getErros(f);
+		assertThat(f.getNome(), equalTo(nome));
+		assertThat(erros, not(hasItem(MENSAGEM_NOME_PESSOA_BLANK)));
+		assertThat(erros, not(hasItem(MENSAGEM_NOME_PESSOA_TAMANHO)));
+		assertThat(erros, not(hasItem(MENSAGEM_NOME_PESSOA_PATTERN)));
+	}
+
+	@Test
+	public void deve_aceitar_nome_apenas_com_letras() {
+		f.setNome("Vitória");
+		assertThat(getErros(f).isEmpty(), is(true));
+	}
+
+	@Test
+	public void deve_aceitar_nome_apenas_com_letras_e_espaco() {
+		f.setNome("Vitória da Silva");
+		assertThat(getErros(f).isEmpty(), is(true));
+	}
+
+	@Test
+	public void deve_aceitar_nome_com_letras_espaco_e_ponto() {
+		f.setNome("Vitória M. Silva");
+		assertThat(getErros(f).isEmpty(), is(true));
+	}
+
+	@Test
+	public void nao_deve_aceitar_nome_com_numeros() {
+		f.setNome("José 2");
+		assertThat(getErros(f), hasItem(MENSAGEM_NOME_PESSOA_PATTERN));
+	}
+
+	@Test
+	public void nao_deve_aceitar_nome_com_caracteres_especiais() {
+		f.setNome("José@");
+		assertThat(getErros(f), hasItem(MENSAGEM_NOME_PESSOA_PATTERN));
+	}
+
+	@Test
+	public void nao_deve_aceitar_nome_que_nao_inicia_com_letra() {
+		f.setNome(".Mariana Silva");
+		assertThat(getErros(f), hasItem(MENSAGEM_NOME_PESSOA_PATTERN));
+	}
+
+	@Test
+	public void nao_deve_aceitar_nome_de_tamanho_menor_que_2_caracteres() {
+		f.setNome("S");
+		assertThat(getErros(f), hasItem(MENSAGEM_NOME_PESSOA_PATTERN));
+		assertThat(getErros(f), hasItem(MENSAGEM_NOME_PESSOA_TAMANHO));
+	}
+
+	@Test
+	public void nao_deve_aceitar_nome_de_tamanho_maior_que_100_caracteres() {
+		StringBuilder sb = new StringBuilder("J");
+		for (int i = 0; i < 100; i++) {
+			sb.append("o");
+		}
+		f.setNome(sb.toString());
+		assertThat(getErros(f), hasItem(MENSAGEM_NOME_PESSOA_TAMANHO));
+	}
+
+	@Test
+	public void nao_deve_aceitar_nome_com_menos_de_uma_letra_independentemente_da_quantidade_de_caracteres_da_string() {
+		f.setNome("K    ");
+		assertThat(getErros(f), hasItem(MENSAGEM_NOME_PESSOA_PATTERN));
+	}
+
+	/*
+	 * CPF
+	 */
+	@Test
+	public void deve_definir_um_novo_cpf_para_a_pessoa() {
+		String cpf = "55269981009";
+		f.setCpf(cpf);
+		assertThat(f.getCpf(), equalTo(cpf));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_CPF_PATTERN)));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_CPF_BLANK)));		
+	}
+
+	@Test
+	public void deve_aceitar_cpf_valido_sem_caracteres_especiais_estranhos_ao_padrao() {
+		f.setCpf("54676325070");
+		assertThat(getErros(f), not(hasItem(MENSAGEM_CPF_PATTERN)));
+	}
+	
+	@Test
+	public void deve_aceitar_cpf_valido_com_mascara() {
+		f.setCpf("546.763.250-70");
+		assertThat(getErros(f), not(hasItem(MENSAGEM_CPF_PATTERN)));
+	}
+
+	@Test
+	public void nao_deve_aceitar_cpf_nulo() {
+		f.setCpf(null);
+		assertThat(getErros(f), hasItem(MENSAGEM_CPF_BLANK));
+	}
+
+	@Test
+	public void nao_deve_aceitar_cpf_em_branco() {
+		f.setCpf("");
+		assertThat(getErros(f), hasItem(MENSAGEM_CPF_BLANK));
+	}
+
+	@Test
+	public void nao_deve_aceitar_cpf_composto_por_menos_de_11_digitos() {
+		f.setCpf("5467632507");
+		assertThat(getErros(f), hasItem(MENSAGEM_CPF_PATTERN));
+	}
+
+	@Test
+	public void nao_deve_aceitar_cpf_composto_por_mais_de_11_digitos() {
+		f.setCpf("546763250704");
+		assertThat(getErros(f), hasItem(MENSAGEM_CPF_PATTERN));
+	}
+
+	@Test
+	public void nao_deve_aceitar_cpf_composto_por_letras() {
+		f.setCpf("abcdefghijk");
+		assertThat(getErros(f), hasItem(MENSAGEM_CPF_PATTERN));
+	}
+
+	@Test
+	public void nao_deve_aceitar_cpf_composto_por_caracteres_especiais() {
+		f.setCpf("!@#$.%&*()!@#$");
+		assertThat(getErros(f), hasItem(MENSAGEM_CPF_PATTERN));
+	}
+
+	@Test
+	public void nao_deve_aceitar_cpf_composto_por_digitos_iguais() {
+		f.setCpf("99999999999");
+		assertThat(getErros(f), hasItem(MENSAGEM_CPF_PATTERN));
+	}
+
+	@Test
+	public void nao_deve_aceitar_cpf_invalido() {
+		f.setCpf("87548965809");
+		assertThat(getErros(f), hasItem(MENSAGEM_CPF_PATTERN));
+	}
+
+	/*
+	 * RG
+	 */
+	@Test
+	public void nao_deve_aceitar_rg_com_menos_de_8_digitos() {
+		f.setRg("4963592");
+		assertThat(getErros(f), hasItem(MENSAGEM_RG_TAMANHO));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_rg_com_mais_de_9_digitos() {
+		f.setRg("4963592789");
+		assertThat(getErros(f), hasItem(MENSAGEM_RG_TAMANHO));
+	}
+
+	@Test
+	public void deve_definir_um_novo_rg_para_a_pessoa() {
+		String rg = "789546879";
+		f.setRg(rg);
+		assertThat(rg, equalTo(f.getRg()));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_RG_BLANK)));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_RG_PATTERN)));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_RG_TAMANHO)));
+	}
+
+	@Test
+	public void deve_aceitar_rg_com_8_digitos() {// RG em MG
+		f.setRg("26542809");
+		assertThat(getErros(f), not(hasItem(MENSAGEM_RG_BLANK)));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_RG_PATTERN)));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_RG_TAMANHO)));
+	}
+
+	@Test
+	public void deve_aceitar_rg_com_9_digitos() {
+		f.setRg("265428099");
+		assertThat(getErros(f), not(hasItem(MENSAGEM_RG_BLANK)));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_RG_PATTERN)));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_RG_TAMANHO)));
+	}
+
+	@Test
+	public void nao_deve_aceitar_rg_nulo() {
+		f.setRg(null);
+		assertThat(getErros(f), hasItem(MENSAGEM_RG_BLANK));
+	}
+
+	@Test
+	public void nao_deve_aceitar_rg_em_branco() {
+		f.setRg("");
+		assertThat(getErros(f), hasItem(MENSAGEM_RG_BLANK));
+	}
+
+	@Test
+	public void nao_deve_aceitar_rg_com_letras() {
+		f.setRg("abcdefghi");
+		assertThat(getErros(f), hasItem(MENSAGEM_RG_PATTERN));
+	}
+
+	@Test
+	public void nao_deve_aceitar_rg_com_caracteres_especiais() {
+		f.setRg("@#$%&*###");
+		assertThat(getErros(f), hasItem(MENSAGEM_RG_PATTERN));
+		
+	}
+
+	@Test
+	public void nao_deve_aceitar_rg_que_contenha_qualquer_caractere_estranho_a_digitos() {
+		f.setRg("26.542.809-9");
+		assertThat(getErros(f), hasItem(MENSAGEM_RG_PATTERN));
+	}
+
+	@Test
+	public void nao_deve_aceitar_rg_composto_por_menos_de_8_caracteres() {
+		f.setRg("2654280");
+		assertThat(getErros(f), hasItem(MENSAGEM_RG_TAMANHO));
+	}
+
+	@Test
+	public void nao_deve_aceitar_rg_composto_por_mais_de_9_caracteres() {
+		f.setRg("2654280995");
+		assertThat(getErros(f), hasItem(MENSAGEM_RG_TAMANHO));
+	}
+
+	/*
+	 * DATA NASCIMENTO
+	 */
+	@Test
+	public void deve_aceitar_data_de_nascimento_especificada() {
+		LocalDate nascimento = new LocalDate("1985-01-25");
+		f.setDataNascimento(nascimento);
+		assertThat(f.getDataNascimento(), equalTo(nascimento));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_DATA_NASCIMENTO_NULA)));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_DATA_NASCIMENTO_FUTURE)));
+	}
+
+	@Test
+	public void nao_deve_aceitar_data_de_nascimento_futura() {
+		LocalDate localDate = new LocalDate(2021, 4, 1);
+		f.setDataNascimento(localDate);
+		assertThat(getErros(f), hasItem(MENSAGEM_DATA_NASCIMENTO_FUTURE));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_data_de_nascimento_nula() {
+		f.setDataNascimento(null);
+		assertThat(getErros(f), hasItem(MENSAGEM_DATA_NASCIMENTO_NULA));
+	}
+	
+	/*
+	 * EMAIL
+	 */
+	@Test
+	public void deve_redefinir_email_valido() {
+		String email = "java@oracle.com";
+		f.setEmail(email);
+		assertThat(f.getEmail(), equalTo(email));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_EMAIL_BLANK)));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_EMAIL_PATTERN)));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_EMAIL_TAMANHO)));
+	}
+	
+	@Test
+	public void deve_aceitar_email_valido() {
+		f.setEmail("abc@gmail.com");
+		assertThat(getErros(f), not(hasItem(MENSAGEM_EMAIL_BLANK)));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_EMAIL_PATTERN)));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_EMAIL_TAMANHO)));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_email_invalido() {
+		String email = "testmail@@gmail.com";
+		f.setEmail(email);
+		assertThat(getErros(f), hasItem(MENSAGEM_EMAIL_PATTERN));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_email_nulo() {
+		f.setEmail(null);
+		assertThat(getErros(f), hasItem(MENSAGEM_EMAIL_BLANK));
+	}
+
+	@Test
+	public void nao_deve_aceitar_email_com_menos_de_6_caracteres() {
+		f.setEmail("a@a");
+		assertThat(getErros(f), hasItem(MENSAGEM_EMAIL_TAMANHO));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_email_com_mais_de_100_caracteres() {
+		StringBuilder sb = new StringBuilder("J");
+		for (int i = 0; i < 100; i++) {
+			sb.append("o");
+		}
+		f.setEmail(sb.toString());
+		assertThat(getErros(f), hasItem(MENSAGEM_EMAIL_TAMANHO));
 	}
 	
 	/*
 	 * DATA ADMISSAO
 	 */
 	@Test
-	public void deve_aceitar_data_de_nascimento_especificada() {
+	public void deve_aceitar_data_de_admissao_especificada() {
 		f.setDataAdmissao(new LocalDate("2015-01-25"));
-		assertThat(getErros(f).isEmpty(), is(true));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_DATA_ADMISSAO_PAST)));
 	}
 
 	@Test
-	public void nao_deve_aceitar_data_de_nascimento_futura() {
+	public void nao_deve_aceitar_data_de_admissao_futura() {
 		LocalDate localDate = new LocalDate(2040, 4, 1);
 		f.setDataAdmissao(localDate);
-		assertThat(getErros(f), hasItem(MENSAGEM_DATA_NASCIMENTO_FUTURE));
+		assertThat(getErros(f), hasItem(MENSAGEM_DATA_ADMISSAO_PAST));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_data_de_admissao_nula() {
+		f.setDataAdmissao(null);
+		assertThat(getErros(f), hasItem(MENSAGEM_DATA_ADMISSAO_BLANK));
 	}
 }

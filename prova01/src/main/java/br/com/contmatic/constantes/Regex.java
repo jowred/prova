@@ -10,15 +10,15 @@ public class Regex {
 	
 	private static final String REGEX_COMUM_NOME = "^[A-Za-z][a-zA-Zç\\s" + VOGAIS_ACENTUADAS + "\\.,]*[a-zA-Z\\.]$";
 	
-	public static final String REGEX_NOME_PESSOA = "^[A-Z][a-zA-Zç\\s" + VOGAIS_ACENTUADAS + "\\.,]*[a-zA-Z\\. + " + VOGAIS_ACENTUADAS + "]$";
+	public static final String REGEX_NOME_PESSOA = "^[A-Z][a-zA-Zç\\s" + VOGAIS_ACENTUADAS + "\\.,]*[a-zA-Z\\." + VOGAIS_ACENTUADAS + "]$";
 	
 	public static final String REGEX_RG = "^\\d{8,9}";
 	
 	public static final String REGEX_EMAIL = "\\w([a-z0-9-]+(\\.[a-z0-9-]+)*\\w)@(([a-z0-9]([a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9]([a-z0-9-]*[a-z0-9])?|\\[(\\.){3}([a-z0-9-]*[a-z0-9]:)\\])";
 	
-	public static final String REGEX_RAZAO_SOCIAL = "^[a-zA-Z][\\w\\s\\.&,\\-ç" + VOGAIS_ACENTUADAS + "]+[a-z\\.]$";
+	public static final String REGEX_RAZAO_SOCIAL = "^[a-zA-Z][\\w\\s\\.&,\\-ç" + VOGAIS_ACENTUADAS + "]+[a-zA-Z\\.]$";
 	
-	public static final String REGEX_NOME_FANTASIA = "^[a-zA-Z][\\w\\s\\.&,@!\\-ç" + VOGAIS_ACENTUADAS + "]+[a-z\\.]$";
+	public static final String REGEX_NOME_FANTASIA = "^[a-zA-Z][\\w\\s\\.&,@!\\-ç" + VOGAIS_ACENTUADAS + "]+[a-zA-Z\\.]$";
 	
 	public static final String REGEX_AREA_ATUACAO = REGEX_COMUM_NOME;
 	

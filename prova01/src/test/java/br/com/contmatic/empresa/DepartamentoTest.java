@@ -1,13 +1,18 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DESCRICAO_DEPARTAMENTO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DESCRICAO_DEPARTAMENTO_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_DEPARTAMENTO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_DEPARTAMENTO_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_DEPARTAMENTO_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_FUNCIONARIOS_VAZIO;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -58,7 +63,6 @@ public class DepartamentoTest {
 	
 	@Before
 	public void setUp() {
-		emp = new Empresa();
 		depto = Fixture.from(Departamento.class).gimme("valido");
 	}
 	
@@ -94,72 +98,72 @@ public class DepartamentoTest {
 	//equals
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_departamento_usando_equals_sobrescrito_porque_os_valores_sao_iguais() {
-		Departamento depto2 = new Departamento(depto.getNome(), depto.getDescricao());
-		assertTrue(depto.equals(depto2));
+		depto = Fixture.from(Departamento.class).gimme("mock");
+		Departamento depto2 = Fixture.from(Departamento.class).gimme("mock");
+		assertThat(depto, equalTo(depto2));
 	}
 	
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_departamento_usando_equals_sobrescrito_porque_sao_o_mesmo_objeto() {
 		Departamento depto2 = depto;
-		assertTrue(depto.equals(depto2));
+		assertThat(depto, equalTo(depto2));
 	}
 		
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_departamento_usando_equals_sobrescrito_porque_objeto2_e_nulo() {
-		Departamento depto2 = null;
-		assertFalse(depto.equals(depto2));
+		assertThat(depto, not(equalTo(null)));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_departamento_usando_equals_sobrescrito_porque_os_valores_sao_diferentes() {
-		Departamento depto2 = new Departamento("Diretoria", "Departamento reservado para o setor estratégico");
-		assertFalse(depto.equals(depto2));
+		Departamento depto2 = Fixture.from(Departamento.class).gimme("valido");
+		assertThat(depto, not(equalTo(depto2)));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_sao_de_classes_diferentes() {
-		assertFalse(depto.equals(new Object()));
+		assertThat(depto, not(equalTo(new Object())));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_departamento_usando_equals_sobrescrito_porque_nome_do_objeto2_e_diferente() {
-		String nome = "Rec Humanos";
-		String descricao = depto.getDescricao();
-		Departamento depto2 = new Departamento(nome, descricao); 
-		assertFalse(depto.equals(depto2));
+		depto = Fixture.from(Departamento.class).gimme("mock");
+		Departamento depto2 = Fixture.from(Departamento.class).gimme("mock");
+		depto2.setNome("Rec Humanos");
+		assertThat(depto, not(equalTo(depto2)));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_departamento_usando_equals_sobrescrito_porque_descricao_do_objeto2_e_diferente() {
-		String nome = depto.getNome();
-		String descricao = "Departamento recursos humanos";
-		Departamento depto2 = new Departamento(nome, descricao); 
-		assertFalse(depto.equals(depto2));
+		depto = Fixture.from(Departamento.class).gimme("mock");
+		Departamento depto2 = Fixture.from(Departamento.class).gimme("mock");
+		depto2.setDescricao("Departamento recursos humanos");
+		assertThat(depto, not(equalTo(depto2)));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_departamento_usando_equals_sobrescrito_porque_lista_funcionarios_do_objeto2_e_diferente() {
-		depto = new Departamento("RH", "Recursos humanos");
-		String nome = depto.getNome();
-		String descricao = depto.getDescricao();
+		depto = Fixture.from(Departamento.class).gimme("mock");
+		Departamento depto2 = Fixture.from(Departamento.class).gimme("mock");
 		Set<Funcionario> funcionarios = new HashSet<Funcionario>();
-		funcionarios.add(new Funcionario());
-		Departamento depto2 = new Departamento(nome, descricao);
+		Funcionario fun = Fixture.from(Funcionario.class).gimme("valido");
+		funcionarios.add(fun);
 		depto2.setFuncionarios(funcionarios);
-		assertFalse(depto.equals(depto2));
+		assertThat(depto, not(equalTo(depto2)));
 	}
 	
 	//hashcode
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_departamento_usando_hashcode_sobrescrito() {
-		Departamento depto2 = new Departamento(depto.getNome(), depto.getDescricao());
-		assertTrue(depto.hashCode() == depto2.hashCode());
+		depto = Fixture.from(Departamento.class).gimme("mock");
+		Departamento depto2 = Fixture.from(Departamento.class).gimme("mock");
+		assertThat(depto.hashCode(), equalTo(depto2.hashCode()));
 	}
 
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_departamento_usando_hashcode_sobrescrito() {
-		Departamento depto2 = new Departamento("Direção", "Departamento reservado para o setor estratégico");
-		assertFalse(depto.hashCode() == depto2.hashCode());
+		Departamento depto2 = Fixture.from(Departamento.class).gimme("mock");
+		assertThat(depto.hashCode(), not(equalTo(depto2.hashCode())));
 	}
 	
 	
@@ -170,80 +174,89 @@ public class DepartamentoTest {
 	public void deve_definir_um_novo_nome_para_o_departamento() {
 		String nome = "Tecnologia";
 		depto.setNome(nome);
-		assertEquals(nome, depto.getNome());
+		assertThat(depto.getNome(), equalTo(nome));
+		assertThat(getErros(depto), not(hasItem(MENSAGEM_NOME_DEPARTAMENTO_BLANK)));
+		assertThat(getErros(depto), not(hasItem(MENSAGEM_NOME_DEPARTAMENTO_PATTERN)));
+		assertThat(getErros(depto), not(hasItem(MENSAGEM_NOME_DEPARTAMENTO_TAMANHO)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_apenas_com_letras() {
 		depto.setNome("Diretoria");
+		assertThat(getErros(depto), not(hasItem(MENSAGEM_NOME_DEPARTAMENTO_BLANK)));
+		assertThat(getErros(depto), not(hasItem(MENSAGEM_NOME_DEPARTAMENTO_PATTERN)));
+		assertThat(getErros(depto), not(hasItem(MENSAGEM_NOME_DEPARTAMENTO_TAMANHO)));
 	}
 	
 	@Test
 	public void deve_aceitar_nome_com_letras_e_espacos() {
 		depto.setNome("Novas tecnologias");
+		assertThat(getErros(depto), not(hasItem(MENSAGEM_NOME_DEPARTAMENTO_BLANK)));
+		assertThat(getErros(depto), not(hasItem(MENSAGEM_NOME_DEPARTAMENTO_PATTERN)));
+		assertThat(getErros(depto), not(hasItem(MENSAGEM_NOME_DEPARTAMENTO_TAMANHO)));
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void nao_deve_aceitar_nome_nulo() {
 		depto.setNome(null);
+		assertThat(getErros(depto), hasItem(MENSAGEM_NOME_DEPARTAMENTO_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_em_branco() {
 		depto.setNome("");
+		assertThat(getErros(depto), hasItem(MENSAGEM_NOME_DEPARTAMENTO_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_apenas_com_espaco() {
 		depto.setNome(" ");
+		assertThat(getErros(depto), hasItem(MENSAGEM_NOME_DEPARTAMENTO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_apenas_com_ponto() {
 		depto.setNome(".");
+		assertThat(getErros(depto), hasItem(MENSAGEM_NOME_DEPARTAMENTO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_com_numero() {
 		depto.setNome("Departamento 1");
+		assertThat(getErros(depto), hasItem(MENSAGEM_NOME_DEPARTAMENTO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_sem_letras() {
 		depto.setNome("           ");
+		assertThat(getErros(depto), hasItem(MENSAGEM_NOME_DEPARTAMENTO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_com_caracteres_especiais() {
 		depto.setNome("Departamento #");
+		assertThat(getErros(depto), hasItem(MENSAGEM_NOME_DEPARTAMENTO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_nome_composto_unicamente_pelo_mesmo_caractere() {
-		depto.setNome("AAAAAA");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_nome_composto_unicamente_pelo_mesmo_caractere_independentemente_de_caixa() {
-		depto.setNome("AAaAA");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_de_tamanho_menor_que_2_caracteres() {
 		depto.setNome("X");
+		assertThat(getErros(depto), hasItem(MENSAGEM_NOME_DEPARTAMENTO_TAMANHO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_de_tamanho_maior_que_55_caracteres() {
 		StringBuilder sb = new StringBuilder("Z");
 		for(int i=0; i<55; i++)
 			sb.append("A");
 		depto.setNome(sb.toString());
+		assertThat(getErros(depto), hasItem(MENSAGEM_NOME_DEPARTAMENTO_TAMANHO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_nome_com_menos_de_uma_letra_independentemente_da_quantidade_de_caracteres_da_string() {
 		depto.setNome(" k ");
+		assertThat(getErros(depto), hasItem(MENSAGEM_NOME_DEPARTAMENTO_PATTERN));
 	}
 	
 	/*
@@ -253,70 +266,73 @@ public class DepartamentoTest {
 	public void deve_definir_uma_nova_descricao_para_o_departamento() {
 		String descricao = "Departamento de testes";
 		depto.setDescricao(descricao);
-		assertEquals(descricao, depto.getDescricao());
+		assertThat(depto.getDescricao(), equalTo(descricao));
+		assertThat(getErros(depto), not(hasItem(MENSAGEM_DESCRICAO_DEPARTAMENTO_BLANK)));
+		assertThat(getErros(depto), not(hasItem(MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN)));
+		assertThat(getErros(depto), not(hasItem(MENSAGEM_DESCRICAO_DEPARTAMENTO_TAMANHO)));
 	}
 	
 	@Test
 	public void deve_aceitar_descricao_com_letras_e_espacos() {
 		depto.setDescricao("Departamento do setor estratégico");
+		assertThat(getErros(depto), not(hasItem(MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN)));
 	}
 	
 	@Test
-	public void deve_aceitar_descricao_com_letras_espacos_virgula_ponto_e_virgula_e_ponto() {
-		depto.setDescricao("Departamento do setor estratégico; diretores, gerentes etc.");
+	public void deve_aceitar_descricao_com_letras_espacos_virgula_e_ponto() {
+		depto.setDescricao("Departamento do setor estratégico. Diretores, gerentes etc.");
+		assertThat(getErros(depto), not(hasItem(MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN)));
 	}
 	
 	@Test
-	public void deve_aceitar_descricao_com_numero() {
-		depto.setDescricao("Departamento 1");
-	}
-	
-	@Test(expected = NullPointerException.class)
 	public void nao_deve_aceitar_descricao_nula() {
 		depto.setDescricao(null);
+		assertThat(getErros(depto), hasItem(MENSAGEM_DESCRICAO_DEPARTAMENTO_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_descricao_em_branco() {
 		depto.setDescricao("");
+		assertThat(getErros(depto), hasItem(MENSAGEM_DESCRICAO_DEPARTAMENTO_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_descricao_apenas_com_espaco() {
 		depto.setDescricao(" ");
+		assertThat(getErros(depto), hasItem(MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_descricao_apenas_com_ponto() {
 		depto.setDescricao(".");
+		assertThat(getErros(depto), hasItem(MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
+	public void nao_deve_aceitar_descricao_com_numero() {
+		depto.setDescricao("Departamento 1");
+		assertThat(getErros(depto), hasItem(MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN));
+	}
+	
+	@Test
 	public void nao_deve_aceitar_descricao_com_caracteres_especiais() {
 		depto.setDescricao("Departamento #");
+		assertThat(getErros(depto), hasItem(MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_descricao_composta_unicamente_pelo_mesmo_caractere() {
-		depto.setDescricao("AAAAAA");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_descricao_composta_unicamente_pelo_mesmo_caractere_independentemente_de_caixa() {
-		depto.setDescricao("aAaAa");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_descricao_de_tamanho_menor_que_2_caracteres() {
 		depto.setDescricao("X");
+		assertThat(getErros(depto), hasItem(MENSAGEM_DESCRICAO_DEPARTAMENTO_TAMANHO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_descricao_de_tamanho_maior_que_100_caracteres() {
 		StringBuilder sb = new StringBuilder("Z");
 		for(int i=0; i<100; i++)
 			sb.append("A");
 		depto.setDescricao(sb.toString());
+		assertThat(getErros(depto), hasItem(MENSAGEM_DESCRICAO_DEPARTAMENTO_TAMANHO));
 	}
 	
 	/*
@@ -325,55 +341,22 @@ public class DepartamentoTest {
 	@Test
 	public void deve_redefinir_o_set_de_funcionarios() {
 		Set<Funcionario> funcionarios= new HashSet<Funcionario>();
-		for(int i=0; i<10; i++) {
-			Funcionario f = new Funcionario();
-			funcionarios.add(f);
-		}
+		Funcionario fun = Fixture.from(Funcionario.class).gimme("valido");
+		funcionarios.add(fun);
 		depto.setFuncionarios(funcionarios);
-		assertEquals(funcionarios, depto.getFuncionarios());
+		assertThat(depto.getFuncionarios(), equalTo(funcionarios));
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void nao_deve_redefinir_o_set_de_funcionarios_por_um_set_nulo() {
-		Set<Funcionario> funcionarios = null;
-		depto.setFuncionarios(funcionarios);
+		depto.setFuncionarios(null);
+		assertThat(getErros(depto), hasItem(MENSAGEM_SET_FUNCIONARIOS_VAZIO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_redefinir_o_set_de_funcionarios_por_um_set_igual() {
-		Set<Funcionario> funcionarios = new HashSet<Funcionario>();
-		for(int i=0; i<10; i++) {
-			Funcionario f = new Funcionario();
-			funcionarios.add(f);
-		}
-		depto.setFuncionarios(funcionarios);
-		depto.setFuncionarios(funcionarios);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_redefinir_o_set_de_funcionarios_por_um_set_que_esteja_vazio() {
 		Set<Funcionario> funcionarios = new HashSet<Funcionario>();
 		depto.setFuncionarios(funcionarios);
-	}
-	
-	/*
-	 * MÉTODOS
-	 * */
-	@Test(expected = NullPointerException.class)
-	public void nao_deve_realizar_cadastro_em_empresa_nula() {
-		emp = null;
-		depto.cadastrar(emp);
-	}
-	
-	@Test
-	public void nao_deve_realizar_cadastro_de_departamento_repetido() {
-		depto.cadastrar(emp);
-		assertFalse(depto.cadastrar(emp));
-	}
-	
-	@Test
-	public void deve_realizar_cadastro_de_departamento_ainda_nao_existente() {
-		depto.cadastrar(emp);
-		new Departamento("Finanças", "Assuntos financeiros").cadastrar(emp);
+		assertThat(getErros(depto), hasItem(MENSAGEM_SET_FUNCIONARIOS_VAZIO));
 	}
 }

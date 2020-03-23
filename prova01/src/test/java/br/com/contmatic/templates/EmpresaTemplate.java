@@ -1,6 +1,8 @@
 package br.com.contmatic.templates;
 
+import br.com.contmatic.empresa.Departamento;
 import br.com.contmatic.empresa.Empresa;
+import br.com.contmatic.empresa.Telefone;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.Rule;
 import br.com.six2six.fixturefactory.loader.TemplateLoader;
@@ -15,6 +17,8 @@ public class EmpresaTemplate implements TemplateLoader {
 			add("cnpj", random("21370294000113", "24829529000180", "41685581000120", "58028909000138", "97861611000166", "72180853000163", "84692899000140"));
 			add("areaAtuacao", random("Indústria", "Comércio"));
 			add("email", "sac@abcmail.com");
+			add("departamentos", has(5).of(Departamento.class, "valido"));
+			add("telefones", has(5).of(Telefone.class, "valido"));
 		}});
 		
 		Fixture.of(Empresa.class).addTemplate("mock", new Rule() {{
@@ -23,6 +27,8 @@ public class EmpresaTemplate implements TemplateLoader {
 			add("cnpj", "48587314000169");
 			add("areaAtuacao", "Comércio");
 			add("email", "sac@mycorp.com");
+			add("departamentos", has(1).of(Departamento.class, "mock"));
+			add("telefones", has(1).of(Telefone.class, "mock"));
 		}});
 		
 	}

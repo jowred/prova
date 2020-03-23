@@ -2,6 +2,7 @@ package br.com.contmatic.templates;
 
 import org.joda.time.LocalDate;
 
+import br.com.contmatic.empresa.Funcionario;
 import br.com.contmatic.empresa.Pessoa;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.Rule;

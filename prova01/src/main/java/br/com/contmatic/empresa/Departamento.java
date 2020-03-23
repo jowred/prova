@@ -1,6 +1,6 @@
 package br.com.contmatic.empresa;
 
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DESCRICAO_DEPARTAMENTO_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DESCRICAO_DEPARTAMENTO_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_DEPARTAMENTO_BLANK;
@@ -37,7 +37,7 @@ public class Departamento {
 	
 	@Length(min = MIN_DESCRICAO, max = MAX_DESCRICAO, message = MENSAGEM_DESCRICAO_DEPARTAMENTO_TAMANHO)
 	@Pattern(regexp = REGEX_DESCRICAO_DEPARTAMENTO, message = MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN)
-	@NotBlank(message = MENSAGEM_AREA_ATUACAO_BLANK)
+	@NotBlank(message = MENSAGEM_DESCRICAO_DEPARTAMENTO_BLANK)
 	private String descricao;
 	
 	@NotEmpty(message = MENSAGEM_SET_FUNCIONARIOS_VAZIO)
@@ -58,11 +58,11 @@ public class Departamento {
 	}
 
 	public void setNome(String nome) {
-		checkNomeNulo(nome);	
-		checkNomeVazio(nome);
-		checkNomeQuantidadeLetras(nome);
-		checkNomeCaracteresValidos(nome);
-		checkNomeCompostoPorApenasUmaLetra(nome);
+//		checkNomeNulo(nome);	
+//		checkNomeVazio(nome);
+//		checkNomeQuantidadeLetras(nome);
+//		checkNomeCaracteresValidos(nome);
+//		checkNomeCompostoPorApenasUmaLetra(nome);
 //		checkNotNull(nome, "Nome do departamento não pode ser nulo.");
 		this.nome = nome;
 	}
@@ -72,12 +72,12 @@ public class Departamento {
 	}
 
 	public void setDescricao(String descricao) {
-		checkDescricaoNula(descricao);		
-		checkDescricaoVazia(descricao);		
-		checkDescricaoComecaComLetra(descricao);		
-		checkDescricaoQuantidadeLetras(descricao);		
-		checkDescricaoCaracteresValidos(descricao);
-		checkDescricaoCompostaPorUmaUnicaLetra(descricao);
+//		checkDescricaoNula(descricao);		
+//		checkDescricaoVazia(descricao);		
+//		checkDescricaoComecaComLetra(descricao);		
+//		checkDescricaoQuantidadeLetras(descricao);		
+//		checkDescricaoCaracteresValidos(descricao);
+//		checkDescricaoCompostaPorUmaUnicaLetra(descricao);
 		this.descricao = descricao;
 	}
 
@@ -86,9 +86,9 @@ public class Departamento {
 	}
 
 	public void setFuncionarios(Set<Funcionario> funcionarios) {
-		checkSetFuncionariosNulo(funcionarios);		
-		checkSetFuncionariosVazio(funcionarios);
-		checkNovoSetFuncionariosIgualAntigo(funcionarios);
+//		checkSetFuncionariosNulo(funcionarios);		
+//		checkSetFuncionariosVazio(funcionarios);
+//		checkNovoSetFuncionariosIgualAntigo(funcionarios);
 		this.funcionarios = funcionarios;
 	}
 
