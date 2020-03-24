@@ -68,6 +68,8 @@ public final class Mensagens {
 	
 	public static final String MENSAGEM_ENDERECO_NULL = "Endereço não pode ser nulo";
 	
+	public static final String URL_INVALIDA = "A URL digita é inválida.";
+	
 	/////////////////////////////////////////////////////////
 	///////////////////// DEPARTAMENTO //////////////////////
 	/////////////////////////////////////////////////////////
@@ -113,6 +115,12 @@ public final class Mensagens {
 	
 	public static final String MENSAGEM_NUMERO_MAX = "Número não pode ser maior que {max}";
 	
+	public static final String MENSAGEM_LOGRADOURO_BLANK = "Logradouro não pode ser nulo ou vazio.";
+	
+	public static final String MENSAGEM_LOGRADOURO_PATTERN = "Nome do logradouro pode ser composto apenas por letras, espaços e pontuação.";
+	
+	public static final String MENSAGEM_LOGRADOURO_TAMANHO = "Logradouro deve ter de {min} a {max} caracteres.";
+	
 	public static final String MENSAGEM_BAIRRO_BLANK = "Bairro não pode ser nulo ou vazio.";
 	
 	public static final String MENSAGEM_BAIRRO_PATTERN = "Nome do bairro pode ser composto apenas por letras, espaços e pontuação.";
@@ -149,7 +157,11 @@ public final class Mensagens {
 	
 	public static final String MENSAGEM_DATA_ADMISSAO_BLANK = "A data de admissão não pode ser nula.";
 
-	public static final String MENSAGEM_DATA_ADMISSAO_PAST = "O valor deve refletir uma data do passado.";
+	public static final String MENSAGEM_DATA_ADMISSAO_PAST = "A admissão deve refletir uma data do passado.";
+	
+	public static final String MENSAGEM_TERMINO_CONTRATO_FUTURE = "O término do contrato deve refletir uma data futura.";
+	
+	public static final String MENSAGEM_TERMINO_CONTRATO_BLANK = "A data de término do contrato não pode ser nula.";
 	
 	/////////////////////////////////////////////////////////
 	/////////////////////// TELEFONE ////////////////////////

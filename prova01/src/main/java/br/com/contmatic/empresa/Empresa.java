@@ -17,6 +17,7 @@ import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_PATTER
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_DEPARTAMENTOS_VAZIO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_TELEFONES_VAZIO;
+import static br.com.contmatic.constantes.Mensagens.URL_INVALIDA;
 import static br.com.contmatic.constantes.Numericas.ASCII_INICIO_NUMEROS;
 import static br.com.contmatic.constantes.Numericas.CNPJ_POS_VERIF_1;
 import static br.com.contmatic.constantes.Numericas.CNPJ_POS_VERIF_2;
@@ -48,6 +49,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
 import org.hibernate.validator.constraints.br.CNPJ;
 
 public class Empresa {
@@ -71,11 +73,6 @@ public class Empresa {
 	@NotBlank(message = MENSAGEM_AREA_ATUACAO_BLANK )
 	private String areaAtuacao;
 	
-	@Length(min = MIN_EMAIL, max = MAX_EMAIL, message = MENSAGEM_EMAIL_TAMANHO)
-	@Pattern(regexp = REGEX_EMAIL, message = MENSAGEM_EMAIL_PATTERN)
-	@NotBlank(message = MENSAGEM_EMAIL_BLANK)
-	private String email;
-	
 	@NotEmpty(message = MENSAGEM_SET_DEPARTAMENTOS_VAZIO)
 	private Set<Departamento> departamentos;
 	
@@ -84,6 +81,14 @@ public class Empresa {
 	
 	@NotNull(message = MENSAGEM_ENDERECO_NULL)
 	private Endereco endereco;
+	
+	@Length(min = MIN_EMAIL, max = MAX_EMAIL, message = MENSAGEM_EMAIL_TAMANHO)
+	@Pattern(regexp = REGEX_EMAIL, message = MENSAGEM_EMAIL_PATTERN)
+	@NotBlank(message = MENSAGEM_EMAIL_BLANK)
+	private String email;
+	
+	@URL(message = URL_INVALIDA)
+	private String site;
 	
 	public Empresa() {
 		this.departamentos = new HashSet<>();
@@ -183,6 +188,22 @@ public class Empresa {
 	public void setEndereco(Endereco endereco) {
 //		checkEnderecoNulo(endereco);
 		this.endereco = endereco;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSite() {
+		return site;
+	}
+
+	public void setSite(String site) {
+		this.site = site;
 	}
 
 	protected boolean cnpjValido(String cnpj) {

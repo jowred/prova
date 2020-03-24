@@ -16,6 +16,8 @@ import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_PATTERN;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_DEPENDENTES_VAZIO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_TERMINO_CONTRATO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_TERMINO_CONTRATO_FUTURE;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -441,7 +443,7 @@ public class FuncionarioTest {
 	}
 	
 	/*
-	 * EMAIL
+	 * E-MAIL
 	 */
 	@Test
 	public void deve_redefinir_email_valido() {
@@ -495,14 +497,17 @@ public class FuncionarioTest {
 	 */
 	@Test
 	public void deve_aceitar_data_de_admissao_especificada() {
-		f.setDataAdmissao(new LocalDate("2015-01-25"));
+		LocalDate admissao = new LocalDate(2015, 01, 25);
+		f.setDataAdmissao(admissao);
+		assertThat(f.getDataAdmissao(), equalTo(admissao));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_DATA_ADMISSAO_BLANK)));
 		assertThat(getErros(f), not(hasItem(MENSAGEM_DATA_ADMISSAO_PAST)));
 	}
 
 	@Test
 	public void nao_deve_aceitar_data_de_admissao_futura() {
-		LocalDate localDate = new LocalDate(2040, 4, 1);
-		f.setDataAdmissao(localDate);
+		LocalDate terminoContrato = new LocalDate(2040, 4, 1);
+		f.setDataAdmissao(terminoContrato);
 		assertThat(getErros(f), hasItem(MENSAGEM_DATA_ADMISSAO_PAST));
 	}
 	
@@ -510,5 +515,30 @@ public class FuncionarioTest {
 	public void nao_deve_aceitar_data_de_admissao_nula() {
 		f.setDataAdmissao(null);
 		assertThat(getErros(f), hasItem(MENSAGEM_DATA_ADMISSAO_BLANK));
+	}
+	
+	/*
+	 * TÉRMINO DO CONTRATO
+	 */
+	@Test
+	public void deve_aceitar_data_de_termino_de_contrato_especificada() {
+		LocalDate terminoContrato = new LocalDate(2030, 4, 1);
+		f.setTerminoContrato(terminoContrato);
+		assertThat(f.getTerminoContrato(), equalTo(terminoContrato));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_TERMINO_CONTRATO_BLANK)));
+		assertThat(getErros(f), not(hasItem(MENSAGEM_TERMINO_CONTRATO_FUTURE)));
+	}
+
+	@Test
+	public void nao_deve_aceitar_data_de_termino_de_contrato_passada() {
+		LocalDate terminoContrato = new LocalDate(2002, 4, 1);
+		f.setTerminoContrato(terminoContrato);
+		assertThat(getErros(f), hasItem(MENSAGEM_TERMINO_CONTRATO_FUTURE));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_data_de_termino_de_contrato_nula() {
+		f.setTerminoContrato(null);
+		assertThat(getErros(f), hasItem(MENSAGEM_TERMINO_CONTRATO_BLANK));
 	}
 }

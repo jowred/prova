@@ -15,6 +15,7 @@ public class EnderecoTemplate implements TemplateLoader {
 	public void load() {
 		Fixture.of(Endereco.class).addTemplate("valido", new Rule() {{
 			add("numero", random(null, 12, 21, 404, 4, 702, 903));
+			add("logradouro", random("Rua A", "Travessa dos Nomes Mágicos", "Rua das Flores", "Av. Paulista"));
 			add("bairro", random("Piraju", "Tatuapé", "Jd. Romano", "Jd. Helena", "Monte Belo", "Jd. do Carmo", "Vila Verde"));
 			add("cidade", random("Itaquaquecetuba", "Suzano", "Mogi das Cruzes", "Poá", "São Paulo", "Guarulhos", "Arujá"));
 			add("uf", SP);
@@ -25,6 +26,7 @@ public class EnderecoTemplate implements TemplateLoader {
 		
 		Fixture.of(Endereco.class).addTemplate("mock", new Rule() {{
 			add("numero", 400);
+			add("logradouro", "Av. Paulista");
 			add("bairro", "Tatuapé");
 			add("cidade", "São Paulo");
 			add("uf", SP);

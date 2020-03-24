@@ -16,6 +16,8 @@ import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_PATTERN;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_DEPENDENTES_VAZIO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_TERMINO_CONTRATO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_TERMINO_CONTRATO_FUTURE;
 import static br.com.contmatic.constantes.Numericas.MAX_EMAIL;
 import static br.com.contmatic.constantes.Numericas.MAX_NOME;
 import static br.com.contmatic.constantes.Numericas.MAX_RG;
@@ -29,6 +31,8 @@ import static br.com.contmatic.constantes.Regex.REGEX_RG;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -63,6 +67,7 @@ public class Funcionario {
 	@NotNull(message = MENSAGEM_DATA_NASCIMENTO_NULA)
 	private LocalDate dataNascimento;
 	
+	@Email(message = MENSAGEM_EMAIL_PATTERN)
 	@Length(min = MIN_EMAIL, max = MAX_EMAIL, message = MENSAGEM_EMAIL_TAMANHO)
 	@Pattern(regexp = REGEX_EMAIL, message = MENSAGEM_EMAIL_PATTERN)
 	@NotBlank(message = MENSAGEM_EMAIL_BLANK)
@@ -75,14 +80,10 @@ public class Funcionario {
 	@NotNull(message = MENSAGEM_DATA_ADMISSAO_BLANK)
 	private LocalDate dataAdmissao;
 	
-	public LocalDate getDataAdmissao() {
-		return dataAdmissao;
-	}
-
-	public void setDataAdmissao(LocalDate dataAdmissao) {
-		this.dataAdmissao = dataAdmissao;
-	}
-
+	@Future(message = MENSAGEM_TERMINO_CONTRATO_FUTURE)
+	@NotNull(message = MENSAGEM_TERMINO_CONTRATO_BLANK)
+	private LocalDate terminoContrato;
+	
 	public Funcionario() {
 		dependentes = new HashSet<>();
 	}
@@ -143,6 +144,22 @@ public class Funcionario {
 //		checkSetDependentesVazio(dependentes);		
 //		checkNovoSetIgualAntigo(dependentes);		
 		this.dependentes = dependentes;
+	}
+	
+	public LocalDate getDataAdmissao() {
+		return dataAdmissao;
+	}
+
+	public void setDataAdmissao(LocalDate dataAdmissao) {
+		this.dataAdmissao = dataAdmissao;
+	}
+	
+	public LocalDate getTerminoContrato() {
+		return terminoContrato;
+	}
+
+	public void setTerminoContrato(LocalDate terminoContrato) {
+		this.terminoContrato = terminoContrato;
 	}
 
 	public boolean cadastrar(Departamento depto) {

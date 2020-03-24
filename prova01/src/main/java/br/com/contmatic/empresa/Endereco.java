@@ -9,6 +9,9 @@ import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CEP_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CIDADE_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CIDADE_PATTERN;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CIDADE_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_LOGRADOURO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_LOGRADOURO_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_LOGRADOURO_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NUMERO_MAX;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NUMERO_MIN;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_PAIS_BLANK;
@@ -24,6 +27,7 @@ import static br.com.contmatic.constantes.Numericas.MAX_NUM_RUA;
 import static br.com.contmatic.constantes.Numericas.MAX_PAIS;
 import static br.com.contmatic.constantes.Numericas.MIN_BAIRRO;
 import static br.com.contmatic.constantes.Numericas.MIN_CIDADE;
+import static br.com.contmatic.constantes.Numericas.MIN_LOGRADOURO;
 import static br.com.contmatic.constantes.Numericas.MIN_NUM_RUA;
 import static br.com.contmatic.constantes.Numericas.MIN_PAIS;
 import static br.com.contmatic.constantes.Numericas.MIN_TEXTO;
@@ -31,6 +35,7 @@ import static br.com.contmatic.constantes.Numericas.PRIMEIRO_INDICE;
 import static br.com.contmatic.constantes.Regex.REGEX_BAIRRO;
 import static br.com.contmatic.constantes.Regex.REGEX_CEP;
 import static br.com.contmatic.constantes.Regex.REGEX_CIDADE;
+import static br.com.contmatic.constantes.Regex.REGEX_LOGRADOURO;
 import static br.com.contmatic.constantes.Regex.REGEX_PAIS;
 
 import javax.validation.constraints.Max;
@@ -50,7 +55,9 @@ import br.com.contmatic.enums.EnumTipoEndereco;
 
 public class Endereco {
 
-	@NotBlank(message = "Logradouro não pode ser nulo")
+	@Length(min = MIN_LOGRADOURO, max = MAX_LOGRADOURO, message = MENSAGEM_LOGRADOURO_TAMANHO)
+	@Pattern(regexp = REGEX_LOGRADOURO, message = MENSAGEM_LOGRADOURO_PATTERN)
+	@NotBlank(message = MENSAGEM_LOGRADOURO_BLANK)
 	private String logradouro;
 	
 	@Min(value = MIN_NUM_RUA, message = MENSAGEM_NUMERO_MIN)
@@ -102,11 +109,11 @@ public class Endereco {
 	}
 
 	public void setLogradouro(String logradouro) {
-		checkLogradouroNulo(logradouro);
-		checkLogradouroVazio(logradouro);
-		checkLogradouroTamanho(logradouro);		
-		checkLogradouroCaracteresValidos(logradouro);		
-		checkLogradouroCompostoUnicamentePeloMesmoCaractere(logradouro);		
+//		checkLogradouroNulo(logradouro);
+//		checkLogradouroVazio(logradouro);
+//		checkLogradouroTamanho(logradouro);		
+//		checkLogradouroCaracteresValidos(logradouro);		
+//		checkLogradouroCompostoUnicamentePeloMesmoCaractere(logradouro);		
 		this.logradouro = logradouro;
 	}
 
@@ -115,11 +122,11 @@ public class Endereco {
 	}
 
 	public void setBairro(String bairro) {
-		checkBairroNulo(bairro);		
-		checkBairroVazio(bairro);		
-		checkBairroTamanho(bairro);		
-		checkBairroCaracteresValidos(bairro);		
-		checkBairroCompostoUnicamentePelaMesmaLetra(bairro);
+//		checkBairroNulo(bairro);		
+//		checkBairroVazio(bairro);		
+//		checkBairroTamanho(bairro);		
+//		checkBairroCaracteresValidos(bairro);		
+//		checkBairroCompostoUnicamentePelaMesmaLetra(bairro);
 		this.bairro = bairro;
 	}
 
@@ -128,12 +135,12 @@ public class Endereco {
 	}
 
 	public void setCidade(String cidade) {
-		checkCidadeNula(cidade);		
-		checkCidadeVazia(cidade);		
-		checkCidadeTamanho(cidade);		
-		checkCidadeComecaComLetra(cidade);		
-		checkCidadeCaracteresValidos(cidade);		
-		checkCidadeCompostaUnicamentePeloMesmoCaractere(cidade);		
+//		checkCidadeNula(cidade);		
+//		checkCidadeVazia(cidade);		
+//		checkCidadeTamanho(cidade);		
+//		checkCidadeComecaComLetra(cidade);		
+//		checkCidadeCaracteresValidos(cidade);		
+//		checkCidadeCompostaUnicamentePeloMesmoCaractere(cidade);		
 		this.cidade = cidade;
 	}
 
@@ -155,12 +162,12 @@ public class Endereco {
 	}
 
 	public void setPais(String pais) {
-		checkPaisNulo(pais);		
-		checkPaisVazio(pais);		
-		checkPaisTamanho(pais);		
-		checkPaisComecaComLetra(pais);		
-		checkPaisCaracteresValidos(pais);		
-		checkPaisCompostoUnicamentePeloMesmoCaractere(pais);		
+//		checkPaisNulo(pais);		
+//		checkPaisVazio(pais);		
+//		checkPaisTamanho(pais);		
+//		checkPaisComecaComLetra(pais);		
+//		checkPaisCaracteresValidos(pais);		
+//		checkPaisCompostoUnicamentePeloMesmoCaractere(pais);		
 		this.pais = pais;
 	}
 
@@ -169,10 +176,10 @@ public class Endereco {
 	}
 
 	public void setCep(String cep) {
-		checkCepNulo(cep);		
-		checkCepVazio(cep);		
-		checkCepTamanho(cep);		
-		checkCepContemApenasDigitos(cep);		
+//		checkCepNulo(cep);		
+//		checkCepVazio(cep);		
+//		checkCepTamanho(cep);		
+//		checkCepContemApenasDigitos(cep);		
 		this.cep = cep;
 	}
 	

@@ -27,6 +27,7 @@ import static br.com.contmatic.constantes.Regex.REGEX_NOME_PESSOA;
 import static br.com.contmatic.constantes.Regex.REGEX_RG;
 import static br.com.contmatic.enums.EnumTipoParentesco.NAO_DECLARADO;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -69,6 +70,7 @@ public class Dependente {
 //	@NotBlank(message = MENSAGEM_EMAIL_BLANK)
 //	private String email;
 	
+	@Valid
 	@NotNull(message = MENSAGEM_PROVEDOR_NULL)
 	private Funcionario provedor;
 	

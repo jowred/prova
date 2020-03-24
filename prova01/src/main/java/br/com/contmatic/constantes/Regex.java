@@ -8,7 +8,7 @@ public class Regex {
 	
 	private static final String VOGAIS_ACENTUADAS = "áãêéóôõíú";
 	
-	private static final String REGEX_COMUM_NOME = "^[A-Za-z][a-zA-Zç\\s" + VOGAIS_ACENTUADAS + "\\.,]*[a-zA-Z\\.]$";
+	private static final String REGEX_COMUM_NOME = "^[A-Za-z][a-zA-Zç\\s" + VOGAIS_ACENTUADAS + "\\.,]*[a-zA-Z\\." + VOGAIS_ACENTUADAS + "]$";;
 	
 	public static final String REGEX_NOME_PESSOA = "^[A-Z][a-zA-Zç\\s" + VOGAIS_ACENTUADAS + "\\.,]*[a-zA-Z\\." + VOGAIS_ACENTUADAS + "]$";
 	
@@ -25,6 +25,8 @@ public class Regex {
 	public static final String REGEX_NOME_DEPARTAMENTO = REGEX_COMUM_NOME;
 	
 	public static final String REGEX_DESCRICAO_DEPARTAMENTO = REGEX_COMUM_NOME;
+	
+	public static final String REGEX_LOGRADOURO = REGEX_COMUM_NOME;
 	
 	public static final String REGEX_BAIRRO = REGEX_COMUM_NOME;
 	

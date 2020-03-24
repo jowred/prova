@@ -2,6 +2,7 @@ package br.com.contmatic.empresa;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
@@ -64,6 +65,12 @@ public class EnderecoTest {
 	@After
 	public void tearDown() {
 		end = null;
+	}
+	
+	@Test
+	public void deve_validar_objeto_do_fixture() {
+		System.out.println(end);
+		assertThat(getErros(end).size(), is(0));
 	}
 	
 	@Test

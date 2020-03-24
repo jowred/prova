@@ -19,6 +19,7 @@ public class EmpresaTemplate implements TemplateLoader {
 			add("email", "sac@abcmail.com");
 			add("departamentos", has(5).of(Departamento.class, "valido"));
 			add("telefones", has(5).of(Telefone.class, "valido"));
+			add("site", random("https://www.empresax.com", "https://www.empresay.com", "https://www.empresaz.com"));
 		}});
 		
 		Fixture.of(Empresa.class).addTemplate("mock", new Rule() {{
@@ -29,6 +30,7 @@ public class EmpresaTemplate implements TemplateLoader {
 			add("email", "sac@mycorp.com");
 			add("departamentos", has(1).of(Departamento.class, "mock"));
 			add("telefones", has(1).of(Telefone.class, "mock"));
+			add("site", "https://www.minhaempresa.com");
 		}});
 		
 	}

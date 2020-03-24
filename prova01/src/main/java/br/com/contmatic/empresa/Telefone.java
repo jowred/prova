@@ -28,18 +28,21 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import br.com.contmatic.enums.EnumTipoTelefone;
 
 public class Telefone {
 	
-	@Min(value = MIN_COD_PAIS, message = MENSAGEM_CODIGO_PAIS_TAMANHO)
-	@Max(value = MAX_COD_PAIS, message = MENSAGEM_CODIGO_PAIS_TAMANHO)
+//	@Min(value = MIN_COD_PAIS, message = MENSAGEM_CODIGO_PAIS_TAMANHO)
+//	@Max(value = MAX_COD_PAIS, message = MENSAGEM_CODIGO_PAIS_TAMANHO)
+	@Range(min = MIN_COD_PAIS, max = MAX_COD_PAIS, message = MENSAGEM_CODIGO_PAIS_TAMANHO)
 	private int codigoPais; // Enum código de país
 	
-	@Min(value = MIN_DDD, message = MENSAGEM_DDD_TAMANHO)
-	@Max(value = MAX_DDD, message = MENSAGEM_DDD_TAMANHO)
-	private int ddd; // Criar enum de DDD
+//	@Min(value = MIN_DDD, message = MENSAGEM_DDD_TAMANHO)
+//	@Max(value = MAX_DDD, message = MENSAGEM_DDD_TAMANHO)
+	@Range(min = MIN_DDD, max = MAX_DDD, message = MENSAGEM_DDD_TAMANHO)
+	private int ddd;
 	
 	@Length(min = MIN_TELEFONE, max = MAX_TELEFONE, message = MENSAGEM_TELEFONE_TAMANHO)
 	@Pattern(regexp = REGEX_TELEFONE, message = MENSAGEM_TELEFONE_PATTERN)

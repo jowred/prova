@@ -5,6 +5,9 @@ import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_PATTER
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CNPJ_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CNPJ_INVALIDO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_ENDERECO_NULL;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_PATTERN;
@@ -14,6 +17,7 @@ import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_PATTER
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_DEPARTAMENTOS_VAZIO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_TELEFONES_VAZIO;
+import static br.com.contmatic.constantes.Mensagens.URL_INVALIDA;
 import static br.com.contmatic.enums.EnumEstadosBrasileiros.SP;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -860,5 +864,78 @@ public class EmpresaTest {
 	public void nao_deve_aceitar_endereco_nulo() {
 		emp1.setEndereco(null);
 		assertThat(getErros(emp1), hasItem(MENSAGEM_ENDERECO_NULL));
+	}
+	
+	/*
+	 * E-MAIL
+	 * */
+	@Test
+	public void deve_redefinir_email_valido() {
+		String email = "java@oracle.com";
+		emp1.setEmail(email);
+		assertThat(emp1.getEmail(), equalTo(email));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_EMAIL_BLANK)));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_EMAIL_PATTERN)));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_EMAIL_TAMANHO)));
+	}
+	
+	@Test
+	public void deve_aceitar_email_valido() {
+		emp1.setEmail("abc@gmail.com");
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_EMAIL_BLANK)));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_EMAIL_PATTERN)));
+		assertThat(getErros(emp1), not(hasItem(MENSAGEM_EMAIL_TAMANHO)));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_email_invalido() {
+		String email = "testmail@@gmail.com";
+		emp1.setEmail(email);
+		assertThat(getErros(emp1), hasItem(MENSAGEM_EMAIL_PATTERN));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_email_nulo() {
+		emp1.setEmail(null);
+		assertThat(getErros(emp1), hasItem(MENSAGEM_EMAIL_BLANK));
+	}
+
+	@Test
+	public void nao_deve_aceitar_email_com_menos_de_6_caracteres() {
+		emp1.setEmail("a@a");
+		assertThat(getErros(emp1), hasItem(MENSAGEM_EMAIL_TAMANHO));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_email_com_mais_de_100_caracteres() {
+		StringBuilder sb = new StringBuilder("J");
+		for (int i = 0; i < 100; i++) {
+			sb.append("o");
+		}
+		emp1.setEmail(sb.toString());
+		assertThat(getErros(emp1), hasItem(MENSAGEM_EMAIL_TAMANHO));
+	}
+	
+	/*
+	 * SITE
+	 * */
+	@Test
+	public void deve_redefinir_um_novo_site() {
+		String site = "https://www.meusite.com.br";
+		emp1.setSite(site);
+		assertThat(emp1.getSite(), equalTo(site));
+		assertThat(getErros(emp1), not(hasItem(URL_INVALIDA)));
+	}
+	
+	@Test
+	public void deve_aceitar_url_valida_para_o_site() {
+		emp1.setSite("https://www.minhaempresa.com");
+		assertThat(getErros(emp1), not(hasItem(URL_INVALIDA)));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_url_invalida_para_o_site() {
+		emp1.setSite("httpz://www.minhaempresa.com");
+		assertThat(getErros(emp1), hasItem(URL_INVALIDA));
 	}
 }

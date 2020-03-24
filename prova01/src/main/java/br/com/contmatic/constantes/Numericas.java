@@ -82,7 +82,7 @@ public final class Numericas {
 
 	public static final int MAX_NUM_RUA = 99999;
 
-	public static final int CEP_SIZE = 8;
+	public static final int CEP_SIZE = 9;
 	
 	public static final int MIN_PAIS = 3;
 	

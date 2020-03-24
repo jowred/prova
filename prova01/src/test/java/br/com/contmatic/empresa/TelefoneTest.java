@@ -12,7 +12,6 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -98,18 +97,15 @@ public class TelefoneTest {
 	//equals
 	@Test
 	public void deve_apontar_igualdade_entre_usando_equals_sobrescrito_porque_ambos_possuem_os_mesmos_valores_para_seus_atributos() {
-		Telefone tel2 = Fixture.from(Telefone.class).gimme("valido");
-		tel2.setCodigoPais(tel.getCodigoPais());
-		tel2.setDdd(tel.getDdd());
-		tel2.setNumero(tel.getNumero());
-		tel2.setTipo(tel.getTipo());
+		tel = Fixture.from(Telefone.class).gimme("mock");
+		Telefone tel2 = Fixture.from(Telefone.class).gimme("mock");
 		assertThat(tel, equalTo(tel2));
 	}
 	
 	@Test
 	public void deve_apontar_igualdade_usando_equals_sobrescrito_porque_sao_o_mesmo_objeto() {
 		Telefone tel2 = tel;
-		assertTrue(tel.equals(tel2));
+		assertThat(tel, equalTo(tel2));
 	}
 	
 	@Test

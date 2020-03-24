@@ -21,6 +21,7 @@ public class FuncionarioTemplate implements TemplateLoader {
 			add("email", email);
 			add("dataAdmissao", random(new LocalDate(2019, 12, 19), new LocalDate(2018, 8, 2), new LocalDate(2020, 1, 16)));
 			add("dependentes", has(1).of(Dependente.class, "mock"));
+			add("terminoContrato", random(new LocalDate(2025, 12, 19), new LocalDate(2027, 8, 2), new LocalDate(2030, 1, 16)));
 		}});
 		
 		Fixture.of(Funcionario.class).addTemplate("mock", new Rule() {{
@@ -30,6 +31,7 @@ public class FuncionarioTemplate implements TemplateLoader {
 			add("dataNascimento", new LocalDate(1997, 12, 26));
 			add("email", "${nome}14@gmail.com");
 			add("dataAdmissao", new LocalDate(2018, 7, 25));
+			add("terminoContrato", new LocalDate(2028, 7, 25));
 		}});
 	}
 }
