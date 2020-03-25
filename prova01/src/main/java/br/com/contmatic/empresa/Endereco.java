@@ -188,7 +188,7 @@ public class Endereco {
 	}
 
 	public void setNumero(Integer numero) {
-		checkNumeroValido(numero);		
+//		checkNumeroValido(numero);		
 		this.numero = numero;
 	}
 	

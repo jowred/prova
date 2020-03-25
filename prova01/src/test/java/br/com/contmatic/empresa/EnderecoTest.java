@@ -1,15 +1,18 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_LOGRADOURO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_LOGRADOURO_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_LOGRADOURO_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NUMERO_MAX;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NUMERO_MIN;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -80,71 +83,75 @@ public class EnderecoTest {
 	
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_endereco() {
+		end = Fixture.from(Endereco.class).gimme("mock");
 		Endereco end2 = Fixture.from(Endereco.class).gimme("mock");
-		assertEquals(end, end2);
+		assertThat(end, equalTo(end2));
 	}
 	
 	//equals
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_endereco_usando_equals_sobrescrito_porque_cep_e_numero_sao_iguais() {
-		Endereco end2 = Fixture.from(Endereco.class).gimme("mock");
-		assertTrue(end.equals(end2));
+		Endereco end2 = Fixture.from(Endereco.class).gimme("valido");
+		end2.setCep(end.getCep());
+		end2.setNumero(end.getNumero());
+		assertThat(end, equalTo(end2));
 	}
 	
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_endereco_usando_equals_sobrescrito_porque_sao_o_mesmo_objeto() {
-		Endereco end2 = Fixture.from(Endereco.class).gimme("mock");
-		Endereco end = end2;
-		assertTrue(end.equals(end2));
+		Endereco end2 = end;
+		assertThat(end, equalTo(end2));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_endereco_usando_equals_sobrescrito_porque_o_numero_do_objeto2_e_diferente() {
+		end = Fixture.from(Endereco.class).gimme("mock");
 		Endereco end2 = Fixture.from(Endereco.class).gimme("mock");
 		end2.setNumero(702);
-		assertFalse(end.equals(end2));
+		assertThat(end, not(equalTo(end2)));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_endereco_usando_equals_sobrescrito_porque_o_cep_do_objeto2_e_diferente() {
+		end = Fixture.from(Endereco.class).gimme("mock");
 		Endereco end2 = Fixture.from(Endereco.class).gimme("mock");
 		end2.setCep("08599874");
-		assertFalse(end.equals(end2));
+		assertThat(end, not(equalTo(end2)));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_endereco_usando_equals_sobrescrito_porque_objeto2_e_nulo() {
-		Endereco end2 = Fixture.from(Endereco.class).gimme("mock");
-		end2 = null;
-		assertFalse(end.equals(end2));
+		assertThat(end, not(equalTo(null)));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_sao_de_classes_diferentes() {
-		assertFalse(end.equals(new Object()));
+		assertThat(end, not(equalTo(new Object())));
 	}
 	
 	//hashcode
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_endereco_usando_hashcode_sobrescrito() {
+		end = Fixture.from(Endereco.class).gimme("mock");
 		Endereco end2 = Fixture.from(Endereco.class).gimme("mock");
-		assertTrue(end.hashCode() == end2.hashCode());
+		assertThat(end.hashCode(), equalTo(end2.hashCode()));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_endereco_usando_hashcode_sobrescrito_porque_numero_do_objeto2_e_nulo() {
+		end = Fixture.from(Endereco.class).gimme("mock");
 		Endereco end2 = Fixture.from(Endereco.class).gimme("mock");
 		end2.setNumero(null);
-		assertFalse(end.hashCode() == end2.hashCode());
+		assertThat(end.hashCode(), not(equalTo(end2.hashCode())));
 	}
 	
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_endereco_usando_hashcode_sobrescrito() {
+		end = Fixture.from(Endereco.class).gimme("mock");
 		Endereco end2 = Fixture.from(Endereco.class).gimme("mock");
 		end2.setCep("58900000");
 		end2.setCidade("Cajazeiras");
-		//end2.setUf("PB");
-		assertNotEquals(end.hashCode(), end2.hashCode());
+		assertThat(end.hashCode(), not(equalTo(end2.hashCode())));
 	}
 	
 	/*
@@ -154,90 +161,91 @@ public class EnderecoTest {
 	public void deve_definir_um_novo_logradouro_para_o_endereco() {
 		String logradouro = "Rua Uberaba";
 		end.setLogradouro(logradouro);
-		assertEquals(logradouro, end.getLogradouro());
+		assertThat(end.getLogradouro(), equalTo(logradouro));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_LOGRADOURO_BLANK)));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_LOGRADOURO_PATTERN)));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_LOGRADOURO_TAMANHO)));
 	}
 	
 	@Test
 	public void deve_aceitar_logradouro_apenas_com_letras() {
 		end.setLogradouro("Uberaba");
+		assertThat(getErros(end), not(hasItem(MENSAGEM_LOGRADOURO_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_logradouro_com_letras_e_espacos() {
 		end.setLogradouro("Rua Piraju");
+		assertThat(getErros(end), not(hasItem(MENSAGEM_LOGRADOURO_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_logradouro_com_letras_espaco_e_hifen() {
 		end.setLogradouro("Rua Mico-Leão-Dourado");
+		
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void nao_deve_aceitar_logradouro_nulo() {
 		end.setLogradouro(null);
+		assertThat(getErros(end), hasItem(MENSAGEM_LOGRADOURO_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_logradouro_em_branco() {
 		end.setLogradouro("");
+		assertThat(getErros(end), hasItem(MENSAGEM_LOGRADOURO_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_logradouro_apenas_com_espaco() {
 		end.setLogradouro("        ");
+		assertThat(getErros(end), hasItem(MENSAGEM_LOGRADOURO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_logradouro_apenas_com_ponto() {
 		end.setLogradouro("......");
+		assertThat(getErros(end), hasItem(MENSAGEM_LOGRADOURO_PATTERN));
 	}
 	
 	@Test
 	public void deve_aceitar_logradouro_com_numero() {
 		end.setLogradouro("Rua 20");
+		assertThat(getErros(end), not(hasItem(MENSAGEM_LOGRADOURO_PATTERN)));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_logradouro_sem_letras() {
 		end.setLogradouro("           ");
+		assertThat(getErros(end), hasItem(MENSAGEM_LOGRADOURO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_logradouro_com_caracteres_especiais() {
 		end.setLogradouro("Rua #");
+		assertThat(getErros(end), hasItem(MENSAGEM_LOGRADOURO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_logradouro_composto_unicamente_pelo_mesmo_caractere() {
-		end.setLogradouro("AAAAAA");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_logradouro_composto_unicamente_pelo_mesmo_caractere_independentemente_de_caixa() {
-		end.setLogradouro("AAaAA");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_logradouro_de_tamanho_menor_que_2_caracteres() {
 		end.setLogradouro("X");
+		assertThat(getErros(end), hasItem(MENSAGEM_LOGRADOURO_TAMANHO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_logradouro_de_tamanho_maior_que_100_caracteres() {
 		StringBuilder sb = new StringBuilder("Z");
 		for(int i=0; i<100; i++)
 			sb.append("A");
 		end.setLogradouro(sb.toString());
+		assertThat(getErros(end), hasItem(MENSAGEM_LOGRADOURO_TAMANHO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_logradouro_com_menos_de_uma_letra_independentemente_da_quantidade_de_caracteres_da_string() {
-		end.setLogradouro("k ..");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_logradouro_que_nao_inicia_com_letra() {
 		end.setLogradouro(".Rua Uberaba");
+		assertThat(getErros(end), hasItem(MENSAGEM_LOGRADOURO_PATTERN));
 	}
 	
 	/*
@@ -247,27 +255,34 @@ public class EnderecoTest {
 	public void deve_definir_um_novo_numero_para_o_endereco() {
 		Integer numero = 654;
 		end.setNumero(numero);
-		assertEquals(numero, end.getNumero());
+		assertThat(end.getNumero(), equalTo(numero));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_NUMERO_MIN)));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_NUMERO_MAX)));
 	}
 	
 	@Test
 	public void deve_aceitar_numero_de_residencia_positivo() {
 		end.setNumero(404);
+		assertThat(getErros(end), not(hasItem(MENSAGEM_NUMERO_MIN)));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_NUMERO_MAX)));
 	}
 	
 	@Test
 	public void deve_aceitar_numero_nulo_para_indicar_edificio_sem_numero() {
 		end.setNumero(null);
+		assertThat(getErros(end).size(), is(0));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_numero_de_residencia_negativo() {
 		end.setNumero(-4545);
+		assertThat(getErros(end), hasItem(MENSAGEM_NUMERO_MIN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_numero_acima_de_99999() {
 		end.setNumero(100000);
+		assertThat(getErros(end), hasItem(MENSAGEM_NUMERO_MAX));
 	}
 	
 	/*
