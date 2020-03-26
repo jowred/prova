@@ -94,12 +94,6 @@ public final class Mensagens {
 	
 	public static final String MENSAGEM_PROVEDOR_NULL = "Provedor não pode ser nulo.";
 	
-//	public static final String MENSAGEM_PARENTESCO_BLANK = "Parentesco não pode ser nulo ou vazio.";
-//	
-//	public static final String MENSAGEM_PARENTESCO_PATTERN = "Parentesco pode ser composto apenas por letras e espaços.";
-//	
-//	public static final String MENSAGEM_PARENTESCO_TAMANHO = "Parentesco deve ter de {min} a {max} caracteres.";
-	
 	public static final String MENSAGEM_PARENTESCO_NULO = "O parentesco não pode ser nulo.";
 	
 	public static final String MENSAGEM_IDADE_MIN = "Idade não pode ser menor que {min}.";

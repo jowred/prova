@@ -26,7 +26,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -74,11 +76,12 @@ public class EmpresaTest {
 	@Test(timeout = 1000)
 	public void deve_executar_sem_exceder_o_limite_de_tempo() {
 		Departamento dep;
+		List<Departamento> deptos = new ArrayList<>();
 		for(int i=0; i<100; i++) {
 			dep = new Departamento("Departamento X", "Departamento " + i+1);
-			dep.cadastrar(emp1);
+			deptos.add(dep);
 		}
-		assertThat(emp1.getDepartamentos().size(), not(equalTo(null)));
+		assertThat(deptos.size(), not(equalTo(null)));
 	}
 	
 	@BeforeClass

@@ -140,9 +140,6 @@ public class Funcionario {
 	}
 
 	public void setDependentes(Set<Dependente> dependentes) {
-//		checkSetDependentesNulo(dependentes);		
-//		checkSetDependentesVazio(dependentes);		
-//		checkNovoSetIgualAntigo(dependentes);		
 		this.dependentes = dependentes;
 	}
 	
@@ -162,35 +159,6 @@ public class Funcionario {
 		this.terminoContrato = terminoContrato;
 	}
 
-	public boolean cadastrar(Departamento depto) {
-		checkDepartamentoNulo(depto);
-		return depto.getFuncionarios().add(this);
-	}
-
-	private void checkDepartamentoNulo(Departamento depto) {
-		if(depto == null) {
-			throw new NullPointerException("O departamento passado como parâmetro não pode ser nulo.");
-		}
-	}
-	
-	private void checkNovoSetIgualAntigo(Set<Dependente> dependentes) {
-		if(this.dependentes.equals(dependentes)) {
-			throw new IllegalArgumentException("A lista de dependentes a ser inserida não pode ser idêntica à atual.");
-		}
-	}
-
-	private void checkSetDependentesVazio(Set<Dependente> dependentes) {
-		if(dependentes.isEmpty()) {
-			throw new IllegalArgumentException("A lista de dependentes a ser inserida não pode estar vazia (tamanho 0).");
-		}
-	}
-
-	private void checkSetDependentesNulo(Set<Dependente> dependentes) {
-		if(dependentes == null) {
-			throw new NullPointerException("A lista de dependentes não pode ser nula.");
-		}
-	}
-	
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()

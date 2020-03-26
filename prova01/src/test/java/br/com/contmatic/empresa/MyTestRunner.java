@@ -10,7 +10,6 @@ import org.junit.runners.Suite;
 	DependenteTest.class,
 	EnderecoTest.class,
 	FuncionarioTest.class,
-	PessoaTest.class,
 	TelefoneTest.class
 })
 

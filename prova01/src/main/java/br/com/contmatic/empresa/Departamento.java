@@ -11,7 +11,6 @@ import static br.com.contmatic.constantes.Numericas.MAX_DESCRICAO;
 import static br.com.contmatic.constantes.Numericas.MAX_NOME_DEPTO;
 import static br.com.contmatic.constantes.Numericas.MIN_DESCRICAO;
 import static br.com.contmatic.constantes.Numericas.MIN_NOME_DEPTO;
-import static br.com.contmatic.constantes.Numericas.PRIMEIRO_INDICE;
 import static br.com.contmatic.constantes.Regex.REGEX_DESCRICAO_DEPARTAMENTO;
 import static br.com.contmatic.constantes.Regex.REGEX_NOME_DEPARTAMENTO;
 
@@ -58,12 +57,6 @@ public class Departamento {
 	}
 
 	public void setNome(String nome) {
-//		checkNomeNulo(nome);	
-//		checkNomeVazio(nome);
-//		checkNomeQuantidadeLetras(nome);
-//		checkNomeCaracteresValidos(nome);
-//		checkNomeCompostoPorApenasUmaLetra(nome);
-//		checkNotNull(nome, "Nome do departamento não pode ser nulo.");
 		this.nome = nome;
 	}
 
@@ -72,12 +65,6 @@ public class Departamento {
 	}
 
 	public void setDescricao(String descricao) {
-//		checkDescricaoNula(descricao);		
-//		checkDescricaoVazia(descricao);		
-//		checkDescricaoComecaComLetra(descricao);		
-//		checkDescricaoQuantidadeLetras(descricao);		
-//		checkDescricaoCaracteresValidos(descricao);
-//		checkDescricaoCompostaPorUmaUnicaLetra(descricao);
 		this.descricao = descricao;
 	}
 
@@ -86,144 +73,9 @@ public class Departamento {
 	}
 
 	public void setFuncionarios(Set<Funcionario> funcionarios) {
-//		checkSetFuncionariosNulo(funcionarios);		
-//		checkSetFuncionariosVazio(funcionarios);
-//		checkNovoSetFuncionariosIgualAntigo(funcionarios);
 		this.funcionarios = funcionarios;
 	}
 
-	public boolean cadastrar(Empresa emp) {
-		checkEmpresaNula(emp);
-		return emp.getDepartamentos().add(this);
-	}
-
-	private void checkEmpresaNula(Empresa emp) {
-		if(emp == null) {
-			throw new NullPointerException("A empresa passada como parâmetro não pode ser nula.");
-		}
-	}
-
-	private void checkNomeCompostoPorApenasUmaLetra(String nome) {
-		int repetidos = contarLetrasRepetidas(nome);
-		if (repetidos == nome.length() - PRIMEIRO_INDICE) {
-			throw new IllegalArgumentException("Nome do departamento não pode ser composto unicamente pelo mesmo caractere.");
-		}
-	}
-
-	private int contarLetrasRepetidas(String nome) {
-		String temp = nome.toLowerCase();
-		char primeiro = temp.charAt(0);
-		int repetidos = 0;
-		for (int i = 0; i < nome.length() - PRIMEIRO_INDICE; i++) {
-			if (primeiro == temp.charAt(i + PRIMEIRO_INDICE)) {
-				repetidos++;
-			} else {
-				break;
-			}
-		}
-		return repetidos;
-	}
-
-	private void checkNomeCaracteresValidos(String nome) {
-		for(int i=0; i<nome.length(); i++) {
-			if(!Character.isAlphabetic(nome.charAt(i)) &&
-					(nome.charAt(i) != ' ')) {
-				throw new IllegalArgumentException("Nome do departamento pode ser composto apenas por letras e espaços.");
-			}
-		}
-	}
-
-	private void checkNomeQuantidadeLetras(String nome) {
-		int qtdeLetras = contarQtdeLetras(nome);
-		if(qtdeLetras < MIN_NOME_DEPTO || nome.length() > MAX_NOME_DEPTO) {
-			throw new IllegalArgumentException("Nome do departamento deve ter no mínimo 2 e no máximo 55 caracteres, e ter ao menos 2 letras.");
-		}
-	}
-
-	private int contarQtdeLetras(String nome) {
-		int qtdeLetras = 0;
-		for(int i=0; i<nome.length(); i++) {
-			if(Character.isAlphabetic(nome.charAt(i))) {
-				qtdeLetras++;
-			}
-		}
-		return qtdeLetras;
-	}
-
-	private void checkNomeVazio(String nome) {
-		if(nome.equals("")) {
-			throw new IllegalArgumentException("Nome do departamento não pode estar em branco.");
-		}
-	}
-
-	private void checkNomeNulo(String nome) {
-		if(nome == null) {
-			throw new NullPointerException("Nome do departamento não pode ser nulo.");
-		}
-	}
-	
-	private void checkDescricaoCompostaPorUmaUnicaLetra(String descricao) {
-		int repetidos = contarLetrasRepetidas(descricao);
-		if(repetidos == descricao.length() - PRIMEIRO_INDICE) {
-			throw new IllegalArgumentException("Descrição do departamento não pode ser composta unicamente pelo mesmo caractere.");
-		}
-	}
-
-	private void checkDescricaoCaracteresValidos(String descricao) {
-		for(int i=0; i<descricao.length(); i++) {
-			if(!Character.isAlphabetic(descricao.charAt(i)) &&
-					!Character.isDigit(descricao.charAt(i)) &&
-					(descricao.charAt(i) != ' ') &&
-					(descricao.charAt(i) != ',') &&
-					(descricao.charAt(i) != ';') &&
-					(descricao.charAt(i) != '.')) {
-				throw new IllegalArgumentException("Descrição do departamento pode ser composta apenas por letras, espaços e caracteres de pontuação (\",\", \";\", \".\".");
-			}
-		}
-	}
-
-	private void checkDescricaoQuantidadeLetras(String descricao) {
-		if(descricao.length() < MIN_DESCRICAO || descricao.length() > MAX_DESCRICAO) {
-			throw new IllegalArgumentException("Descrição do departamento deve ter no mínimo 2 e no máximo 100 caracteres.");
-		}
-	}
-
-	private void checkDescricaoComecaComLetra(String descricao) {
-		if(!Character.isAlphabetic(descricao.charAt(0))) {
-			throw new IllegalArgumentException("Descrição deve obrigatoriamente começar com uma letra.");
-		}
-	}
-
-	private void checkDescricaoVazia(String descricao) {
-		if(descricao.equals("")) {
-			throw new IllegalArgumentException("Descrição do departamento não pode estar em branco.");
-		}
-	}
-
-	private void checkDescricaoNula(String descricao) {
-		if(descricao == null) {
-			throw new NullPointerException("Descrição do departamento não pode ser nula.");
-		}
-	}
-	
-	private void checkNovoSetFuncionariosIgualAntigo(Set<Funcionario> funcionarios) {
-		if(this.funcionarios.equals(funcionarios)) {
-			throw new IllegalArgumentException("O set de funcionários a ser inserido não pode ser idêntico ao atual.");
-		}
-	}
-	
-	private void checkSetFuncionariosVazio(Set<Funcionario> funcionarios) {
-		if(funcionarios.isEmpty()) {
-			throw new IllegalArgumentException("O set de funcionários a ser inserido não pode estar vazio (tamanho 0).");
-		}
-	}
-	
-	private void checkSetFuncionariosNulo(Set<Funcionario> funcionarios) {
-		if(funcionarios == null) {
-			throw new NullPointerException("O set de funcionários não pode ser nulo.");
-		}
-	}
-	
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()

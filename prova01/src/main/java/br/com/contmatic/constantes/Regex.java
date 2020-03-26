@@ -28,7 +28,7 @@ public class Regex {
 	
 	public static final String REGEX_DESCRICAO_DEPARTAMENTO = REGEX_COMUM_NOME;
 	
-	public static final String REGEX_LOGRADOURO = "^[A-Za-z" + VOGAIS_ACENTUADAS + VOGAIS_ACENTUADAS_UPPER + "][a-zA-Zç\\s\\-" + VOGAIS_ACENTUADAS + "\\.,]*[a-zA-Z0-9\\." + VOGAIS_ACENTUADAS + "]+$";
+	public static final String REGEX_LOGRADOURO = "^[A-Za-z" + VOGAIS_ACENTUADAS + VOGAIS_ACENTUADAS_UPPER + "][a-zA-Zç\\-\\s" + VOGAIS_ACENTUADAS + "\\.,]*[a-zA-Z0-9\\." + VOGAIS_ACENTUADAS + "]+$";
 	
 	public static final String REGEX_BAIRRO = REGEX_COMUM_NOME;
 	
