@@ -1,17 +1,31 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_BAIRRO_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_BAIRRO_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_BAIRRO_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CEP_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CEP_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CEP_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CIDADE_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CIDADE_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CIDADE_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_LOGRADOURO_BLANK;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_LOGRADOURO_PATTERN;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_LOGRADOURO_TAMANHO;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NUMERO_MAX;
 import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NUMERO_MIN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_PAIS_BLANK;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_PAIS_PATTERN;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_PAIS_TAMANHO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_TIPO_ENDERECO_NULO;
+import static br.com.contmatic.constantes.Mensagens.MENSAGEM_UF_NULA;
+import static br.com.contmatic.enums.EnumEstadosBrasileiros.SP;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
@@ -28,6 +42,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import br.com.contmatic.enums.EnumEstadosBrasileiros;
 import br.com.contmatic.enums.EnumTipoEndereco;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
@@ -182,6 +197,7 @@ public class EnderecoTest {
 	@Test
 	public void deve_aceitar_logradouro_com_letras_espaco_e_hifen() {
 		end.setLogradouro("Rua Mico-Leão-Dourado");
+		assertThat(getErros(end), not(hasItem(MENSAGEM_LOGRADOURO_PATTERN)));
 		
 	}
 	
@@ -292,75 +308,73 @@ public class EnderecoTest {
 	public void deve_definir_um_novo_bairro_para_o_endereco() {
 		String bairro = "Jardim do Carmo";
 		end.setBairro(bairro);
-		assertEquals(bairro, end.getBairro());
+		assertThat(end.getBairro(), equalTo(bairro));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_BAIRRO_BLANK)));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_BAIRRO_PATTERN)));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_BAIRRO_TAMANHO)));
 	}
 	
 	@Test
 	public void deve_aceitar_bairro_com_letras_e_espacos() {
 		end.setBairro("Jardim Miray");
+		assertThat(getErros(end), not(hasItem(MENSAGEM_BAIRRO_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_bairro_com_letras_espacos_e_ponto() {
 		end.setBairro("Jd. Miray");
-	}
-	
-	@Test
-	public void deve_aceitar_bairro_com_numero() {
-		end.setBairro("Bairro 13");
+		assertThat(getErros(end), not(hasItem(MENSAGEM_BAIRRO_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_bairro_com_hifen() {
 		end.setBairro("Bairro Nove-Dez");
+		assertThat(getErros(end), not(hasItem(MENSAGEM_BAIRRO_PATTERN)));
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void nao_deve_aceitar_bairro_nulo() {
 		end.setBairro(null);
+		assertThat(getErros(end), hasItem(MENSAGEM_BAIRRO_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_bairro_em_branco() {
 		end.setBairro("");
+		assertThat(getErros(end), hasItem(MENSAGEM_BAIRRO_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_bairro_apenas_com_espaco() {
 		end.setBairro("      ");
+		assertThat(getErros(end), hasItem(MENSAGEM_BAIRRO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_bairro_apenas_com_ponto() {
 		end.setBairro(".......");
+		assertThat(getErros(end), hasItem(MENSAGEM_BAIRRO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_bairro_com_caracteres_especiais() {
 		end.setBairro("Bairr#");
+		assertThat(getErros(end), hasItem(MENSAGEM_BAIRRO_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_bairro_composta_unicamente_pelo_mesmo_caractere() {
-		end.setBairro("AAAAAA");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_bairro_composta_unicamente_pelo_mesmo_caractere_independentemente_de_caixa() {
-		end.setBairro("aAaAa");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_bairro_de_tamanho_menor_que_3_caracteres() {
 		end.setBairro("X");
+		assertThat(getErros(end), hasItem(MENSAGEM_BAIRRO_TAMANHO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_bairro_de_tamanho_maior_que_55_caracteres() {
 		StringBuilder sb = new StringBuilder("Z");
 		for(int i=0; i<55; i++)
 			sb.append("A");
 		end.setBairro(sb.toString());
+		assertThat(getErros(end), hasItem(MENSAGEM_BAIRRO_TAMANHO));
 	}
 	
 	/*
@@ -370,75 +384,79 @@ public class EnderecoTest {
 	public void deve_definir_uma_nova_cidade_para_o_endereco() {
 		String cidade = "São Paulo";
 		end.setCidade(cidade);
-		assertEquals(cidade, end.getCidade());
+		assertThat(end.getCidade(), equalTo(cidade));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_CIDADE_BLANK)));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_CIDADE_PATTERN)));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_CIDADE_TAMANHO)));
 	}
 	
 	@Test
 	public void deve_aceitar_cidade_com_letras() {
 		end.setCidade("Suzano");
+		assertThat(getErros(end), not(hasItem(MENSAGEM_CIDADE_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_cidade_com_letras_e_espacos() {
 		end.setCidade("Mogi das Cruzes");
+		assertThat(getErros(end), not(hasItem(MENSAGEM_CIDADE_PATTERN)));
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void nao_deve_aceitar_cidade_nula() {
 		end.setCidade(null);
+		assertThat(getErros(end), hasItem(MENSAGEM_CIDADE_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cidade_em_branco() {
 		end.setCidade("");
+		assertThat(getErros(end), hasItem(MENSAGEM_CIDADE_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cidade_apenas_com_espaco() {
 		end.setCidade("     ");
+		assertThat(getErros(end), hasItem(MENSAGEM_CIDADE_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cidade_apenas_com_ponto() {
 		end.setCidade(".......");
+		assertThat(getErros(end), hasItem(MENSAGEM_CIDADE_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cidade_que_nao_comeca_com_letra() {
 		end.setCidade(".São Paulo");
+		assertThat(getErros(end), hasItem(MENSAGEM_CIDADE_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cidade_com_caracteres_especiais() {
 		end.setCidade("S@o Paulo");
+		assertThat(getErros(end), hasItem(MENSAGEM_CIDADE_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cidade_com_numeros() {
 		end.setCidade("789456");
+		assertThat(getErros(end), hasItem(MENSAGEM_CIDADE_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cidade_composta_unicamente_pelo_mesmo_caractere() {
-		end.setCidade("AAAAAA");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cidade_composta_unicamente_pelo_mesmo_caractere_independentemente_de_caixa() {
-		end.setCidade("aAaAa");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cidade_de_tamanho_menor_que_3_caracteres() {
 		end.setCidade("X");
+		assertThat(getErros(end), hasItem(MENSAGEM_CIDADE_TAMANHO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cidade_de_tamanho_maior_que_100_caracteres() {
 		StringBuilder sb = new StringBuilder("Z");
 		for(int i=0; i<100; i++)
 			sb.append("A");
 		end.setCidade(sb.toString());
+		assertThat(getErros(end), hasItem(MENSAGEM_CIDADE_TAMANHO));
 	}
 	
 	/*
@@ -446,56 +464,16 @@ public class EnderecoTest {
 	 * */
 	@Test
 	public void deve_definir_uma_nova_uf_para_o_endereco() {
-		String uf = "SP";
-		//end1.setUf(uf);
-		assertEquals(uf, end.getUf());
+		EnumEstadosBrasileiros uf = SP;
+		end.setUf(uf);
+		assertThat(end.getUf(), equalTo(uf));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_UF_NULA)));
 	}
 	
 	@Test
-	public void deve_retornar_true_para_indicar_que_a_sigla_da_uf_foi_armazenada_em_caixa_alta() {
-		String uf = "pr";
-		//end1.setUf(uf);
-		assertEquals(uf.toUpperCase(), end.getUf());
-	}
-	
-	@Test(expected = NullPointerException.class)
 	public void nao_deve_aceitar_uf_nula() {
 		end.setUf(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_uf_em_branco() {
-		//end1.setUf("");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_uf_apenas_com_espaco() {
-		//end1.setUf("  ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_uf_apenas_com_ponto() {
-		//end1.setUf("..");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_uf_com_caracteres_especiais() {
-		//end1.setUf("@#");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_uf_com_numeros() {
-		//end1.setUf("S8");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_uf_de_tamanho_menor_que_2_caracteres() {
-		//end1.setUf("X");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_uf_de_tamanho_maior_que_2_caracteres() {
-		//end1.setUf("ABC");
+		assertThat(getErros(end), hasItem(MENSAGEM_UF_NULA));
 	}
 	
 	/*
@@ -505,75 +483,79 @@ public class EnderecoTest {
 	public void deve_definir_um_novo_pais_para_o_endereco() {
 		String pais = "Brasil";
 		end.setPais(pais);
-		assertEquals(pais, end.getPais());
+		assertThat(end.getPais(), equalTo(pais));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_PAIS_BLANK)));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_PAIS_PATTERN)));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_PAIS_TAMANHO)));
 	}
 	
 	@Test
 	public void deve_aceitar_pais_com_letras_e_espacos() {
 		end.setPais("África do Sul");
+		assertThat(getErros(end), not(hasItem(MENSAGEM_PAIS_PATTERN)));
 	}
 	
 	@Test
 	public void deve_aceitar_pais_com_letras_e_hifen() {
 		end.setPais("Guiné-Bissau");
+		assertThat(getErros(end), not(hasItem(MENSAGEM_PAIS_PATTERN)));
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void nao_deve_aceitar_pais_nula() {
 		end.setPais(null);
+		assertThat(getErros(end), hasItem(MENSAGEM_PAIS_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_pais_em_branco() {
 		end.setPais("");
+		assertThat(getErros(end), hasItem(MENSAGEM_PAIS_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_pais_apenas_com_espaco() {
 		end.setPais("     ");
+		assertThat(getErros(end), hasItem(MENSAGEM_PAIS_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_pais_apenas_com_ponto() {
 		end.setPais("......");
+		assertThat(getErros(end), hasItem(MENSAGEM_PAIS_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_pais_que_nao_comeca_com_letra() {
 		end.setPais(" Alemanha");
+		assertThat(getErros(end), hasItem(MENSAGEM_PAIS_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_pais_com_caracteres_especiais() {
 		end.setPais("B!@@@###");
+		assertThat(getErros(end), hasItem(MENSAGEM_PAIS_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_pais_com_numero() {
 		end.setPais("República 1");
+		assertThat(getErros(end), hasItem(MENSAGEM_PAIS_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_pais_composta_unicamente_pelo_mesmo_caractere() {
-		end.setPais("AAAAAA");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_pais_composta_unicamente_pelo_mesmo_caractere_independentemente_de_caixa() {
-		end.setPais("aAaAa");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_pais_de_tamanho_menor_que_3_caracteres() {
 		end.setPais("Ab");
+		assertThat(getErros(end), hasItem(MENSAGEM_PAIS_TAMANHO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_pais_de_tamanho_maior_que_100_caracteres() {
 		StringBuilder sb = new StringBuilder("Z");
 		for(int i=0; i<100; i++)
 			sb.append("A");
 		end.setPais(sb.toString());
+		assertThat(getErros(end), hasItem(MENSAGEM_PAIS_TAMANHO));
 	}
 	
 	/*
@@ -581,50 +563,55 @@ public class EnderecoTest {
 	 * */
 	@Test
 	public void deve_definir_um_novo_cep_para_a_pessoa() {
-		String cep = "03314030";
+		String cep = "03314-030";
 		end.setCep(cep);
-		assertEquals(cep, end.getCep());
+		assertThat(end.getCep(), equalTo(cep));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_CEP_BLANK)));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_CEP_PATTERN)));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_CEP_TAMANHO)));
 	}
 	
 	@Test
-	public void deve_aceitar_cep_com_8_digitos() {//RG em MG
-		end.setCep("03314030");
+	public void deve_aceitar_cep_com_8_digitos() {
+		end.setCep("03314-030");
 		assertThat(end.getCep(), notNullValue());
+		assertThat(getErros(end), not(hasItem(MENSAGEM_CEP_PATTERN)));
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void nao_deve_aceitar_cep_nulo() {
 		end.setCep(null);
+		assertThat(getErros(end), hasItem(MENSAGEM_CEP_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cep_em_branco() {
 		end.setCep("");
+		assertThat(getErros(end), hasItem(MENSAGEM_CEP_BLANK));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cep_com_letras() {
 		end.setCep("abcdefgh");
+		assertThat(getErros(end), hasItem(MENSAGEM_CEP_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nao_deve_aceitar_cep_com_caracteres_especiais() {
 		end.setCep("@#$%&*##");
+		assertThat(getErros(end), hasItem(MENSAGEM_CEP_PATTERN));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cep_que_contenha_qualquer_caractere_estranho_a_digitos() {
-		end.setCep("03314-030");
+	@Test
+	public void nao_deve_aceitar_cep_composto_por_menos_de_8_caracteres() {
+		end.setCep("0331-403");
+		assertThat(getErros(end), hasItem(MENSAGEM_CEP_TAMANHO));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cep_composto_por_menos_de_8_digitos() {
-		end.setCep("0331403");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cep_composto_por_mais_de_8_digitos() {
-		end.setCep("033140305");
+	@Test
+	public void nao_deve_aceitar_cep_composto_por_mais_de_8_caracteres() {
+		end.setCep("033140-305");
+		assertThat(getErros(end), hasItem(MENSAGEM_CEP_TAMANHO));
 	}
 	
 	/*
@@ -635,5 +622,12 @@ public class EnderecoTest {
 		EnumTipoEndereco tipo = EnumTipoEndereco.RUA;
 		end.setTipoEndereco(tipo);
 		assertThat(end.getTipoEndereco(), equalTo(tipo));
+		assertThat(getErros(end), not(hasItem(MENSAGEM_TIPO_ENDERECO_NULO)));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_tipo_de_endereco_nulo() {
+		end.setTipoEndereco(null);
+		assertThat(getErros(end), hasItem(MENSAGEM_TIPO_ENDERECO_NULO));
 	}
 }
