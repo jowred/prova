@@ -26,58 +26,114 @@ import org.hibernate.validator.constraints.Range;
 
 import br.com.contmatic.enums.EnumTipoTelefone;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Telefone.
+ */
 public class Telefone {
 	
+	/** The codigo pais. */
 	@Range(min = MIN_COD_PAIS, max = MAX_COD_PAIS, message = MENSAGEM_CODIGO_PAIS_TAMANHO)
 	private int codigoPais;
 	
+	/** The ddd. */
 	@Range(min = MIN_DDD, max = MAX_DDD, message = MENSAGEM_DDD_TAMANHO)
 	private int ddd;
 	
+	/** The numero. */
 	@Length(min = MIN_TELEFONE, max = MAX_TELEFONE, message = MENSAGEM_TELEFONE_TAMANHO)
 	@Pattern(regexp = REGEX_TELEFONE, message = MENSAGEM_TELEFONE_PATTERN)
 	@NotNull(message = MENSAGEM_TELEFONE_BLANK)
 	private String numero;
 	
+	/** The tipo. */
 	@NotNull(message = MENSAGEM_TIPO_TELEFONE_NULO)
 	private EnumTipoTelefone tipo;
 
+	/**
+	 * Instantiates a new telefone.
+	 */
 	public Telefone() {
 		
 	}
 	
+	/**
+	 * Gets the numero.
+	 *
+	 * @return the numero
+	 */
 	public String getNumero() {
 		return numero;
 	}
 
+	/**
+	 * Sets the numero.
+	 *
+	 * @param numero the new numero
+	 */
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
+	/**
+	 * Gets the codigo pais.
+	 *
+	 * @return the codigo pais
+	 */
 	public int getCodigoPais() {
 		return codigoPais;
 	}
 
+	/**
+	 * Sets the codigo pais.
+	 *
+	 * @param codigoPais the new codigo pais
+	 */
 	public void setCodigoPais(int codigoPais) {
 		this.codigoPais = codigoPais;
 	}
 
+	/**
+	 * Gets the ddd.
+	 *
+	 * @return the ddd
+	 */
 	public int getDdd() {
 		return ddd;
 	}
 
+	/**
+	 * Sets the ddd.
+	 *
+	 * @param ddd the new ddd
+	 */
 	public void setDdd(int ddd) {
 		this.ddd = ddd;
 	}
 
+	/**
+	 * Gets the tipo.
+	 *
+	 * @return the tipo
+	 */
 	public EnumTipoTelefone getTipo() {
 		return tipo;
 	}
 
+	/**
+	 * Sets the tipo.
+	 *
+	 * @param tipo the new tipo
+	 */
 	public void setTipo(EnumTipoTelefone tipo) {
 		this.tipo = tipo;
 	}
 
+	/**
+	 * Hash code.
+	 *
+	 * @return the int
+	 */
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
@@ -87,6 +143,12 @@ public class Telefone {
 				.toHashCode();
 	}
 
+	/**
+	 * Equals.
+	 *
+	 * @param obj the obj
+	 * @return true, if successful
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -103,6 +165,11 @@ public class Telefone {
 				.isEquals();
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

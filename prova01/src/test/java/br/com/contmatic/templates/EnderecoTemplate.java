@@ -9,8 +9,15 @@ import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.Rule;
 import br.com.six2six.fixturefactory.loader.TemplateLoader;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EnderecoTemplate.
+ */
 public class EnderecoTemplate implements TemplateLoader {
 
+	/**
+	 * Load.
+	 */
 	@Override
 	public void load() {
 		Fixture.of(Endereco.class).addTemplate("valido", new Rule() {{

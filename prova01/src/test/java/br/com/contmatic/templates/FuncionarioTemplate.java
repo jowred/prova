@@ -8,8 +8,15 @@ import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.Rule;
 import br.com.six2six.fixturefactory.loader.TemplateLoader;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FuncionarioTemplate.
+ */
 public class FuncionarioTemplate implements TemplateLoader {
 
+	/**
+	 * Load.
+	 */
 	@Override
 	public void load() {
 		Fixture.of(Funcionario.class).addTemplate("valido", new Rule() {{

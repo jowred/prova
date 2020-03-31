@@ -27,55 +27,106 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Departamento.
+ */
 public class Departamento {
 	
+	/** The nome. */
 	@Length(min = MIN_NOME_DEPTO, max = MAX_NOME_DEPTO, message = MENSAGEM_NOME_DEPARTAMENTO_TAMANHO)
 	@Pattern(regexp = REGEX_NOME_DEPARTAMENTO, message = MENSAGEM_NOME_DEPARTAMENTO_PATTERN)
 	@NotBlank(message = MENSAGEM_NOME_DEPARTAMENTO_BLANK)
 	private String nome;
 	
+	/** The descricao. */
 	@Length(min = MIN_DESCRICAO, max = MAX_DESCRICAO, message = MENSAGEM_DESCRICAO_DEPARTAMENTO_TAMANHO)
 	@Pattern(regexp = REGEX_DESCRICAO_DEPARTAMENTO, message = MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN)
 	@NotBlank(message = MENSAGEM_DESCRICAO_DEPARTAMENTO_BLANK)
 	private String descricao;
 	
+	/** The funcionarios. */
 	@NotEmpty(message = MENSAGEM_SET_FUNCIONARIOS_VAZIO)
 	private Set<Funcionario> funcionarios;
 	
+	/**
+	 * Instantiates a new departamento.
+	 */
 	public Departamento() {
 		this.funcionarios = new HashSet<>();
 	}
 	
+	/**
+	 * Instantiates a new departamento.
+	 *
+	 * @param nome the nome
+	 * @param descricao the descricao
+	 */
 	public Departamento(String nome, String descricao) {
 		this();
 		this.setNome(nome);
 		this.setDescricao(descricao);
 	}
 	
+	/**
+	 * Gets the nome.
+	 *
+	 * @return the nome
+	 */
 	public String getNome() {
 		return nome;
 	}
 
+	/**
+	 * Sets the nome.
+	 *
+	 * @param nome the new nome
+	 */
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
+	/**
+	 * Gets the descricao.
+	 *
+	 * @return the descricao
+	 */
 	public String getDescricao() {
 		return descricao;
 	}
 
+	/**
+	 * Sets the descricao.
+	 *
+	 * @param descricao the new descricao
+	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
 
+	/**
+	 * Gets the funcionarios.
+	 *
+	 * @return the funcionarios
+	 */
 	public Set<Funcionario> getFuncionarios() {
 		return funcionarios;
 	}
 
+	/**
+	 * Sets the funcionarios.
+	 *
+	 * @param funcionarios the new funcionarios
+	 */
 	public void setFuncionarios(Set<Funcionario> funcionarios) {
 		this.funcionarios = funcionarios;
 	}
 
+	/**
+	 * Hash code.
+	 *
+	 * @return the int
+	 */
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
@@ -85,6 +136,12 @@ public class Departamento {
 				.toHashCode();
 	}
 	
+	/**
+	 * Equals.
+	 *
+	 * @param obj the obj
+	 * @return true, if successful
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if(this == obj)
@@ -101,6 +158,11 @@ public class Departamento {
 				.isEquals();
 	}
 	
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

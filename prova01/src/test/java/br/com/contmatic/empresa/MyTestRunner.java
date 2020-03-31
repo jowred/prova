@@ -3,6 +3,9 @@ package br.com.contmatic.empresa;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+/**
+ * The Class MyTestRunner.
+ */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	EmpresaTest.class,
