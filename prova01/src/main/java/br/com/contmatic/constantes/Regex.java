@@ -1,8 +1,8 @@
 package br.com.contmatic.constantes;
 
-public class Regex {
+public final class Regex {
 
-	Regex() {
+	private Regex() {
 		
 	}
 	

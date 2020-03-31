@@ -64,7 +64,7 @@ public class Dependente {
 	
 	@Valid
 	@NotNull(message = MENSAGEM_PROVEDOR_NULL)
-	private Funcionario provedor;
+	private Provedor provedor;
 	
 	@NotNull(message = MENSAGEM_PARENTESCO_NULO)
 	private EnumTipoParentesco parentesco;
@@ -74,18 +74,9 @@ public class Dependente {
 	private int idade;
 	
 	public Dependente() {
-		this.provedor = new Funcionario();
 		this.setParentesco(NAO_DECLARADO);
 	}
 
-	public Dependente(String nome, String rg, String cpf) {
-		this.setNome(nome);
-		this.setRg(rg);
-		this.setCpf(cpf);
-		this.provedor = new Funcionario();
-		this.setParentesco(NAO_DECLARADO);
-	}
-	
 	public String getNome() {
 		return nome;
 	}
@@ -126,11 +117,11 @@ public class Dependente {
 		this.parentesco = parentesco;
 	}
 	
-	public Funcionario getProvedor() {
+	public Provedor getProvedor() {
 		return provedor;
 	}
 
-	public void setProvedor(Funcionario provedor) {
+	public void setProvedor(Provedor provedor) {
 		this.provedor = provedor;
 	}
 

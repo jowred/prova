@@ -173,6 +173,12 @@ public final class Mensagens {
 	
 	public static final String MENSAGEM_TIPO_TELEFONE_NULO = "O tipo de telefone não pode ser nulo.";
 	
-	
+/////////////////////////////////////////////////////////
+/////////////////////    SÓCIO    ///////////////////////
+/////////////////////////////////////////////////////////
+
+public static final String MENSAGEM_INICIO_SOCIEDADE_BLANK = "A data de início da sociedade não pode ser nula.";
+
+public static final String MENSAGEM_INICIO_SOCIEDADE_PAST = "O início da sociedade deve refletir uma data do passado.";
 	
 }

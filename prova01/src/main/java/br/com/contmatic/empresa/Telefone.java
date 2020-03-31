@@ -14,8 +14,6 @@ import static br.com.contmatic.constantes.Numericas.MIN_DDD;
 import static br.com.contmatic.constantes.Numericas.MIN_TELEFONE;
 import static br.com.contmatic.constantes.Regex.REGEX_TELEFONE;
 
-import java.util.List;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -31,7 +29,7 @@ import br.com.contmatic.enums.EnumTipoTelefone;
 public class Telefone {
 	
 	@Range(min = MIN_COD_PAIS, max = MAX_COD_PAIS, message = MENSAGEM_CODIGO_PAIS_TAMANHO)
-	private int codigoPais; // Enum código de país
+	private int codigoPais;
 	
 	@Range(min = MIN_DDD, max = MAX_DDD, message = MENSAGEM_DDD_TAMANHO)
 	private int ddd;
@@ -48,12 +46,6 @@ public class Telefone {
 		
 	}
 	
-	public Telefone(int codigoPais, int ddd, String numero) {
-		this.setCodigoPais(codigoPais);
-		this.setDdd(ddd);
-		this.setNumero(numero);
-	}
-
 	public String getNumero() {
 		return numero;
 	}
@@ -84,10 +76,6 @@ public class Telefone {
 
 	public void setTipo(EnumTipoTelefone tipo) {
 		this.tipo = tipo;
-	}
-
-	public boolean cadastrar(List<Telefone> telefones) {
-		return telefones.add(this);
 	}
 
 	@Override

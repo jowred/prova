@@ -125,6 +125,11 @@ public class FuncionarioTest {
 		assertThat(f, not(equalTo(new Object())));
 	}
 	
+	@Test
+	public void nao_deve_apontar_igualdade_usando_equals_sobrescrito_porque_objeto2_e_nulo() {
+		assertThat(f, not(equalTo(null)));
+	}
+	
 	//hashcode
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_funcionario_usando_hashcode_sobrescrito() {
@@ -140,6 +145,9 @@ public class FuncionarioTest {
 		assertThat(f.hashCode(), not(equalTo(fun.hashCode())));
 	}
 	
+	/*
+	 * DEPENDENTES
+	 */
 	@Test
 	public void deve_redefinir_lista_de_dependentes() {
 		Set<Dependente> dependentes = new HashSet<Dependente>();
@@ -192,7 +200,7 @@ public class FuncionarioTest {
 	}
 
 	@Test
-	public void deve_definir_um_novo_nome_para_a_pessoa() {
+	public void deve_definir_um_novo_nome_para_o_funcionario() {
 		String nome = "Maria";
 		f.setNome(nome);
 		Set<String> erros = getErros(f);
@@ -265,7 +273,7 @@ public class FuncionarioTest {
 	 * CPF
 	 */
 	@Test
-	public void deve_definir_um_novo_cpf_para_a_pessoa() {
+	public void deve_definir_um_novo_cpf_para_o_funcionario() {
 		String cpf = "55269981009";
 		f.setCpf(cpf);
 		assertThat(f.getCpf(), equalTo(cpf));
@@ -349,7 +357,7 @@ public class FuncionarioTest {
 	}
 
 	@Test
-	public void deve_definir_um_novo_rg_para_a_pessoa() {
+	public void deve_definir_um_novo_rg_para_o_funcionario() {
 		String rg = "789546879";
 		f.setRg(rg);
 		assertThat(rg, equalTo(f.getRg()));

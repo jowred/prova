@@ -47,7 +47,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 import org.joda.time.LocalDate;
 
-public class Funcionario {
+public class Funcionario implements Provedor {
 	
 	@Length(min = MIN_NOME, max = MAX_NOME, message = MENSAGEM_NOME_PESSOA_TAMANHO)
 	@Pattern(regexp = REGEX_NOME_PESSOA, message = MENSAGEM_NOME_PESSOA_PATTERN)
@@ -86,13 +86,6 @@ public class Funcionario {
 	
 	public Funcionario() {
 		dependentes = new HashSet<>();
-	}
-	
-	public Funcionario(String nome, String rg, String cpf) {
-		this.setNome(nome);
-		this.setRg(rg);
-		this.setCpf(cpf);
-		this.dependentes = new HashSet<>();
 	}
 	
 	public String getNome() {

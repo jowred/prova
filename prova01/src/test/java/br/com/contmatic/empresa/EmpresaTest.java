@@ -105,36 +105,11 @@ public class EmpresaTest {
 		System.out.println("Testes da classe Empresa concluídos.");
 	}
 	
-//	@Test
-//	public void deve_confirmar_a_presenca_das_strings_na_razao_social_do_objeto_usado_em_toda_a_classe_de_teste() {
-//		assertThat(emp1.getRazaoSocial(), both(containsString("PepsiCo")).and(containsString("Ltda.")));
-//	}
-//	
-//	@Test
-//	public void deve_confirmar_a_presenca_da_string_no_nome_fantasia_do_objeto_usado_em_toda_a_classe_de_teste() {
-//		assertThat(emp1.getNomeFantasia(), containsString("Pepsi"));
-//	}
-//	
-//	@Test
-//	public void deve_confirmar_o_cnpj_do_objeto_usado_em_toda_a_classe_de_teste() {
-//		assertThat(emp1.getCnpj(), containsString("31565104000177"));
-//	}
-	
-//	@Test
-//	public void nao_deve_confirmar_a_presenca_da_string_na_razao_social_do_objeto_usado_em_toda_a_classe_de_teste() {
-//		assertThat(emp1.getRazaoSocial(), is(not("Coca-Cola")));
-//	}
-	
 	@Test
 	@Ignore("Exemplo de teste ignorado")
 	public void nao_deve_confirmar_a_presenca_dessa_segunda_string_na_razao_social_do_objeto_usado_em_toda_a_classe_de_teste() {
 		assertThat(emp1.getRazaoSocial(), is(not("Nestlé")));
 	}
-	
-//	@Test
-//	public void deve_confirmar_a_presenca_da_string_na_area_de_atuacao_do_objeto_usado_em_toda_a_classe_de_teste() {
-//		assertThat(emp1.getAreaAtuacao(), containsString("Alimentos"));
-//	}
 	
 	@Test
 	public void deve_indicar_que_o_metodo_toString_esta_sobrescrito_por_nao_conter_o_caractere_arroba() {

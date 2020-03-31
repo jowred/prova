@@ -123,6 +123,11 @@ public class DependenteTest {
 		assertThat(dependente, not(equalTo(new Object())));
 	}
 	
+	@Test
+	public void nao_deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_o_objeto2_e_nulo() {
+		assertThat(dependente, not(equalTo(null)));
+	}
+	
 	//hashcode
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_dependente_usando_hashcode_sobrescrito() {
@@ -167,7 +172,7 @@ public class DependenteTest {
 	}
 
 	@Test
-	public void deve_definir_um_novo_nome_para_a_pessoa() {
+	public void deve_definir_um_novo_nome_para_o_dependente() {
 		String nome = "Maria";
 		dependente.setNome(nome);
 		Set<String> erros = getErros(dependente);
@@ -240,7 +245,7 @@ public class DependenteTest {
 	 * CPF
 	 */
 	@Test
-	public void deve_definir_um_novo_cpf_para_a_pessoa() {
+	public void deve_definir_um_novo_cpf_para_o_dependente() {
 		String cpf = "55269981009";
 		dependente.setCpf(cpf);
 		assertThat(dependente.getCpf(), equalTo(cpf));
@@ -324,7 +329,7 @@ public class DependenteTest {
 	}
 
 	@Test
-	public void deve_definir_um_novo_rg_para_a_pessoa() {
+	public void deve_definir_um_novo_rg_para_o_dependente() {
 		String rg = "789546879";
 		dependente.setRg(rg);
 		assertThat(rg, equalTo(dependente.getRg()));
@@ -421,8 +426,16 @@ public class DependenteTest {
 	 * PROVEDOR
 	 * */
 	@Test
-	public void deve_definir_um_provedor_para_o_dependente() {
+	public void deve_definir_um_provedor_funcionario_para_o_dependente() {
 		Funcionario provedor = Fixture.from(Funcionario.class).gimme("valido");
+		dependente.setProvedor(provedor);
+		assertThat(dependente.getProvedor(), equalTo(provedor));
+		assertThat(getErros(dependente), not(hasItem(MENSAGEM_PROVEDOR_NULL)));
+	}
+	
+	@Test
+	public void deve_definir_um_provedor_socio_para_o_dependente() {
+		Socio provedor = Fixture.from(Socio.class).gimme("valido");
 		dependente.setProvedor(provedor);
 		assertThat(dependente.getProvedor(), equalTo(provedor));
 		assertThat(getErros(dependente), not(hasItem(MENSAGEM_PROVEDOR_NULL)));

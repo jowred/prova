@@ -91,12 +91,6 @@ public class Empresa {
 		this.endereco = new Endereco();
 	}
 	
-	public Empresa(String razaoSocial, String cnpj) {
-		this();
-		this.setRazaoSocial(razaoSocial);
-		this.setCnpj(cnpj);
-	}
-	
 	public String getRazaoSocial() {
 		return razaoSocial;
 	}

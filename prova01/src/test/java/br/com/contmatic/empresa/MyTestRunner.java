@@ -10,9 +10,10 @@ import org.junit.runners.Suite;
 	DependenteTest.class,
 	EnderecoTest.class,
 	FuncionarioTest.class,
-	TelefoneTest.class
+	TelefoneTest.class,
+	SocioTest.class
 })
 
-public class MyTestRunner {
+public final class MyTestRunner {
 
 }
