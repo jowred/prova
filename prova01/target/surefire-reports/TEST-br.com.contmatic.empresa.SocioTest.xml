@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite tests="62" failures="0" name="br.com.contmatic.empresa.SocioTest" time="0.144" errors="0" skipped="0">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_231\jre\bin"/>
+    <property name="java.vm.version" value="25.231-b11"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:\Users\Jonathan\git\prova\prova01"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="path.separator" value=";"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.script" value=""/>
+    <property name="user.country" value="BR"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="C:\Users\Jonathan\git\prova\prova01"/>
+    <property name="java.runtime.version" value="1.8.0_231-b11"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="java.endorsed.dirs" value="C:\Program Files\Java\jdk1.8.0_231\jre\lib\endorsed"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="C:\Users\Jonathan\AppData\Local\Temp\"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="classworlds.conf" value="C:\Users\Jonathan\Documents\workspaces\prova\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf798626146330193091.tmp"/>
+    <property name="jansi.force" value="true"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_231\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Program Files/Java/jre1.8.0_241/bin/server;C:/Program Files/Java/jre1.8.0_241/bin;C:/Program Files/Java/jre1.8.0_241/lib/amd64;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Java\jdk1.8.0_231\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Users\Jonathan\AppData\Local\Microsoft\WindowsApps;C:\Users\Jonathan\Documents\Microsoft VS Code\bin;C:\Users\Jonathan\AppData\Roaming\npm;C:\Users\Jonathan\AppData\Local\GitHubDesktop\bin;C:\Windows\System32;;."/>
+    <property name="jansi.passthrough" value="true"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="52.0"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="10.0"/>
+    <property name="user.home" value="C:\Users\Jonathan"/>
+    <property name="user.timezone" value="America/Sao_Paulo"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="java.specification.version" value="1.8"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="user.name" value="Jonathan"/>
+    <property name="java.class.path" value="C:\Users\Jonathan\Documents\STS\sts-bundle\sts-3.9.11.RELEASE\plugins\org.eclipse.m2e.maven.runtime_1.13.0.20190716-1623\jars\plexus-classworlds-2.6.0.jar"/>
+    <property name="java.vm.specification.version" value="1.8"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk1.8.0_231\jre"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B install -Dstyle.color=always"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language" value="pt"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.8.0_231"/>
+    <property name="java.ext.dirs" value="C:\Program Files\Java\jdk1.8.0_231\jre\lib\ext;C:\Windows\Sun\Java\lib\ext"/>
+    <property name="sun.boot.class.path" value="C:\Program Files\Java\jdk1.8.0_231\jre\lib\resources.jar;C:\Program Files\Java\jdk1.8.0_231\jre\lib\rt.jar;C:\Program Files\Java\jdk1.8.0_231\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.8.0_231\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.8.0_231\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_231\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.8.0_231\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.8.0_231\jre\classes"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="C:\Users\Jonathan\git\prova\prova01\EMBEDDED"/>
+    <property name="style.color" value="always"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.desktop" value="windows"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+  </properties>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_aceitar_rg_com_8_digitos" time="0.004"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_cpf_composto_por_mais_de_11_digitos" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_cpf_do_objeto2_e_diferente" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_validar_objeto_criado_com_o_fixture" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_data_de_nascimento_futura" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_rg_nulo" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_rg_composto_por_menos_de_8_caracteres" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_os_objetos_sao_de_classes_diferentes" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_nome_em_branco" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_nome_que_nao_inicia_com_letra" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_redefinir_lista_de_dependentes_por_uma_lista_nula" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_definir_um_novo_cpf_para_o_socio" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_apontar_igualdade_entre_os_objetos_usando_hashcode_sobrescrito" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_rg_com_letras" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_aceitar_nome_apenas_com_letras_e_espaco" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_email_com_menos_de_6_caracteres" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_rg_composto_por_mais_de_9_caracteres" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_nome_com_numeros" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_redefinir_email_valido" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_cpf_nulo" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_rg_em_branco" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_data_de_admissao_nula" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_nome_nulo" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_rg_com_menos_de_8_digitos" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_rg_com_mais_de_9_digitos" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_cpf_composto_por_caracteres_especiais" time="0.004"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_definir_um_novo_rg_para_o_socio" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_redefinir_a_lista_de_dependentes_por_uma_lista_que_esteja_vazia" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_cpf_composto_por_letras" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_email_nulo" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_data_de_admissao_futura" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_aceitar_nome_com_letras_espaco_e_ponto" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_redefinir_lista_de_dependentes" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_rg_com_caracteres_especiais" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_sao_o_mesmo_objeto" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_nome_fora_do_padrao_da_regex_especificada" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_data_de_nascimento_nula" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_aceitar_rg_com_9_digitos" time="0.004"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_indicar_que_o_metodo_toString_esta_sobrescrito_por_nao_conter_o_caractere_arroba" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_nome_de_tamanho_menor_que_2_caracteres" time="0.005"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_nome_com_menos_de_uma_letra_independentemente_da_quantidade_de_caracteres_da_string" time="0.004"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_nome_de_tamanho_maior_que_100_caracteres" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_cpf_composto_por_digitos_iguais" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_apontar_igualdade_entre_os_objetos_socio" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_aceitar_data_de_admissao_especificada" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_cpf_composto_por_menos_de_11_digitos" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_apontar_igualdade_entre_os_objetos_socio_usando_hashcode_sobrescrito" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_aceitar_data_de_nascimento_especificada" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_o_objeto2_e_nulo" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_aceitar_email_valido" time="0.004"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_rg_que_contenha_qualquer_caractere_estranho_a_digitos" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_aceitar_cpf_valido_sem_caracteres_especiais_estranhos_ao_padrao" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_aceitar_nome_apenas_com_letras" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_email_com_mais_de_100_caracteres" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_ambos_tem_o_mesmo_cpf" time="0.001"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_email_invalido" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_aceitar_cpf_valido_com_mascara" time="0.002"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_nome_com_caracteres_especiais" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_cpf_em_branco" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_nome_de_tamanho_diferente_do_especificado" time="0.003"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="nao_deve_aceitar_cpf_invalido" time="0.004"/>
+  <testcase classname="br.com.contmatic.empresa.SocioTest" name="deve_definir_um_novo_nome_para_o_socio" time="0.002"/>
+</testsuite>

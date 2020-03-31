@@ -607,7 +607,7 @@ public class DependenteTest {
 	public void deve_definir_um_provedor_funcionario_para_o_dependente() {
 		Funcionario provedor = Fixture.from(Funcionario.class).gimme("valido");
 		dependente.setProvedor(provedor);
-		assertThat(dependente.getProvedor(), equalTo(provedor));
+		assertThat(dependente.getProvedor(), equalTo((Provedor) provedor));
 		assertThat(getErros(dependente), not(hasItem(MENSAGEM_PROVEDOR_NULL)));
 	}
 	
@@ -618,7 +618,7 @@ public class DependenteTest {
 	public void deve_definir_um_provedor_socio_para_o_dependente() {
 		Socio provedor = Fixture.from(Socio.class).gimme("valido");
 		dependente.setProvedor(provedor);
-		assertThat(dependente.getProvedor(), equalTo(provedor));
+		assertThat(dependente.getProvedor(), equalTo((Provedor) provedor));
 		assertThat(getErros(dependente), not(hasItem(MENSAGEM_PROVEDOR_NULL)));
 	}
 	
