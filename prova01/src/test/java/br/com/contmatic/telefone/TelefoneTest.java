@@ -1,4 +1,4 @@
-package br.com.contmatic.empresa;
+package br.com.contmatic.telefone;
 
 import static br.com.contmatic.util.Mensagens.MENSAGEM_CODIGO_PAIS_TAMANHO;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_DDD_TAMANHO;
@@ -22,7 +22,6 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -34,7 +33,7 @@ import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 
 public class TelefoneTest {
 
-	Telefone tel;
+	private Telefone tel;
 
 	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
@@ -240,6 +239,8 @@ public class TelefoneTest {
 		TelefoneType tipo = TelefoneType.TELEFONE_FIXO;
 		tel.setTipo(tipo);
 		assertThat(tel.getTipo(), equalTo(tipo));
+		assertThat(tel.getTipo().getDescricao(), equalTo(tipo.getDescricao()));
+		assertThat(tel.getTipo().getTamanho(), equalTo(tipo.getTamanho()));
 	}
 
 	@Test

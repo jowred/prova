@@ -139,13 +139,6 @@ public final class Mensagens {
 	/** The Constant MENSAGEM_PARENTESCO_NULO. */
 	public static final String MENSAGEM_PARENTESCO_NULO = "O parentesco não pode ser nulo.";
 	
-	/** The Constant MENSAGEM_IDADE_MIN. */
-	public static final String MENSAGEM_IDADE_MIN = "Idade não pode ser menor que {min}.";
-	
-	/** The Constant MENSAGEM_IDADE_MAX. */
-	public static final String MENSAGEM_IDADE_MAX = "Idade não pode ser maior que {max}.";
-	
-	
 	/////////////////////////////////////////////////////////
 	/////////////////////// ENDEREÇO ////////////////////////
 	/////////////////////////////////////////////////////////
@@ -248,14 +241,14 @@ public final class Mensagens {
 	/** The Constant MENSAGEM_TIPO_TELEFONE_NULO. */
 	public static final String MENSAGEM_TIPO_TELEFONE_NULO = "O tipo de telefone não pode ser nulo.";
 	
-/////////////////////////////////////////////////////////
-/////////////////////    SÓCIO    ///////////////////////
-/////////////////////////////////////////////////////////
-
-/** The Constant MENSAGEM_INICIO_SOCIEDADE_BLANK. */
-public static final String MENSAGEM_INICIO_SOCIEDADE_BLANK = "A data de início da sociedade não pode ser nula.";
-
-/** The Constant MENSAGEM_INICIO_SOCIEDADE_PAST. */
-public static final String MENSAGEM_INICIO_SOCIEDADE_PAST = "O início da sociedade deve refletir uma data do passado.";
+	/////////////////////////////////////////////////////////
+	/////////////////////    SÓCIO    ///////////////////////
+	/////////////////////////////////////////////////////////
 	
-}
+	/** The Constant MENSAGEM_INICIO_SOCIEDADE_BLANK. */
+	public static final String MENSAGEM_INICIO_SOCIEDADE_BLANK = "A data de início da sociedade não pode ser nula.";
+	
+	/** The Constant MENSAGEM_INICIO_SOCIEDADE_PAST. */
+	public static final String MENSAGEM_INICIO_SOCIEDADE_PAST = "O início da sociedade deve refletir uma data do passado.";
+		
+	}

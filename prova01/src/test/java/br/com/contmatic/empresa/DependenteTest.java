@@ -5,8 +5,6 @@ import static br.com.contmatic.util.Mensagens.MENSAGEM_CPF_BLANK;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_CPF_PATTERN;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_DATA_NASCIMENTO_FUTURE;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_DATA_NASCIMENTO_NULA;
-import static br.com.contmatic.util.Mensagens.MENSAGEM_IDADE_MAX;
-import static br.com.contmatic.util.Mensagens.MENSAGEM_IDADE_MIN;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_PESSOA_BLANK;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_PESSOA_PATTERN;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_PESSOA_TAMANHO;
@@ -445,6 +443,7 @@ public class DependenteTest {
 		ParentescoType parentesco = FILHO;
 		dependente.setParentesco(parentesco);
 		assertThat(dependente.getParentesco(), equalTo(parentesco));
+		assertThat(dependente.getParentesco().getDescricao(), equalTo(parentesco.getDescricao()));
 		assertThat(getErros(dependente), not(hasItem(MENSAGEM_PARENTESCO_NULO)));
 	}
 
@@ -454,41 +453,4 @@ public class DependenteTest {
 		assertThat(getErros(dependente), hasItem(MENSAGEM_PARENTESCO_NULO));
 	}
 
-	/*
-	 * IDADE
-	 */
-	@Test
-	public void deve_definir_uma_idade_para_o_dependente() {
-		int idade = 8;
-		dependente.setIdade(idade);
-		assertThat(dependente.getIdade(), equalTo(idade));
-		assertThat(getErros(dependente), not(hasItem(MENSAGEM_IDADE_MIN)));
-		assertThat(getErros(dependente), not(hasItem(MENSAGEM_IDADE_MAX)));
-	}
-
-	@Test
-	public void deve_aceitar_idade_positiva() {
-		dependente.setIdade(17);
-		assertThat(getErros(dependente), not(hasItem(MENSAGEM_IDADE_MIN)));
-		assertThat(getErros(dependente), not(hasItem(MENSAGEM_IDADE_MAX)));
-	}
-
-	@Test
-	public void deve_aceitar_idade_igual_a_0() {
-		dependente.setIdade(0);
-		assertThat(getErros(dependente), not(hasItem(MENSAGEM_IDADE_MIN)));
-		assertThat(getErros(dependente), not(hasItem(MENSAGEM_IDADE_MAX)));
-	}
-
-	@Test
-	public void nao_deve_aceitar_idade_negativa() {
-		dependente.setIdade(-2);
-		assertThat(getErros(dependente), hasItem(MENSAGEM_IDADE_MIN));
-	}
-
-	@Test
-	public void nao_deve_aceitar_idade_maior_que_120() {
-		dependente.setIdade(155);
-		assertThat(getErros(dependente), hasItem(MENSAGEM_IDADE_MAX));
-	}
 }

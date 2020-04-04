@@ -5,8 +5,6 @@ import static br.com.contmatic.util.Mensagens.MENSAGEM_CPF_BLANK;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_CPF_PATTERN;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_DATA_NASCIMENTO_FUTURE;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_DATA_NASCIMENTO_NULA;
-import static br.com.contmatic.util.Mensagens.MENSAGEM_IDADE_MAX;
-import static br.com.contmatic.util.Mensagens.MENSAGEM_IDADE_MIN;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_PESSOA_BLANK;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_PESSOA_PATTERN;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_PESSOA_TAMANHO;
@@ -15,18 +13,14 @@ import static br.com.contmatic.util.Mensagens.MENSAGEM_PROVEDOR_NULL;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_RG_BLANK;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_RG_PATTERN;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_RG_TAMANHO;
-import static br.com.contmatic.util.Numericas.MAX_IDADE;
 import static br.com.contmatic.util.Numericas.MAX_NOME;
 import static br.com.contmatic.util.Numericas.MAX_RG;
-import static br.com.contmatic.util.Numericas.MIN_IDADE;
 import static br.com.contmatic.util.Numericas.MIN_NOME;
 import static br.com.contmatic.util.Numericas.MIN_RG;
 import static br.com.contmatic.util.Regex.REGEX_NOME_PESSOA;
 import static br.com.contmatic.util.Regex.REGEX_RG;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -75,11 +69,6 @@ public class Dependente {
 	/** The parentesco. */
 	@NotNull(message = MENSAGEM_PARENTESCO_NULO)
 	private ParentescoType parentesco;
-	
-	/** The idade. */
-	@Min(value = MIN_IDADE, message = MENSAGEM_IDADE_MIN)
-	@Max(value = MAX_IDADE, message = MENSAGEM_IDADE_MAX)
-	private int idade;
 	
 	/**
 	 * Instantiates a new dependente.
@@ -194,24 +183,6 @@ public class Dependente {
 	 */
 	public void setProvedor(Provedor provedor) {
 		this.provedor = provedor;
-	}
-
-	/**
-	 * Gets the idade.
-	 *
-	 * @return the idade
-	 */
-	public int getIdade() {
-		return idade;
-	}
-
-	/**
-	 * Sets the idade.
-	 *
-	 * @param idade the new idade
-	 */
-	public void setIdade(int idade) {
-		this.idade = idade;
 	}
 
 	/**

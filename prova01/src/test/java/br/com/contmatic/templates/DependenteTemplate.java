@@ -30,7 +30,6 @@ public class DependenteTemplate implements TemplateLoader {
 			add("dataNascimento", random(new LocalDate(1997, 12, 25), new LocalDate(1978, 8, 2), new LocalDate(2000, 9, 16)));
 			add("provedor", one(Funcionario.class, "valido"));
 			add("parentesco", random(FILHO, ENTEADO, SOBRINHO));
-			add("idade", random(Integer.class, range(0, 17)));
 		}});
 		
 		Fixture.of(Dependente.class).addTemplate("mock", new Rule() {{
@@ -40,7 +39,6 @@ public class DependenteTemplate implements TemplateLoader {
 			add("dataNascimento", new LocalDate(1998, 9, 21));
 			add("provedor", one(Funcionario.class, "mock"));
 			add("parentesco", FILHO);
-			add("idade", 10);
 		}});
 		
 		Fixture.of(Dependente.class).addTemplate("valido_for_socio", new Rule() {{
@@ -50,7 +48,6 @@ public class DependenteTemplate implements TemplateLoader {
 			add("dataNascimento", random(new LocalDate(1997, 12, 25), new LocalDate(1978, 8, 2), new LocalDate(2000, 9, 16)));
 			add("provedor", one(Socio.class, "valido"));
 			add("parentesco", random(FILHO, ENTEADO, SOBRINHO));
-			add("idade", random(Integer.class, range(0, 17)));
 		}});
 		
 		Fixture.of(Dependente.class).addTemplate("mock_for_socio", new Rule() {{
@@ -60,7 +57,6 @@ public class DependenteTemplate implements TemplateLoader {
 			add("dataNascimento", new LocalDate(1998, 9, 21));
 			add("provedor", one(Socio.class, "mock"));
 			add("parentesco", FILHO);
-			add("idade", 10);
 		}});
 		
 	}

@@ -1,4 +1,4 @@
-package br.com.contmatic.empresa;
+package br.com.contmatic.endereco;
 
 import static br.com.contmatic.endereco.EstadosBrasileirosType.SP;
 import static br.com.contmatic.util.Mensagens.MENSAGEM_BAIRRO_BLANK;
@@ -37,7 +37,6 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -461,6 +460,7 @@ public class EnderecoTest {
 		end.setUf(uf);
 		assertThat(end.getUf(), equalTo(uf));
 		assertThat(getErros(end), not(hasItem(MENSAGEM_UF_NULA)));
+		assertThat(end.getUf().getNome(), equalTo(uf.getNome()));
 	}
 
 	@Test
@@ -615,6 +615,7 @@ public class EnderecoTest {
 		EnderecoType tipo = EnderecoType.RUA;
 		end.setTipoEndereco(tipo);
 		assertThat(end.getTipoEndereco(), equalTo(tipo));
+		assertThat(end.getTipoEndereco().getDescricao(), equalTo(tipo.getDescricao()));
 		assertThat(getErros(end), not(hasItem(MENSAGEM_TIPO_ENDERECO_NULO)));
 	}
 

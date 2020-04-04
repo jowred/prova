@@ -35,7 +35,6 @@ import javax.validation.ValidatorFactory;
 
 import org.joda.time.LocalDate;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -45,7 +44,7 @@ import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 
 public class FuncionarioTest {
 
-	Funcionario f;
+	private Funcionario f;
 
 	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
