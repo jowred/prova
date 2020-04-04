@@ -1,8 +1,8 @@
 package br.com.contmatic.templates;
 
-import static br.com.contmatic.enums.EnumTipoParentesco.ENTEADO;
-import static br.com.contmatic.enums.EnumTipoParentesco.FILHO;
-import static br.com.contmatic.enums.EnumTipoParentesco.SOBRINHO;
+import static br.com.contmatic.empresa.ParentescoType.ENTEADO;
+import static br.com.contmatic.empresa.ParentescoType.FILHO;
+import static br.com.contmatic.empresa.ParentescoType.SOBRINHO;
 
 import org.joda.time.LocalDate;
 
@@ -13,7 +13,6 @@ import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.Rule;
 import br.com.six2six.fixturefactory.loader.TemplateLoader;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DependenteTemplate.
  */

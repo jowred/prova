@@ -1,18 +1,18 @@
 package br.com.contmatic.empresa;
 
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DESCRICAO_DEPARTAMENTO_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DESCRICAO_DEPARTAMENTO_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_DEPARTAMENTO_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_DEPARTAMENTO_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_DEPARTAMENTO_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_FUNCIONARIOS_VAZIO;
-import static br.com.contmatic.constantes.Numericas.MAX_DESCRICAO;
-import static br.com.contmatic.constantes.Numericas.MAX_NOME_DEPTO;
-import static br.com.contmatic.constantes.Numericas.MIN_DESCRICAO;
-import static br.com.contmatic.constantes.Numericas.MIN_NOME_DEPTO;
-import static br.com.contmatic.constantes.Regex.REGEX_DESCRICAO_DEPARTAMENTO;
-import static br.com.contmatic.constantes.Regex.REGEX_NOME_DEPARTAMENTO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_DESCRICAO_DEPARTAMENTO_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_DESCRICAO_DEPARTAMENTO_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_DESCRICAO_DEPARTAMENTO_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_DEPARTAMENTO_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_DEPARTAMENTO_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_DEPARTAMENTO_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_SET_FUNCIONARIOS_VAZIO;
+import static br.com.contmatic.util.Numericas.MAX_DESCRICAO;
+import static br.com.contmatic.util.Numericas.MAX_NOME_DEPTO;
+import static br.com.contmatic.util.Numericas.MIN_DESCRICAO;
+import static br.com.contmatic.util.Numericas.MIN_NOME_DEPTO;
+import static br.com.contmatic.util.Regex.REGEX_DESCRICAO_DEPARTAMENTO;
+import static br.com.contmatic.util.Regex.REGEX_NOME_DEPARTAMENTO;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +27,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Departamento.
  */

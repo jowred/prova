@@ -1,6 +1,5 @@
-package br.com.contmatic.constantes;
+package br.com.contmatic.util;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Regex.
  */

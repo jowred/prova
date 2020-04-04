@@ -1,15 +1,14 @@
 package br.com.contmatic.templates;
 
-import static br.com.contmatic.constantes.Regex.REGEX_TELEFONE;
-import static br.com.contmatic.enums.EnumTipoTelefone.CELULAR;
-import static br.com.contmatic.enums.EnumTipoTelefone.TELEFONE_FIXO;
+import static br.com.contmatic.telefone.TelefoneType.CELULAR;
+import static br.com.contmatic.telefone.TelefoneType.TELEFONE_FIXO;
+import static br.com.contmatic.util.Regex.REGEX_TELEFONE;
 
-import br.com.contmatic.empresa.Telefone;
+import br.com.contmatic.telefone.Telefone;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.Rule;
 import br.com.six2six.fixturefactory.loader.TemplateLoader;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TelefoneTemplate.
  */

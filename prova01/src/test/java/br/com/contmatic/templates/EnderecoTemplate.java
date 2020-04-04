@@ -1,15 +1,14 @@
 package br.com.contmatic.templates;
 
-import static br.com.contmatic.constantes.Regex.REGEX_CEP;
-import static br.com.contmatic.enums.EnumEstadosBrasileiros.SP;
-import static br.com.contmatic.enums.EnumTipoEndereco.RUA;
+import static br.com.contmatic.endereco.EnderecoType.RUA;
+import static br.com.contmatic.endereco.EstadosBrasileirosType.SP;
+import static br.com.contmatic.util.Regex.REGEX_CEP;
 
-import br.com.contmatic.empresa.Endereco;
+import br.com.contmatic.endereco.Endereco;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.Rule;
 import br.com.six2six.fixturefactory.loader.TemplateLoader;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EnderecoTemplate.
  */

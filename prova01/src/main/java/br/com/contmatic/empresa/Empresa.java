@@ -1,35 +1,35 @@
 package br.com.contmatic.empresa;
 
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CNPJ_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CNPJ_INVALIDO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_ENDERECO_NULL;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_DEPARTAMENTOS_VAZIO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_TELEFONES_VAZIO;
-import static br.com.contmatic.constantes.Mensagens.URL_INVALIDA;
-import static br.com.contmatic.constantes.Numericas.MAX_AREA_ATUACAO;
-import static br.com.contmatic.constantes.Numericas.MAX_EMAIL;
-import static br.com.contmatic.constantes.Numericas.MAX_NOME_FANTASIA;
-import static br.com.contmatic.constantes.Numericas.MAX_RAZ_SOCIAL;
-import static br.com.contmatic.constantes.Numericas.MIN_AREA_ATUACAO;
-import static br.com.contmatic.constantes.Numericas.MIN_EMAIL;
-import static br.com.contmatic.constantes.Numericas.MIN_NOME_FANTASIA;
-import static br.com.contmatic.constantes.Numericas.MIN_RAZ_SOCIAL;
-import static br.com.contmatic.constantes.Regex.REGEX_AREA_ATUACAO;
-import static br.com.contmatic.constantes.Regex.REGEX_EMAIL;
-import static br.com.contmatic.constantes.Regex.REGEX_NOME_FANTASIA;
-import static br.com.contmatic.constantes.Regex.REGEX_RAZAO_SOCIAL;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_AREA_ATUACAO_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_AREA_ATUACAO_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_AREA_ATUACAO_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_CNPJ_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_CNPJ_INVALIDO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_EMAIL_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_EMAIL_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_EMAIL_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_ENDERECO_NULL;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_FANTASIA_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_FANTASIA_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_FANTASIA_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_RAZAO_SOCIAL_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_RAZAO_SOCIAL_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_RAZAO_SOCIAL_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_SET_DEPARTAMENTOS_VAZIO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_SET_TELEFONES_VAZIO;
+import static br.com.contmatic.util.Mensagens.URL_INVALIDA;
+import static br.com.contmatic.util.Numericas.MAX_AREA_ATUACAO;
+import static br.com.contmatic.util.Numericas.MAX_EMAIL;
+import static br.com.contmatic.util.Numericas.MAX_NOME_FANTASIA;
+import static br.com.contmatic.util.Numericas.MAX_RAZ_SOCIAL;
+import static br.com.contmatic.util.Numericas.MIN_AREA_ATUACAO;
+import static br.com.contmatic.util.Numericas.MIN_EMAIL;
+import static br.com.contmatic.util.Numericas.MIN_NOME_FANTASIA;
+import static br.com.contmatic.util.Numericas.MIN_RAZ_SOCIAL;
+import static br.com.contmatic.util.Regex.REGEX_AREA_ATUACAO;
+import static br.com.contmatic.util.Regex.REGEX_EMAIL;
+import static br.com.contmatic.util.Regex.REGEX_NOME_FANTASIA;
+import static br.com.contmatic.util.Regex.REGEX_RAZAO_SOCIAL;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -47,7 +47,9 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 import org.hibernate.validator.constraints.br.CNPJ;
 
-// TODO: Auto-generated Javadoc
+import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.telefone.Telefone;
+
 /**
  * The Class Empresa.
  */

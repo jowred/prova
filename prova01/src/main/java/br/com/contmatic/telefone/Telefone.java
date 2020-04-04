@@ -1,18 +1,18 @@
-package br.com.contmatic.empresa;
+package br.com.contmatic.telefone;
 
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CODIGO_PAIS_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DDD_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_TELEFONE_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_TELEFONE_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_TELEFONE_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_TIPO_TELEFONE_NULO;
-import static br.com.contmatic.constantes.Numericas.MAX_COD_PAIS;
-import static br.com.contmatic.constantes.Numericas.MAX_DDD;
-import static br.com.contmatic.constantes.Numericas.MAX_TELEFONE;
-import static br.com.contmatic.constantes.Numericas.MIN_COD_PAIS;
-import static br.com.contmatic.constantes.Numericas.MIN_DDD;
-import static br.com.contmatic.constantes.Numericas.MIN_TELEFONE;
-import static br.com.contmatic.constantes.Regex.REGEX_TELEFONE;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_CODIGO_PAIS_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_DDD_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_TELEFONE_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_TELEFONE_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_TELEFONE_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_TIPO_TELEFONE_NULO;
+import static br.com.contmatic.util.Numericas.MAX_COD_PAIS;
+import static br.com.contmatic.util.Numericas.MAX_DDD;
+import static br.com.contmatic.util.Numericas.MAX_TELEFONE;
+import static br.com.contmatic.util.Numericas.MIN_COD_PAIS;
+import static br.com.contmatic.util.Numericas.MIN_DDD;
+import static br.com.contmatic.util.Numericas.MIN_TELEFONE;
+import static br.com.contmatic.util.Regex.REGEX_TELEFONE;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -24,9 +24,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
-import br.com.contmatic.enums.EnumTipoTelefone;
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class Telefone.
  */
@@ -48,7 +45,7 @@ public class Telefone {
 	
 	/** The tipo. */
 	@NotNull(message = MENSAGEM_TIPO_TELEFONE_NULO)
-	private EnumTipoTelefone tipo;
+	private TelefoneType tipo;
 
 	/**
 	 * Instantiates a new telefone.
@@ -116,7 +113,7 @@ public class Telefone {
 	 *
 	 * @return the tipo
 	 */
-	public EnumTipoTelefone getTipo() {
+	public TelefoneType getTipo() {
 		return tipo;
 	}
 
@@ -125,7 +122,7 @@ public class Telefone {
 	 *
 	 * @param tipo the new tipo
 	 */
-	public void setTipo(EnumTipoTelefone tipo) {
+	public void setTipo(TelefoneType tipo) {
 		this.tipo = tipo;
 	}
 

@@ -1,10 +1,12 @@
-package br.com.contmatic.enums;
+package br.com.contmatic.telefone;
 
-// TODO: Auto-generated Javadoc
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 /**
  * The Enum EnumTipoTelefone.
  */
-public enum EnumTipoTelefone {
+public enum TelefoneType {
 
 	/** The celular. */
 	CELULAR("Celular", 9),
@@ -24,7 +26,7 @@ public enum EnumTipoTelefone {
 	 * @param descricao the descricao
 	 * @param tamanho the tamanho
 	 */
-	private EnumTipoTelefone(String descricao, int tamanho) {
+	private TelefoneType(String descricao, int tamanho) {
 		this.descricao = descricao;
 		this.tamanho = tamanho;
 	}
@@ -46,4 +48,10 @@ public enum EnumTipoTelefone {
 	public int getTamanho() {
 		return tamanho;
 	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+	}
+	
 }

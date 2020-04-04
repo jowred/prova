@@ -1,10 +1,12 @@
-package br.com.contmatic.enums;
+package br.com.contmatic.endereco;
 
-// TODO: Auto-generated Javadoc
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 /**
  * The Enum EnumTipoEndereco.
  */
-public enum EnumTipoEndereco{
+public enum EnderecoType{
 
 	/** The alameda. */
 	ALAMEDA("Alameda"),
@@ -68,7 +70,7 @@ public enum EnumTipoEndereco{
 	 *
 	 * @param descricao the descricao
 	 */
-	private EnumTipoEndereco(String descricao) {
+	private EnderecoType(String descricao) {
 		this.descricao = descricao;
 	}
 
@@ -79,5 +81,10 @@ public enum EnumTipoEndereco{
 	 */
 	public String getDescricao() {
 		return descricao;
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
 	}
 }

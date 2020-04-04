@@ -1,32 +1,32 @@
 package br.com.contmatic.empresa;
 
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CPF_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CPF_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_ADMISSAO_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_ADMISSAO_PAST;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_NASCIMENTO_FUTURE;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_DATA_NASCIMENTO_NULA;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_PESSOA_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RG_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_DEPENDENTES_VAZIO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_TERMINO_CONTRATO_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_TERMINO_CONTRATO_FUTURE;
-import static br.com.contmatic.constantes.Numericas.MAX_EMAIL;
-import static br.com.contmatic.constantes.Numericas.MAX_NOME;
-import static br.com.contmatic.constantes.Numericas.MAX_RG;
-import static br.com.contmatic.constantes.Numericas.MIN_EMAIL;
-import static br.com.contmatic.constantes.Numericas.MIN_NOME;
-import static br.com.contmatic.constantes.Numericas.MIN_RG;
-import static br.com.contmatic.constantes.Regex.REGEX_EMAIL;
-import static br.com.contmatic.constantes.Regex.REGEX_NOME_PESSOA;
-import static br.com.contmatic.constantes.Regex.REGEX_RG;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_CPF_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_CPF_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_DATA_ADMISSAO_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_DATA_ADMISSAO_PAST;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_DATA_NASCIMENTO_FUTURE;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_DATA_NASCIMENTO_NULA;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_EMAIL_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_EMAIL_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_EMAIL_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_PESSOA_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_PESSOA_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_PESSOA_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_RG_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_RG_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_RG_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_SET_DEPENDENTES_VAZIO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_TERMINO_CONTRATO_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_TERMINO_CONTRATO_FUTURE;
+import static br.com.contmatic.util.Numericas.MAX_EMAIL;
+import static br.com.contmatic.util.Numericas.MAX_NOME;
+import static br.com.contmatic.util.Numericas.MAX_RG;
+import static br.com.contmatic.util.Numericas.MIN_EMAIL;
+import static br.com.contmatic.util.Numericas.MIN_NOME;
+import static br.com.contmatic.util.Numericas.MIN_RG;
+import static br.com.contmatic.util.Regex.REGEX_EMAIL;
+import static br.com.contmatic.util.Regex.REGEX_NOME_PESSOA;
+import static br.com.contmatic.util.Regex.REGEX_RG;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -47,7 +47,6 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 import org.joda.time.LocalDate;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Funcionario.
  */

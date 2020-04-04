@@ -1,10 +1,12 @@
-package br.com.contmatic.enums;
+package br.com.contmatic.empresa;
 
-// TODO: Auto-generated Javadoc
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 /**
  * The Enum EnumTipoParentesco.
  */
-public enum EnumTipoParentesco {
+public enum ParentescoType {
 
 	/** The nao declarado. */
 	NAO_DECLARADO("Não declarado"),
@@ -41,7 +43,7 @@ public enum EnumTipoParentesco {
 	 *
 	 * @param descricao the descricao
 	 */
-	private EnumTipoParentesco(String descricao) {
+	private ParentescoType(String descricao) {
 		this.descricao = descricao;
 	}
 
@@ -53,4 +55,10 @@ public enum EnumTipoParentesco {
 	public String getDescricao() {
 		return descricao;
 	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+	}
+	
 }

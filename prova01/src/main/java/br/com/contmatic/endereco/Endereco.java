@@ -1,40 +1,40 @@
-package br.com.contmatic.empresa;
+package br.com.contmatic.endereco;
 
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_BAIRRO_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_BAIRRO_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_BAIRRO_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CEP_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CEP_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CEP_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CIDADE_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CIDADE_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CIDADE_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_LOGRADOURO_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_LOGRADOURO_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_LOGRADOURO_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NUMERO_MAX;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NUMERO_MIN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_PAIS_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_PAIS_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_PAIS_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_TIPO_ENDERECO_NULO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_UF_NULA;
-import static br.com.contmatic.constantes.Numericas.CEP_SIZE;
-import static br.com.contmatic.constantes.Numericas.MAX_BAIRRO;
-import static br.com.contmatic.constantes.Numericas.MAX_CIDADE;
-import static br.com.contmatic.constantes.Numericas.MAX_LOGRADOURO;
-import static br.com.contmatic.constantes.Numericas.MAX_NUM_RUA;
-import static br.com.contmatic.constantes.Numericas.MAX_PAIS;
-import static br.com.contmatic.constantes.Numericas.MIN_BAIRRO;
-import static br.com.contmatic.constantes.Numericas.MIN_CIDADE;
-import static br.com.contmatic.constantes.Numericas.MIN_LOGRADOURO;
-import static br.com.contmatic.constantes.Numericas.MIN_NUM_RUA;
-import static br.com.contmatic.constantes.Numericas.MIN_PAIS;
-import static br.com.contmatic.constantes.Regex.REGEX_BAIRRO;
-import static br.com.contmatic.constantes.Regex.REGEX_CEP;
-import static br.com.contmatic.constantes.Regex.REGEX_CIDADE;
-import static br.com.contmatic.constantes.Regex.REGEX_LOGRADOURO;
-import static br.com.contmatic.constantes.Regex.REGEX_PAIS;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_BAIRRO_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_BAIRRO_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_BAIRRO_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_CEP_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_CEP_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_CEP_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_CIDADE_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_CIDADE_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_CIDADE_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_LOGRADOURO_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_LOGRADOURO_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_LOGRADOURO_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_NUMERO_MAX;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_NUMERO_MIN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_PAIS_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_PAIS_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_PAIS_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_TIPO_ENDERECO_NULO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_UF_NULA;
+import static br.com.contmatic.util.Numericas.CEP_SIZE;
+import static br.com.contmatic.util.Numericas.MAX_BAIRRO;
+import static br.com.contmatic.util.Numericas.MAX_CIDADE;
+import static br.com.contmatic.util.Numericas.MAX_LOGRADOURO;
+import static br.com.contmatic.util.Numericas.MAX_NUM_RUA;
+import static br.com.contmatic.util.Numericas.MAX_PAIS;
+import static br.com.contmatic.util.Numericas.MIN_BAIRRO;
+import static br.com.contmatic.util.Numericas.MIN_CIDADE;
+import static br.com.contmatic.util.Numericas.MIN_LOGRADOURO;
+import static br.com.contmatic.util.Numericas.MIN_NUM_RUA;
+import static br.com.contmatic.util.Numericas.MIN_PAIS;
+import static br.com.contmatic.util.Regex.REGEX_BAIRRO;
+import static br.com.contmatic.util.Regex.REGEX_CEP;
+import static br.com.contmatic.util.Regex.REGEX_CIDADE;
+import static br.com.contmatic.util.Regex.REGEX_LOGRADOURO;
+import static br.com.contmatic.util.Regex.REGEX_PAIS;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -48,10 +48,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
 
-import br.com.contmatic.enums.EnumEstadosBrasileiros;
-import br.com.contmatic.enums.EnumTipoEndereco;
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class Endereco.
  */
@@ -82,7 +78,7 @@ public class Endereco {
 	
 	/** The uf. */
 	@NotNull(message = MENSAGEM_UF_NULA)
-	private EnumEstadosBrasileiros uf;
+	private EstadosBrasileirosType uf;
 	
 	/** The pais. */
 	@Length(min = MIN_PAIS, max = MAX_PAIS, message = MENSAGEM_PAIS_TAMANHO)
@@ -98,13 +94,13 @@ public class Endereco {
 	
 	/** The tipo. */
 	@NotNull(message = MENSAGEM_TIPO_ENDERECO_NULO)
-	private EnumTipoEndereco tipo;
+	private EnderecoType tipo;
 	
 	/**
 	 * Instantiates a new endereco.
 	 */
 	public Endereco() {
-		this.setTipoEndereco(EnumTipoEndereco.RUA);
+		this.setTipoEndereco(EnderecoType.RUA);
 	}
 
 	/**
@@ -117,14 +113,14 @@ public class Endereco {
 	 * @param pais the pais
 	 * @param cep the cep
 	 */
-	public Endereco(String logradouro, String bairro, String cidade, EnumEstadosBrasileiros uf, String pais, String cep) {
+	public Endereco(String logradouro, String bairro, String cidade, EstadosBrasileirosType uf, String pais, String cep) {
 		this.setLogradouro(logradouro);
 		this.setBairro(bairro);
 		this.setCidade(cidade);
 		this.setUf(uf);
 		this.setPais(pais);
 		this.setCep(cep);
-		this.setTipoEndereco(EnumTipoEndereco.RUA);
+		this.setTipoEndereco(EnderecoType.RUA);
 	}
 
 	/**
@@ -186,7 +182,7 @@ public class Endereco {
 	 *
 	 * @return the uf
 	 */
-	public EnumEstadosBrasileiros getUf() {
+	public EstadosBrasileirosType getUf() {
 		return uf;
 	}
 
@@ -195,7 +191,7 @@ public class Endereco {
 	 *
 	 * @param uf the new uf
 	 */
-	public void setUf(EnumEstadosBrasileiros uf) {
+	public void setUf(EstadosBrasileirosType uf) {
 		this.uf = uf;
 	}
 
@@ -258,7 +254,7 @@ public class Endereco {
 	 *
 	 * @return the tipo endereco
 	 */
-	public EnumTipoEndereco getTipoEndereco() {
+	public EnderecoType getTipoEndereco() {
 		return tipo;
 	}
 
@@ -267,7 +263,7 @@ public class Endereco {
 	 *
 	 * @param tipoEndereco the new tipo endereco
 	 */
-	public void setTipoEndereco(EnumTipoEndereco tipoEndereco) {
+	public void setTipoEndereco(EnderecoType tipoEndereco) {
 		this.tipo = tipoEndereco;
 	}
 	

@@ -1,24 +1,24 @@
 package br.com.contmatic.empresa;
 
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_AREA_ATUACAO_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CNPJ_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_CNPJ_INVALIDO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_EMAIL_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_ENDERECO_NULL;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_NOME_FANTASIA_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_BLANK;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_PATTERN;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_RAZAO_SOCIAL_TAMANHO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_DEPARTAMENTOS_VAZIO;
-import static br.com.contmatic.constantes.Mensagens.MENSAGEM_SET_TELEFONES_VAZIO;
-import static br.com.contmatic.constantes.Mensagens.URL_INVALIDA;
-import static br.com.contmatic.enums.EnumEstadosBrasileiros.SP;
+import static br.com.contmatic.endereco.EstadosBrasileirosType.SP;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_AREA_ATUACAO_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_AREA_ATUACAO_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_AREA_ATUACAO_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_CNPJ_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_CNPJ_INVALIDO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_EMAIL_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_EMAIL_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_EMAIL_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_ENDERECO_NULL;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_FANTASIA_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_FANTASIA_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_NOME_FANTASIA_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_RAZAO_SOCIAL_BLANK;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_RAZAO_SOCIAL_PATTERN;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_RAZAO_SOCIAL_TAMANHO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_SET_DEPARTAMENTOS_VAZIO;
+import static br.com.contmatic.util.Mensagens.MENSAGEM_SET_TELEFONES_VAZIO;
+import static br.com.contmatic.util.Mensagens.URL_INVALIDA;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -43,150 +43,91 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import br.com.contmatic.enums.EnumEstadosBrasileiros;
+import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.endereco.EstadosBrasileirosType;
+import br.com.contmatic.telefone.Telefone;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class EmpresaTest.
- */
 public class EmpresaTest {
-	
-	/** The emp 1. */
+
 	private Empresa emp1;
-	
-	/** The factory. */
+
 	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-	
-	/** The validator. */
+
 	private Validator validator = factory.getValidator();
-	
-	/** The i cnpj. */
-	int[] iCnpj = new int[14];
-	
-	/**
-	 * Gets the erros.
-	 *
-	 * @param empresa the empresa
-	 * @return the erros
-	 */
+
 	public Set<String> getErros(Empresa empresa) {
 		Set<String> erros = new HashSet<>();
 		for (ConstraintViolation<Empresa> constraintViolation : validator.validate(empresa)) {
 			erros.add(constraintViolation.getMessageTemplate());
-			System.out.println(constraintViolation.getMessageTemplate()); // Retorna o template, sem converter {min}
-																			// para o valor mínimo
 		}
 		return erros;
 	}
-	
-	/**
-	 * Deve retornar true na validacao do objeto fixture.
-	 */
+
 	@Test
 	public void deve_retornar_true_na_validacao_do_objeto_fixture() {
-		System.out.println(emp1);
 		assertThat(getErros(emp1).size(), is(0));
 	}
-	
-	/**
-	 * Deve executar sem exceder o limite de tempo.
-	 */
+
 	@Test(timeout = 1000)
 	public void deve_executar_sem_exceder_o_limite_de_tempo() {
 		Departamento dep;
 		List<Departamento> deptos = new ArrayList<>();
-		for(int i=0; i<100; i++) {
-			dep = new Departamento("Departamento X", "Departamento " + i+1);
+		for (int i = 0; i < 100; i++) {
+			dep = new Departamento("Departamento X", "Departamento " + i + 1);
 			deptos.add(dep);
 		}
 		assertThat(deptos.size(), not(equalTo(null)));
 	}
-	
-	/**
-	 * Sets the up before class.
-	 */
+
 	@BeforeClass
 	public static void setUpBeforeClass() {
-		System.out.println("Iniciando os testes da classe Empresa...");
 		FixtureFactoryLoader.loadTemplates("br.com.contmatic.templates");
 	}
-	
-	/**
-	 * Sets the up.
-	 */
+
 	@Before
 	public void setUp() {
 		emp1 = Fixture.from(Empresa.class).gimme("valido");
 	}
-	
-	/**
-	 * Tear down.
-	 */
+
 	@After
 	public void tearDown() {
 		emp1 = null;
 	}
-	
-	/**
-	 * Tear down after class.
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() {
-		System.out.println("Testes da classe Empresa concluídos.");
-	}
-	
-	/**
-	 * Nao deve confirmar a presenca dessa segunda string na razao social do objeto usado em toda a classe de teste.
-	 */
+
 	@Test
 	@Ignore("Exemplo de teste ignorado")
 	public void nao_deve_confirmar_a_presenca_dessa_segunda_string_na_razao_social_do_objeto_usado_em_toda_a_classe_de_teste() {
 		assertThat(emp1.getRazaoSocial(), is(not("Nestlé")));
 	}
-	
-	/**
-	 * Deve indicar que o metodo to string esta sobrescrito por nao conter o caractere arroba.
-	 */
+
 	@Test
 	public void deve_indicar_que_o_metodo_toString_esta_sobrescrito_por_nao_conter_o_caractere_arroba() {
 		assertThat(new Empresa().toString(), not(containsString("@")));
 	}
-	
-	/**
-	 * Deve apontar igualdade entre os objetos empresa.
-	 */
+
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_empresa() {
 		emp1 = Fixture.from(Empresa.class).gimme("mock");
 		Empresa emp2 = Fixture.from(Empresa.class).gimme("mock");
 		assertThat(emp1, equalTo(emp2));
 	}
-	
-	/**
-	 * Deve apontar igualdade entre os objetos usando equals sobrescrito porque ambos tem o mesmo cnpj.
-	 */
-	//equals
+
+	// equals
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_ambos_tem_o_mesmo_cnpj() {
 		Empresa emp2 = Fixture.from(Empresa.class).gimme("valido");
 		emp2.setCnpj(emp1.getCnpj());
 		assertThat(emp1, equalTo(emp2));
 	}
-	
-	/**
-	 * Deve apontar igualdade entre os objetos usando equals sobrescrito porque sao o mesmo objeto.
-	 */
+
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_sao_o_mesmo_objeto() {
 		Empresa emp2 = emp1;
 		assertThat(emp1, equalTo(emp2));
 	}
-	
-	/**
-	 * Nao deve apontar igualdade entre os objetos usando equals sobrescrito porque cnpj do objeto 2 e diferente.
-	 */
+
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_cnpj_do_objeto2_e_diferente() {
 		Empresa emp2 = Fixture.from(Empresa.class).gimme("valido");
@@ -194,51 +135,35 @@ public class EmpresaTest {
 		emp2.setCnpj(cnpj);
 		assertThat(emp1, not(equalTo(emp2)));
 	}
-	
-	/**
-	 * Nao deve apontar igualdade entre os objetos usando equals sobrescrito porque objeto 2 e nulo.
-	 */
+
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_objeto2_e_nulo() {
 		Empresa emp2 = null;
 		assertThat(emp1, not(equalTo(emp2)));
 	}
-	
-	/**
-	 * Nao deve apontar igualdade entre os objetos usando equals sobrescrito porque sao de classes diferentes.
-	 */
+
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_usando_equals_sobrescrito_porque_sao_de_classes_diferentes() {
 		assertThat(emp1, not(equalTo(new Object())));
 	}
-	
-	/**
-	 * Deve apontar igualdade entre os objetos empresa usando hashcode sobrescrito.
-	 */
-	//hashCode
+
+	// hashCode
 	@Test
 	public void deve_apontar_igualdade_entre_os_objetos_empresa_usando_hashcode_sobrescrito() {
 		emp1 = Fixture.from(Empresa.class).gimme("mock");
 		Empresa emp2 = Fixture.from(Empresa.class).gimme("mock");
 		assertThat(emp1.hashCode(), equalTo(emp2.hashCode()));
 	}
-	
-	/**
-	 * Nao deve apontar igualdade entre os objetos empresa usando hashcode sobrescrito.
-	 */
+
 	@Test
 	public void nao_deve_apontar_igualdade_entre_os_objetos_empresa_usando_hashcode_sobrescrito() {
 		Empresa emp2 = Fixture.from(Empresa.class).gimme("valido");
 		emp2.setCnpj("45997418000153");
 		assertThat(emp1.hashCode(), not(equalTo(emp2.hashCode())));
 	}
-	
+
 	/*
 	 * RAZÃO SOCIAL
-	 * */
-	
-	/**
-	 * Nao deve aceitar razao social fora da regex especificada.
 	 */
 	@Test
 	public void nao_deve_aceitar_razao_social_fora_da_regex_especificada() {
@@ -246,10 +171,7 @@ public class EmpresaTest {
 		emp1.setRazaoSocial(razaoSocial);
 		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
-	
-	/**
-	 * Deve definir uma nova razao social para a empresa.
-	 */
+
 	@Test
 	public void deve_definir_uma_nova_razao_social_para_a_empresa() {
 		String razaoSocial = "Coca-Cola Indústrias Ltda.";
@@ -259,241 +181,163 @@ public class EmpresaTest {
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_TAMANHO)));
 	}
-	
-	/**
-	 * Deve aceitar razao social apenas com letras.
-	 */
+
 	@Test
 	public void deve_aceitar_razao_social_apenas_com_letras() {
 		emp1.setRazaoSocial("Nintendo");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar razao social com letras e hifen.
-	 */
+
 	@Test
 	public void deve_aceitar_razao_social_com_letras_e_hifen() {
 		emp1.setRazaoSocial("Colgate-Palmolive");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar razao social com letras e numeros.
-	 */
+
 	@Test
 	public void deve_aceitar_razao_social_com_letras_e_numeros() {
 		emp1.setRazaoSocial("Taxis 123 S.A.");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar razao social com letras e espaco.
-	 */
+
 	@Test
 	public void deve_aceitar_razao_social_com_letras_e_espaco() {
 		emp1.setRazaoSocial("Itaú Unibanco");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar razao social com letras hifen e espaco.
-	 */
+
 	@Test
 	public void deve_aceitar_razao_social_com_letras_hifen_e_espaco() {
 		emp1.setRazaoSocial("Hi-Tech Indústria Tecnológica");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar razao social com letras hifen espaco e ponto.
-	 */
+
 	@Test
 	public void deve_aceitar_razao_social_com_letras_hifen_espaco_e_ponto() {
 		emp1.setRazaoSocial("Hi-Tech Indústria Tecnológica Ltda.");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar razao social com letras numeros espaco e ponto.
-	 */
+
 	@Test
 	public void deve_aceitar_razao_social_com_letras_numeros_espaco_e_ponto() {
 		emp1.setRazaoSocial("SEGA 12 Indústria de Jogos Eletrônicos Ltda.");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar razao social com letras numeros hifen espaco e ponto.
-	 */
+
 	@Test
 	public void deve_aceitar_razao_social_com_letras_numeros_hifen_espaco_e_ponto() {
 		emp1.setRazaoSocial("ABC-123 Alimentos Ltda.");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar razao social com ponto entre caracteres.
-	 */
+
 	@Test
 	public void deve_aceitar_razao_social_com_ponto_entre_caracteres() {
 		emp1.setRazaoSocial("Instituto A. Senna");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar razao social com numeros entre letras.
-	 */
+
 	@Test
 	public void deve_aceitar_razao_social_com_numeros_entre_letras() {
 		emp1.setRazaoSocial("Se7e Belo");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar razao social com mais de um ponto.
-	 */
+
 	@Test
 	public void deve_aceitar_razao_social_com_mais_de_um_ponto() {
 		emp1.setRazaoSocial("Itaú Unibanco S.A.");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar razao social com E comercial.
-	 */
+
 	@Test
 	public void deve_aceitar_razao_social_com_E_comercial() {
 		emp1.setRazaoSocial("Dolce & Gabanna do Brasil Ltda.");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar razao social com E comercial e virgula.
-	 */
+
 	@Test
 	public void deve_aceitar_razao_social_com_E_comercial_e_virgula() {
 		emp1.setRazaoSocial("Dolce & Gabbana do Brasil Comércio, Importação e Participações Ltda.");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN)));
 	}
-	
-	/**
-	 * Nao deve aceitar razao social nula.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_razao_social_nula() {
 		emp1.setRazaoSocial(null);
 		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_BLANK));
 	}
-	
-	/**
-	 * Nao deve aceitar razao social em branco.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_razao_social_em_branco() {
 		emp1.setRazaoSocial("");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_BLANK));
 	}
-	
-	/**
-	 * Nao deve aceitar razao social apenas com espaco.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_razao_social_apenas_com_espaco() {
 		emp1.setRazaoSocial(" ");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar razao social apenas com ponto.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_razao_social_apenas_com_ponto() {
 		emp1.setRazaoSocial(".");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar razao social apenas com caracteres especiais.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_razao_social_apenas_com_caracteres_especiais() {
 		emp1.setRazaoSocial("!@(/.+**/-*");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar razao social com letras e caracteres especiais diferentes.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_razao_social_com_letras_e_caracteres_especiais_diferentes() {
 		emp1.setRazaoSocial("Boom!@(*#");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar razao social com hifen no inicio.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_razao_social_com_hifen_no_inicio() {
 		emp1.setRazaoSocial("-Arcos Dourados Indústria de Alimentos Ltda.");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar razao social com hifen no fim.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_razao_social_com_hifen_no_fim() {
 		emp1.setRazaoSocial("Arcos Dourados Indústria de Alimentos Ltda.-");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar razao social apenas com numeros.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_razao_social_apenas_com_numeros() {
 		emp1.setRazaoSocial("123456789");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar razao social apenas com numeros e hifen.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_razao_social_apenas_com_numeros_e_hifen() {
 		emp1.setRazaoSocial("12345-6789");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar razao social de tamanho menor que 2 caracteres.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_razao_social_de_tamanho_menor_que_2_caracteres() {
 		emp1.setRazaoSocial("A");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_TAMANHO));
 	}
-	
-	/**
-	 * Nao deve aceitar razao social de tamanho maior que 100 caracteres.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_razao_social_de_tamanho_maior_que_100_caracteres() {
 		StringBuilder sb = new StringBuilder("B");
-		for(int i=0; i<100; i++)
+		for (int i = 0; i < 100; i++)
 			sb.append("A");
 		emp1.setRazaoSocial(sb.toString());
 		assertThat(getErros(emp1), hasItem(MENSAGEM_RAZAO_SOCIAL_TAMANHO));
 	}
-	
-	/**
-	 * Deve definir um novo nome fantasia para a empresa.
-	 */
+
 	/*
 	 * NOME FANTASIA
-	 * */
+	 */
 	@Test
 	public void deve_definir_um_novo_nome_fantasia_para_a_empresa() {
 		String nomeFantasia = "Coca-Cola";
@@ -503,424 +347,251 @@ public class EmpresaTest {
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_TAMANHO)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia apenas com letras.
-	 */
+
 	@Test
 	public void deve_aceitar_nome_fantasia_apenas_com_letras() {
 		emp1.setNomeFantasia("PlayStation");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia com letras e hifen.
-	 */
+
 	@Test
 	public void deve_aceitar_nome_fantasia_com_letras_e_hifen() {
 		emp1.setNomeFantasia("General-Motors");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia com letras e numeros.
-	 */
+
 	@Test
 	public void deve_aceitar_nome_fantasia_com_letras_e_numeros() {
 		emp1.setNomeFantasia("Hao123 Corp.");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia com letras e espaco.
-	 */
+
 	@Test
 	public void deve_aceitar_nome_fantasia_com_letras_e_espaco() {
 		emp1.setNomeFantasia("Banco do Brasil");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia com letras hifen e espaco.
-	 */
+
 	@Test
 	public void deve_aceitar_nome_fantasia_com_letras_hifen_e_espaco() {
 		emp1.setNomeFantasia("Coca-Cola Coffee Plus");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia com letras hifen espaco e ponto.
-	 */
+
 	@Test
 	public void deve_aceitar_nome_fantasia_com_letras_hifen_espaco_e_ponto() {
 		emp1.setNomeFantasia("M. Martins - Advocacia");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia com letras numeros espaco e ponto.
-	 */
+
 	@Test
 	public void deve_aceitar_nome_fantasia_com_letras_numeros_espaco_e_ponto() {
 		emp1.setNomeFantasia("Rapi10 - A Massa da Galera");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia com letras numeros hifen espaco e ponto.
-	 */
+
 	@Test
 	public void deve_aceitar_nome_fantasia_com_letras_numeros_hifen_espaco_e_ponto() {
 		emp1.setNomeFantasia("ABC-123 Alimentos Ltda.");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia com ponto entre caracteres.
-	 */
+
 	@Test
 	public void deve_aceitar_nome_fantasia_com_ponto_entre_caracteres() {
 		emp1.setNomeFantasia("Instituto A. Senna");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia com numeros entre letras.
-	 */
+
 	@Test
 	public void deve_aceitar_nome_fantasia_com_numeros_entre_letras() {
 		emp1.setNomeFantasia("Se7e Belo");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia com mais de um ponto.
-	 */
+
 	@Test
 	public void deve_aceitar_nome_fantasia_com_mais_de_um_ponto() {
 		emp1.setNomeFantasia("Itaú Unibanco S.A.");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia com E comercial.
-	 */
+
 	@Test
 	public void deve_aceitar_nome_fantasia_com_E_comercial() {
 		emp1.setNomeFantasia("Dolce & Gabanna");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia com virgula.
-	 */
-	/**/
+
 	@Test
 	public void deve_aceitar_nome_fantasia_com_virgula() {
 		emp1.setNomeFantasia("Du, Dudu & Edu");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia com exclamacao.
-	 */
+
 	@Test
 	public void deve_aceitar_nome_fantasia_com_exclamacao() {
 		emp1.setNomeFantasia("Big Boom! Inc.");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar nome fantasia com arroba.
-	 */
+
 	@Test
 	public void deve_aceitar_nome_fantasia_com_arroba() {
 		emp1.setNomeFantasia("L@n House do João");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_NOME_FANTASIA_PATTERN)));
 	}
-	
-	/**
-	 * Nao deve aceitar nome fantasia nulo.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_nome_fantasia_nulo() {
 		emp1.setNomeFantasia(null);
 		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_BLANK));
 	}
-	
-	/**
-	 * Nao deve aceitar nome fantasia em branco.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_nome_fantasia_em_branco() {
 		emp1.setNomeFantasia("");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_BLANK));
 	}
-	
-	/**
-	 * Nao deve aceitar nome fantasia apenas com espaco.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_nome_fantasia_apenas_com_espaco() {
 		emp1.setNomeFantasia(" ");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar nome fantasia apenas com ponto.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_nome_fantasia_apenas_com_ponto() {
 		emp1.setNomeFantasia(".");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar nome fantasia apenas com caracteres especiais.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_nome_fantasia_apenas_com_caracteres_especiais() {
 		emp1.setNomeFantasia("!@(*");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar nome fantasia com letras e caracteres especiais diferentes.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_nome_fantasia_com_letras_e_caracteres_especiais_diferentes() {
 		emp1.setNomeFantasia("Boom¨¨");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar nome fantasia com hifen no inicio.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_nome_fantasia_com_hifen_no_inicio() {
 		emp1.setNomeFantasia("-Arcos Dourados Indústria de Alimentos Ltda.");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar nome fantasia com hifen no fim.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_nome_fantasia_com_hifen_no_fim() {
 		emp1.setNomeFantasia("Arcos Dourados Indústria de Alimentos Ltda.-");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar nome fantasia apenas com numeros.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_nome_fantasia_apenas_com_numeros() {
 		emp1.setNomeFantasia("123456789");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar nome fantasia apenas com numeros e hifen.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_nome_fantasia_apenas_com_numeros_e_hifen() {
 		emp1.setNomeFantasia("12345-6789");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar nome fantasia de tamanho menor que 2 caracteres.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_nome_fantasia_de_tamanho_menor_que_2_caracteres() {
 		emp1.setNomeFantasia("A");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_TAMANHO));
 	}
-	
-	/**
-	 * Nao deve aceitar nome fantasia de tamanho maior que 55 caracteres.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_nome_fantasia_de_tamanho_maior_que_55_caracteres() {
 		StringBuilder sb = new StringBuilder("Z");
-		for(int i=0; i<55; i++)
+		for (int i = 0; i < 55; i++)
 			sb.append("A");
 		emp1.setNomeFantasia(sb.toString());
 		assertThat(getErros(emp1), hasItem(MENSAGEM_NOME_FANTASIA_TAMANHO));
 	}
-	
-	/**
-	 * Deve definir um novo cnpj para a empresa.
-	 */
+
 	/*
 	 * CNPJ
-	 * */
+	 */
 	@Test
 	public void deve_definir_um_novo_cnpj_para_a_empresa() {
 		String cnpj = "45997418000153";
 		emp1.setCnpj(cnpj);
 		assertThat(emp1.getCnpj(), equalTo(cnpj));
 	}
-	
-//	@Test
-//	public void deve_retornar_true_na_validacao_do_primeiro_digito_verificador_do_cnpj() {
-//		String cnpj = "61365284000104";
-//		for(int i=0; i<iCnpj.length; i++)
-//			iCnpj[i] = cnpj.charAt(i) - 48;
-//		assertTrue(emp1.primeiroDigitoValido(iCnpj));
-//	}
-//	
-//	@Test
-//	public void deve_retornar_false_na_validacao_do_primeiro_digito_verificador_do_cnpj() {
-//		String cnpj = "38837760000110";
-//		for(int i=0; i<iCnpj.length; i++)
-//			iCnpj[i] = cnpj.charAt(i) - 48;
-//		assertFalse(emp1.primeiroDigitoValido(iCnpj));
-//	}
-//	
-//	@Test
-//	public void deve_retornar_true_na_validacao_do_segundo_digito_verificador_do_cnpj() {
-//		String cnpj = "38837760000120";
-//		for(int i=0; i<iCnpj.length; i++)
-//			iCnpj[i] = cnpj.charAt(i) - 48;
-//		assertTrue(emp1.segundoDigitoValido(iCnpj));
-//	}
-//	
-//	@Test
-//	public void deve_retornar_false_na_validacao_do_segundo_digito_verificador_do_cnpj() {
-//		String cnpj = "99999999999991";
-//		for(int i=0; i<iCnpj.length; i++)
-//			iCnpj[i] = cnpj.charAt(i) - 48;
-//		assertFalse(emp1.segundoDigitoValido(iCnpj));
-//	}
-//	
-//	@Test
-//	public void deve_retornar_true_na_validacao_do_cnpj() {
-//		assertTrue(emp1.cnpjValido("61365284000104"));
-//	}
-//	
-//	@Test
-//	public void deve_retornar_false_na_validacao_do_cnpj_porque_digito_verificador_1_e_invalido() {
-//		assertFalse(emp1.cnpjValido("38837760000110"));
-//	}
-//	
-//	@Test
-//	public void deve_retornar_false_na_validacao_do_cnpj_porque_digito_verificador_2_e_invalido() {
-//		assertFalse(emp1.cnpjValido("38837760000122"));
-//	}
-//	
-//	@Test
-//	public void deve_retornar_false_na_validacao_do_cnpj_porque_ambos_os_digitos_verificadores_sao_invalidos() {
-//		assertFalse(emp1.cnpjValido("38837760000122"));
-//	}
-	
-	/**
- * Deve aceitar cnpj valido sem caracteres especiais.
- */
-@Test
+
+	@Test
 	public void deve_aceitar_cnpj_valido_sem_caracteres_especiais() {
 		emp1.setCnpj("61365284000104");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_CNPJ_INVALIDO)));
 	}
-	
-	/**
-	 * Deve aceitar cnpj valido com mascara.
-	 */
+
 	@Test
 	public void deve_aceitar_cnpj_valido_com_mascara() {
 		emp1.setCnpj("61.365.284/0001-04");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_CNPJ_INVALIDO)));
 	}
-	
-	/**
-	 * Nao deve aceitar cnpj nulo.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_cnpj_nulo() {
 		emp1.setCnpj(null);
 		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_BLANK));
 	}
-	
-	/**
-	 * Nao deve aceitar cnpj em branco.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_cnpj_em_branco() {
 		emp1.setCnpj("");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_BLANK));
 	}
-	
-	/**
-	 * Nao deve aceitar cnpj composto por menos de 14 digitos.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_cnpj_composto_por_menos_de_14_digitos() {
 		emp1.setCnpj("123456789");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_INVALIDO));
 	}
-	
-	/**
-	 * Nao deve aceitar cnpj composto por mais de 14 digitos.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_cnpj_composto_por_mais_de_14_digitos() {
 		emp1.setCnpj("123456789123456");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_INVALIDO));
 	}
-	
-	/**
-	 * Nao deve aceitar cnpj composto por letras.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_cnpj_composto_por_letras() {
 		emp1.setCnpj("abcdefghijklmn");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_INVALIDO));
 	}
-	
-	/**
-	 * Nao deve aceitar cnpj composto por caracteres especiais.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_cnpj_composto_por_caracteres_especiais() {
 		emp1.setCnpj("!@#$.%&*()!@#$");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_INVALIDO));
 	}
-	
-	/**
-	 * Nao deve aceitar cnpj que contenha qualquer caractere estranho a digitos.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_cnpj_que_contenha_qualquer_caractere_estranho_a_digitos() {
 		emp1.setCnpj("6136528400010a");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_INVALIDO));
 	}
-	
-	/**
-	 * Nao deve aceitar cnpj composto por digitos iguais.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_cnpj_composto_por_digitos_iguais() {
 		emp1.setCnpj("99999999999999");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_INVALIDO));
 	}
-	
-	/**
-	 * Nao deve aceitar cnpj invalido.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_cnpj_invalido() {
 		emp1.setCnpj("48785214000105");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_CNPJ_INVALIDO));
 	}
-	
-	/**
-	 * Deve definir uma nova area de atuacao para a empresa.
-	 */
+
 	/*
 	 * ÁREA DE ATUAÇÃO
-	 * */
+	 */
 	@Test
 	public void deve_definir_uma_nova_area_de_atuacao_para_a_empresa() {
 		String areaAtuacao = "Indústria alimentícia";
@@ -930,137 +601,90 @@ public class EmpresaTest {
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_AREA_ATUACAO_PATTERN)));
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_AREA_ATUACAO_TAMANHO)));
 	}
-	
-	/**
-	 * Deve aceitar area de atuacao apenas com letras.
-	 */
+
 	@Test
 	public void deve_aceitar_area_de_atuacao_apenas_com_letras() {
 		emp1.setAreaAtuacao("Educação");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_AREA_ATUACAO_PATTERN)));
 	}
-	
-	/**
-	 * Deve aceitar area de atuacao com letras e espacos.
-	 */
+
 	@Test
 	public void deve_aceitar_area_de_atuacao_com_letras_e_espacos() {
 		emp1.setAreaAtuacao("Setor alimentício");
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_AREA_ATUACAO_PATTERN)));
 	}
-	
-	/**
-	 * Nao deve aceitar area de atuacao nula.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_area_de_atuacao_nula() {
 		emp1.setAreaAtuacao(null);
 		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_BLANK));
 	}
-	
-	/**
-	 * Nao deve aceitar area de atuacao em branco.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_area_de_atuacao_em_branco() {
 		emp1.setAreaAtuacao("");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_BLANK));
 	}
-	
-	/**
-	 * Nao deve aceitar area de atuacao apenas com espaco.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_area_de_atuacao_apenas_com_espaco() {
 		emp1.setAreaAtuacao(" ");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar area de atuacao apenas com ponto.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_area_de_atuacao_apenas_com_ponto() {
 		emp1.setAreaAtuacao(".");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar area de atuacao apenas com caracteres especiais.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_area_de_atuacao_apenas_com_caracteres_especiais() {
 		emp1.setAreaAtuacao("@#$$$$#%");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar area de atuacao com menos de 2 caracteres.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_area_de_atuacao_com_menos_de_2_caracteres() {
 		emp1.setAreaAtuacao("a");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_TAMANHO));
 	}
-	
-	/**
-	 * Nao deve aceitar area de atuacao com mais de 55 caracteres.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_area_de_atuacao_com_mais_de_55_caracteres() {
 		StringBuilder sb = new StringBuilder("B");
-		for(int i=0; i<55; i++) {
+		for (int i = 0; i < 55; i++) {
 			sb.append("A");
 		}
 		emp1.setAreaAtuacao(sb.toString());
 		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_TAMANHO));
 	}
-	
-	/**
-	 * Nao deve aceitar area de atuacao com numeros.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_area_de_atuacao_com_numeros() {
 		emp1.setAreaAtuacao("Indústria de fármacos 1");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar area de atuacao com caracteres especiais.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_area_de_atuacao_com_caracteres_especiais() {
 		emp1.setAreaAtuacao("Indústria @automotiva");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_AREA_ATUACAO_PATTERN));
 	}
-	
-	/**
-	 * Deve indicar que a lista de telefones e inicializada na construcao do objeto.
-	 */
+
 	/*
 	 * TELEFONES
-	 * */
+	 */
 	@Test
 	public void deve_indicar_que_a_lista_de_telefones_e_inicializada_na_construcao_do_objeto() {
 		Empresa e1 = Fixture.from(Empresa.class).gimme("mock");
 		assertThat(e1.getTelefones(), not(equalTo(null)));
 	}
-	
-//	@Test
-//	public void deve_realizar_cadastro_de_telefones() {
-//		Telefone tel = new Telefone(55, 11, "987654321");
-//		tel.setTipo(EnumTipoTelefone.CELULAR);
-//		emp1.getTelefones().add(tel);
-//		assertTrue(emp1.getTelefones().contains(tel));
-//	}
-	
-	/**
- * Deve redefinir a colecao de telefones.
- */
-@Test
+
+	@Test
 	public void deve_redefinir_a_colecao_de_telefones() {
 		Set<Telefone> telefones = new HashSet<Telefone>();
-		for(int i=0; i<10; i++) {
+		for (int i = 0; i < 10; i++) {
 			Telefone telefone = Fixture.from(Telefone.class).gimme("valido");
 			telefones.add(telefone);
 		}
@@ -1069,55 +693,34 @@ public class EmpresaTest {
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_SET_TELEFONES_VAZIO)));
 	}
 
-	/**
-	 * Nao deve redefinir a lista de telefones por uma lista nula.
-	 */
 	@Test
 	public void nao_deve_redefinir_a_lista_de_telefones_por_uma_lista_nula() {
 		emp1.setTelefones(null);
 		assertThat(getErros(emp1), hasItem(MENSAGEM_SET_TELEFONES_VAZIO));
 	}
-	
-	/**
-	 * Nao deve redefinir a lista de telefones por uma lista que esteja vazia.
-	 */
+
 	@Test
 	public void nao_deve_redefinir_a_lista_de_telefones_por_uma_lista_que_esteja_vazia() {
 		Set<Telefone> telefones = new HashSet<Telefone>();
 		emp1.setTelefones(telefones);
 		assertThat(getErros(emp1), hasItem(MENSAGEM_SET_TELEFONES_VAZIO));
 	}
-	
-	/**
-	 * Deve indicar que a lista de departamentos e inicializada na construcao do objeto.
-	 */
+
 	/*
 	 * DEPARTAMENTOS
-	 * */
+	 */
 	@Test
 	public void deve_indicar_que_a_lista_de_departamentos_e_inicializada_na_construcao_do_objeto() {
 		Empresa e1 = Fixture.from(Empresa.class).gimme("mock");
 		assertThat(e1.getDepartamentos(), not(equalTo(null)));
 	}
-	
-//	@Test
-//	public void deve_realizar_cadastro_de_departamentos() {
-//		Departamento d = new Departamento();
-//		d.setNome("Recursos Humanos");
-//		d.setDescricao("Departamento que administra questões relativas aos colaboradores");
-//		emp1.getDepartamentos().add(d);
-//		assertTrue(emp1.getDepartamentos().contains(d));
-//	}
-	
-	/**
- * Deve redefinir a lista de departamentos.
- */
-@Test
+
+	@Test
 	public void deve_redefinir_a_lista_de_departamentos() {
 		Set<Departamento> departamentos = new HashSet<Departamento>();
-		for(int i=0; i<10; i++) {
+		for (int i = 0; i < 10; i++) {
 			Departamento d = new Departamento();
-			d.setDescricao("Departamento " + i+1);
+			d.setDescricao("Departamento " + i + 1);
 			departamentos.add(d);
 		}
 		emp1.setDepartamentos(departamentos);
@@ -1125,37 +728,28 @@ public class EmpresaTest {
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_SET_DEPARTAMENTOS_VAZIO)));
 	}
 
-	/**
-	 * Nao deve redefinir a lista de departamentos por uma lista nula.
-	 */
 	@Test
 	public void nao_deve_redefinir_a_lista_de_departamentos_por_uma_lista_nula() {
 		emp1.setDepartamentos(null);
 		assertThat(getErros(emp1), hasItem(MENSAGEM_SET_DEPARTAMENTOS_VAZIO));
 	}
-	
-	/**
-	 * Nao deve redefinir a lista de departamentos por uma lista que esteja vazia.
-	 */
+
 	@Test
 	public void nao_deve_redefinir_a_lista_de_departamentos_por_uma_lista_que_esteja_vazia() {
 		Set<Departamento> departamentos = new HashSet<Departamento>();
 		emp1.setDepartamentos(departamentos);
 		assertThat(getErros(emp1), hasItem(MENSAGEM_SET_DEPARTAMENTOS_VAZIO));
 	}
-	
-	/**
-	 * Deve definir endereco para o objeto empresa.
-	 */
+
 	/*
 	 * ENDERECO
-	 * */
+	 */
 	@Test
 	public void deve_definir_endereco_para_o_objeto_empresa() {
 		String logradouro = "Rua Piraju";
 		String bairro = "Monte Belo";
 		String cidade = "São Paulo";
-		EnumEstadosBrasileiros uf = SP;
+		EstadosBrasileirosType uf = SP;
 		String pais = "Brasil";
 		String cep = "08587789";
 		Endereco endereco = new Endereco(logradouro, bairro, cidade, uf, pais, cep);
@@ -1163,22 +757,16 @@ public class EmpresaTest {
 		assertThat(emp1.getEndereco(), equalTo(endereco));
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_ENDERECO_NULL)));
 	}
-	
-	/**
-	 * Nao deve aceitar endereco nulo.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_endereco_nulo() {
 		emp1.setEndereco(null);
 		assertThat(getErros(emp1), hasItem(MENSAGEM_ENDERECO_NULL));
 	}
-	
-	/**
-	 * Deve redefinir email valido.
-	 */
+
 	/*
 	 * E-MAIL
-	 * */
+	 */
 	@Test
 	public void deve_redefinir_email_valido() {
 		String email = "java@oracle.com";
@@ -1188,10 +776,7 @@ public class EmpresaTest {
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_EMAIL_PATTERN)));
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_EMAIL_TAMANHO)));
 	}
-	
-	/**
-	 * Deve aceitar email valido.
-	 */
+
 	@Test
 	public void deve_aceitar_email_valido() {
 		emp1.setEmail("abc@gmail.com");
@@ -1199,38 +784,26 @@ public class EmpresaTest {
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_EMAIL_PATTERN)));
 		assertThat(getErros(emp1), not(hasItem(MENSAGEM_EMAIL_TAMANHO)));
 	}
-	
-	/**
-	 * Nao deve aceitar email invalido.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_email_invalido() {
 		String email = "testmail@@gmail.com";
 		emp1.setEmail(email);
 		assertThat(getErros(emp1), hasItem(MENSAGEM_EMAIL_PATTERN));
 	}
-	
-	/**
-	 * Nao deve aceitar email nulo.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_email_nulo() {
 		emp1.setEmail(null);
 		assertThat(getErros(emp1), hasItem(MENSAGEM_EMAIL_BLANK));
 	}
 
-	/**
-	 * Nao deve aceitar email com menos de 6 caracteres.
-	 */
 	@Test
 	public void nao_deve_aceitar_email_com_menos_de_6_caracteres() {
 		emp1.setEmail("a@a");
 		assertThat(getErros(emp1), hasItem(MENSAGEM_EMAIL_TAMANHO));
 	}
-	
-	/**
-	 * Nao deve aceitar email com mais de 100 caracteres.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_email_com_mais_de_100_caracteres() {
 		StringBuilder sb = new StringBuilder("J");
@@ -1240,13 +813,10 @@ public class EmpresaTest {
 		emp1.setEmail(sb.toString());
 		assertThat(getErros(emp1), hasItem(MENSAGEM_EMAIL_TAMANHO));
 	}
-	
-	/**
-	 * Deve redefinir um novo site.
-	 */
+
 	/*
 	 * SITE
-	 * */
+	 */
 	@Test
 	public void deve_redefinir_um_novo_site() {
 		String site = "https://www.meusite.com.br";
@@ -1254,19 +824,13 @@ public class EmpresaTest {
 		assertThat(emp1.getSite(), equalTo(site));
 		assertThat(getErros(emp1), not(hasItem(URL_INVALIDA)));
 	}
-	
-	/**
-	 * Deve aceitar url valida para o site.
-	 */
+
 	@Test
 	public void deve_aceitar_url_valida_para_o_site() {
 		emp1.setSite("https://www.minhaempresa.com");
 		assertThat(getErros(emp1), not(hasItem(URL_INVALIDA)));
 	}
-	
-	/**
-	 * Nao deve aceitar url invalida para o site.
-	 */
+
 	@Test
 	public void nao_deve_aceitar_url_invalida_para_o_site() {
 		emp1.setSite("httpz://www.minhaempresa.com");

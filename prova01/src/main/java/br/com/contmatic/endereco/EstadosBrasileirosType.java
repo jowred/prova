@@ -1,10 +1,12 @@
-package br.com.contmatic.enums;
+package br.com.contmatic.endereco;
 
-// TODO: Auto-generated Javadoc
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 /**
  * The Enum EnumEstadosBrasileiros.
  */
-public enum EnumEstadosBrasileiros {
+public enum EstadosBrasileirosType {
 
     /** The ac. */
     AC("Acre"),
@@ -95,7 +97,7 @@ public enum EnumEstadosBrasileiros {
      *
      * @param nome the nome
      */
-    private EnumEstadosBrasileiros(String nome) {
+    private EstadosBrasileirosType(String nome) {
         this.nome = nome;
     }
 
@@ -107,4 +109,10 @@ public enum EnumEstadosBrasileiros {
     public String getNome() {
 		return nome;
 	}
+    
+    @Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+	}
+    
 }
